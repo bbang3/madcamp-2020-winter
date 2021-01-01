@@ -17,17 +17,15 @@ class GalleryFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         imageList = arrayListOf(
-            Image(R.drawable.img1),
-            Image(R.drawable.img2),
-            Image(R.drawable.img3),
-            Image(R.drawable.img4),
-            Image(R.drawable.img5),
-            Image(R.drawable.img6),
-            Image(R.drawable.img7),
-            Image(R.drawable.img8),
-            Image(R.drawable.img9),
-            Image(R.drawable.img10),
-            )
+            Image(R.drawable.img1, "img1"),
+            Image(R.drawable.img2, "img2"),
+            Image(R.drawable.img3, "img3"),
+            Image(R.drawable.img4, "img4"),
+            Image(R.drawable.img5, "img5"),
+            Image(R.drawable.img6, "img6"),
+            Image(R.drawable.img7, "img7"),
+        )
+
     }
 
     override fun onCreateView(

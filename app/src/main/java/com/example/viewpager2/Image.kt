@@ -1,3 +1,3 @@
 package com.example.viewpager2
 
-data class Image (var imageID: Int)
+data class Image (var imageID: Int, var name: String?)
