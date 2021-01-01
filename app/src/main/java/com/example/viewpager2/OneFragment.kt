@@ -36,8 +36,12 @@ class OneFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view =  inflater.inflate(R.layout.fragment_one, container, false)
-        checkAndStart()
         return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        checkAndStart()
     }
 
     fun startProcess() {
@@ -49,13 +53,16 @@ class OneFragment : Fragment() {
     fun setList() {
         list.addAll(getPhoneNumbers(sortText, searchText))
         adapter = PhoneAdapter(list)
-        recycler.adapter = adapter
-        recycler.layoutManager = LinearLayoutManager(getContext())
+        recycler?.adapter = adapter
+        recycler?.layoutManager = LinearLayoutManager(getContext())
+
     }
 
     fun setSearchListener() {
         editSearch.addTextChangedListener(object: TextWatcher {
-            override fun afterTextChanged(s: Editable?) {}
+            override fun afterTextChanged(s: Editable?) {
+                if(s!=null && !s.toString().equals((""))){}
+            }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -156,7 +163,7 @@ class OneFragment : Fragment() {
             if(check) startProcess()
             else {
                 Toast.makeText(getContext(), "권한 승인을 하셔야지만 앱을 사용할 수 있습니다.", Toast.LENGTH_LONG).show()
-//                finish()
+                activity?.finish()
             }
         }
     }
