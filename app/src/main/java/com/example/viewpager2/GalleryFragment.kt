@@ -5,27 +5,18 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.example.viewpager2.GalleryViewModel
+import com.example.viewpager2.ImageAdapter
+import com.example.viewpager2.R
 
 class GalleryFragment : Fragment() {
-
-    private lateinit var imageList: ArrayList<Image>
+    private val galleryViewModel : GalleryViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        imageList = arrayListOf(
-            Image(R.drawable.img1, "img1"),
-            Image(R.drawable.img2, "img2"),
-            Image(R.drawable.img3, "img3"),
-            Image(R.drawable.img4, "img4"),
-            Image(R.drawable.img5, "img5"),
-            Image(R.drawable.img6, "img6"),
-            Image(R.drawable.img7, "img7"),
-        )
-
     }
 
     override fun onCreateView(
@@ -36,10 +27,11 @@ class GalleryFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_gallery, container, false)
 
         var gallery_rv = view.findViewById<RecyclerView>(R.id.gallery)
-        gallery_rv.adapter = ImageAdapter(imageList)
+        gallery_rv.adapter = ImageAdapter(galleryViewModel.getImageList())
         gallery_rv.layoutManager = GridLayoutManager(activity, 2)
         gallery_rv.setHasFixedSize(true)
 
+//        galleryViewModel = ViewModelProvider(this).get(GalleryViewModel::class.java)
         return view
     }
 
