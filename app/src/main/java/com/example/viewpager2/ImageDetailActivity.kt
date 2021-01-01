@@ -1,24 +1,36 @@
 package com.example.viewpager2
 
+import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.viewModels
+import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SnapHelper
 
-class ImageDetailActivity : AppCompatActivity() {
+class ImageDetailActivity : Activity() {
+    private val galleryViewModel: GalleryViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)
 
-        val name = findViewById<TextView>(R.id.gallery_detail_name)
-        val image = findViewById<ImageView>(R.id.gallery_detail_image)
+        var rvGalleryDetail = findViewById<RecyclerView>(R.id.gallery_detail)
+        rvGalleryDetail.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        val snapHelper = PagerSnapHelper()
+        snapHelper.attachToRecyclerView(rvGalleryDetail) // scroll image one by one
+
+        rvGalleryDetail.setHasFixedSize(true)
+        rvGalleryDetail.adapter = ImageDetailAdapter(galleryViewModel.getImageList())
 
         val bundle = intent.extras
-        val currentImageName: String? = bundle?.getString("name")
-        val currentImageID: Int? = bundle?.getInt("imageID")
+        val position = bundle?.getInt("position")
+        position?.let { rvGalleryDetail.scrollToPosition(it)}
 
-        name.text = currentImageName
-        if(currentImageID != null)
-            image.setImageResource(currentImageID)
+
     }
 }
