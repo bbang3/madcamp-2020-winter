@@ -2,6 +2,7 @@ package com.example.viewpager2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.PagerAdapter
@@ -34,10 +35,12 @@ class MainActivity : FragmentActivity() {
 class FragmentAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity){
     var fragments = mutableListOf<Fragment>()
     override fun getItemCount(): Int {
+        Log.i("itemcount","success")
         return fragments.size
     }
 
     override fun createFragment(position: Int): Fragment {
+        Log.i("createfragment","success")
         return fragments[position]
     }
 
