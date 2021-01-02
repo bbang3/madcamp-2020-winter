@@ -40,7 +40,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:name="recycler"
-        tools:listitem="@layout/item_layout"
+        tools:listitem="@layout/phone_item"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintTop_toBottomOf="@+id/editSearch"
