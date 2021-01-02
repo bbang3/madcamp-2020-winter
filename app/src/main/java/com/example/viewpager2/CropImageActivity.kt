@@ -19,16 +19,14 @@ class CropImageActivity: AppCompatActivity() {
         setContentView(R.layout.crop_layout)
         var originView = findViewById<ImageView>(R.id.originalImage)
         var textView = findViewById<TextView>(R.id.title)
+        var intent: Intent = intent
         var bundle: Bundle? = intent.getExtras()
+
         if(bundle != null){
             var name = intent.getStringExtra("name")
-            var image = intent.getIntExtra("image",0)
-            Log.i("aaaa",image.toString())
+            var image = intent.getIntExtra(ImageDetailAdapter.crop,0)
             textView.text = name
             originView.setImageResource(image)
-            if(image!=null){
-                Log.i("aaaa",image.toString())
-            }
         }
 //        originView.image = image
 //        cropbtn.setOnClickListener{
@@ -57,3 +55,4 @@ class CropImageActivity: AppCompatActivity() {
 
 
 }
+

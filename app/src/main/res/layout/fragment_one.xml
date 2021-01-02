@@ -19,15 +19,30 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!--    <RadioGroup-->
-    <!--        android:id="@+id/radioGroup"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:gravity="right"-->
-    <!--        android:orientation="horizontal"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/editSearch"/>-->
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="667dp"
+        android:gravity="right"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editSearch" >
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioAsc"
+            android:checked="true"
+            android:text="오름차순"/>
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioDsc"
+            android:checked="false"
+            android:text="내림차순"/>
+    </RadioGroup>
 
     <!--    <androidx.recyclerview.widget.RecyclerView-->
     <!--        android:id="@+id/recycler"-->
@@ -42,13 +57,14 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:name="recycler"
-        tools:listitem="@layout/item_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/editSearch"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="49dp"
-        tools:layout_editor_absoluteX="0dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editSearch"
+        app:layout_constraintVertical_bias="1.0"
+        tools:listitem="@layout/item_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

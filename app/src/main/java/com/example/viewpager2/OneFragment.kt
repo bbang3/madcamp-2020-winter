@@ -47,7 +47,7 @@ class OneFragment : Fragment() {
     fun startProcess() {
         setList()
         setSearchListener()
-//        setRadioListener()
+        setRadioListener()
     }
 
     fun setList() {
@@ -71,7 +71,7 @@ class OneFragment : Fragment() {
         })
     }
 
-    /*fun setRadioListener() {
+    fun setRadioListener() {
         radioGroup.setOnCheckedChangeListener { group, checkedId ->
             when(checkedId) {
                 R.id.radioAsc -> sortText = "asc"
@@ -79,7 +79,7 @@ class OneFragment : Fragment() {
             }
             changeList()
         }
-    }*/
+    }
 
     fun changeList() {
         val newList = getPhoneNumbers(sortText, searchText)
@@ -151,7 +151,7 @@ class OneFragment : Fragment() {
             }
             if(check) startProcess()
             else {
-                Toast.makeText(getContext(), "권한 승인을 하셔야지만 앱을 사용할 수 있습니다.", Toast.LENGTH_LONG).show()
+                Toast.makeText(getContext(), "need permission", Toast.LENGTH_LONG).show()
                 activity?.finish()
             }
         }

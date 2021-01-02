@@ -34,14 +34,18 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
 
         holder.cropbtn.setOnClickListener {
             var intent: Intent = Intent(context, CropImageActivity::class.java)
-            intent.putExtra("Image",currentImage.image)
+            intent.putExtra(Companion.crop,currentImage.image)
             intent.putExtra("name",currentImage.name)
-            Log.i("aaaa","adapter"+currentImage.image.toString())
+            Log.i("aaaa","adapter"+currentImage.image?.toString())
             context.startActivity(intent)
         }
     }
 
     override fun getItemCount(): Int {
         return imageList.size
+    }
+
+    companion object {
+        const val crop = "com.example.viewpager2.crop"
     }
 }
