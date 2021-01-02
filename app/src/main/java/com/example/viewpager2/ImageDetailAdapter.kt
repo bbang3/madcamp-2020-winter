@@ -2,6 +2,7 @@ package com.example.viewpager2
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,10 +31,12 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
 
         holder.name.text = currentImage.name
 
+
         holder.cropbtn.setOnClickListener {
             var intent: Intent = Intent(context, CropImageActivity::class.java)
             intent.putExtra("Image",currentImage.image)
             intent.putExtra("name",currentImage.name)
+            Log.i("aaaa","adapter"+currentImage.image.toString())
             context.startActivity(intent)
         }
     }

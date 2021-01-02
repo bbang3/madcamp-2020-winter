@@ -23,12 +23,11 @@ class CropImageActivity: AppCompatActivity() {
         if(bundle != null){
             var name = intent.getStringExtra("name")
             var image = intent.getIntExtra("image",0)
-            Log.i("aaaaa","before set")
-            textView.setText(name)
+            Log.i("aaaa",image.toString())
+            textView.text = name
             originView.setImageResource(image)
             if(image!=null){
                 Log.i("aaaa",image.toString())
-//                Log.i("aaaa",originView.toString())
             }
         }
 //        originView.image = image
