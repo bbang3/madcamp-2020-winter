@@ -17,7 +17,7 @@ class CropImageActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.crop_layout)
-        var originView = findViewById<ImageView>(R.id.originImage)
+        var originView = findViewById<ImageView>(R.id.originalImage)
         var textView = findViewById<TextView>(R.id.title)
         var bundle: Bundle? = intent.getExtras()
         if(bundle != null){
@@ -26,9 +26,10 @@ class CropImageActivity: AppCompatActivity() {
             Log.i("aaaaa","before set")
             textView.setText(name)
             originView.setImageResource(image)
-//            if(image!=null){
-//                Log.i("aaaa",image.toString())
-//            }
+            if(image!=null){
+                Log.i("aaaa",image.toString())
+//                Log.i("aaaa",originView.toString())
+            }
         }
 //        originView.image = image
 //        cropbtn.setOnClickListener{
@@ -37,8 +38,7 @@ class CropImageActivity: AppCompatActivity() {
 //                .start(this)
 //        }
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
 //        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
 //            var result = CropImage.getActivityResult(data)

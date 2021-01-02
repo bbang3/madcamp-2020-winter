@@ -2,7 +2,6 @@ package com.example.viewpager2
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +14,7 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
     class ImageDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById<ImageView>(R.id.gallery_detail_image)
         val name: TextView = itemView.findViewById<TextView>(R.id.gallery_detail_name)
-        val cropbtn: ImageButton = itemView.findViewById<ImageButton>(R.id.cropbtn)
+        val cropbtn : ImageButton = itemView.findViewById<ImageButton>(R.id.cropbtn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageDetailViewHolder {
@@ -28,9 +27,8 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
         if(currentImage.image != null)
             holder.image.setImageResource(currentImage.image)
         else holder.image.setImageResource(R.drawable.not_found_image)
+
         holder.name.text = currentImage.name
-
-
 
         holder.cropbtn.setOnClickListener {
             var intent: Intent = Intent(context, CropImageActivity::class.java)

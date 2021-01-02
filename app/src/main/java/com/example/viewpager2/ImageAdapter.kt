@@ -1,16 +1,15 @@
 package com.example.viewpager2
 
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 
-class ImageAdapter(val imageList: ArrayList<Image>) :
+class ImageAdapter(val imageList: MutableList<Image>) :
     RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -26,14 +25,12 @@ class ImageAdapter(val imageList: ArrayList<Image>) :
     }
 
     override fun onBindViewHolder(holder: ImageAdapter.ImageViewHolder, position: Int) {
-        holder.image.setImageResource(imageList[position].imageID)
+        imageList[position].image?.let { holder.image.setImageResource(it) }
         holder.image.setOnClickListener {
             // TODO: zoom in selected image
             val intent = Intent(holder.image.context, ImageDetailActivity::class.java)
-            intent.putExtra("name", imageList[position].name)
-            intent.putExtra("imageID", imageList[position].imageID)
-            ContextCompat.startActivity(holder.image.context, intent, null)
-//            Toast.makeText(holder.image.context, "${imageList[position].name}", Toast.LENGTH_SHORT).show()
+            intent.putExtra("position", position)
+            holder.image.context.startActivity(intent)
         }
     }
 

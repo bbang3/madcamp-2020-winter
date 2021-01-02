@@ -4,13 +4,6 @@
 
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
-<<<<<<< Updated upstream
-=======
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
->>>>>>> Stashed changes
-
 
     <application
         android:allowBackup="true"
@@ -27,11 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<<<<<<< Updated upstream
-=======
         <activity android:name=".CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat"/>
->>>>>>> Stashed changes
     </application>
 
 </manifest>
