@@ -18,6 +18,7 @@ class MainActivity : FragmentActivity() {
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
         val adapter = FragmentAdapter(this)
+
         val fragments = listOf<Fragment>(HomeFragment(), PhoneFragment(), GalleryFragment(),ThreeFragment())
         val tabTitles = listOf<String>("Home","Contact","Gallery", "Tab3")
         adapter.fragments.addAll(fragments)
