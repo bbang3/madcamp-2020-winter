@@ -16,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+//import com.example.viewpager2.ImageDetailAdapter.ImageDetailViewHolder.ImageDetailAdapter.Companion.crop
 import com.theartofdev.edmodo.cropper.CropImage
 import com.theartofdev.edmodo.cropper.CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE
 import com.theartofdev.edmodo.cropper.CropImageView

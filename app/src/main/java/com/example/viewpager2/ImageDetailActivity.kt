@@ -27,7 +27,9 @@ class ImageDetailActivity : AppCompatActivity() {
         snapHelper.attachToRecyclerView(rvGalleryDetail) // scroll image one by one
 
         rvGalleryDetail.setHasFixedSize(true)
+
         rvGalleryDetail.adapter = ImageDetailAdapter(this, galleryViewModel.getImageList())
+
 
         val bundle = intent.extras
         val position = bundle?.getInt("position")

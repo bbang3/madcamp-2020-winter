@@ -1,5 +1,6 @@
 package com.example.viewpager2
 
+
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +18,7 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
         val image: ImageView = itemView.findViewById<ImageView>(R.id.gallery_detail_image)
         val name: TextView = itemView.findViewById<TextView>(R.id.gallery_detail_name)
         val cropbtn : ImageButton = itemView.findViewById<ImageButton>(R.id.cropbtn)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageDetailViewHolder {
@@ -38,13 +41,16 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
             intent.putExtra("name",currentImage.name)
             context.startActivity(intent)
         }
+
     }
 
     override fun getItemCount(): Int {
         return imageList.size
     }
 
+
     companion object {
         const val crop = "com.example.viewpager2.crop"
     }
+
 }
