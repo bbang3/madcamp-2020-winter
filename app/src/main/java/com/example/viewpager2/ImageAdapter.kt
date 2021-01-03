@@ -9,7 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 
-class ImageAdapter(val imageList: MutableList<Image>) :
+class ImageAdapter(val imageList: ArrayList<Image>) :
     RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -27,9 +27,10 @@ class ImageAdapter(val imageList: MutableList<Image>) :
     override fun onBindViewHolder(holder: ImageAdapter.ImageViewHolder, position: Int) {
         imageList[position].image?.let { holder.image.setImageResource(it) }
         holder.image.setOnClickListener {
-            // TODO: zoom in selected image
             val intent = Intent(holder.image.context, ImageDetailActivity::class.java)
             intent.putExtra("position", position)
+            intent.putParcelableArrayListExtra("image_list", imageList)
+
             holder.image.context.startActivity(intent)
         }
     }

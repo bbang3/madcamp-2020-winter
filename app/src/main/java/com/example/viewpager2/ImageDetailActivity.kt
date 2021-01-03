@@ -14,26 +14,27 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 
 class ImageDetailActivity : AppCompatActivity() {
-    private val galleryViewModel: GalleryViewModel by viewModels()
+    private var imageList: ArrayList<Image> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_detail)
         supportActionBar?.hide()
 
+        val bundle = intent.extras
+        imageList.addAll(bundle?.getParcelableArrayList<Image>("image_list")!!)
+
         var rvGalleryDetail = findViewById<RecyclerView>(R.id.gallery_detail)
-        rvGalleryDetail.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        rvGalleryDetail.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         val snapHelper = PagerSnapHelper()
         snapHelper.attachToRecyclerView(rvGalleryDetail) // scroll image one by one
 
         rvGalleryDetail.setHasFixedSize(true)
+        rvGalleryDetail.adapter = ImageDetailAdapter(this, imageList)
 
-        rvGalleryDetail.adapter = ImageDetailAdapter(this, galleryViewModel.getImageList())
-
-
-        val bundle = intent.extras
         val position = bundle?.getInt("position")
-        position?.let { rvGalleryDetail.scrollToPosition(it)}
+        position?.let { rvGalleryDetail.scrollToPosition(it) }
 
 
     }

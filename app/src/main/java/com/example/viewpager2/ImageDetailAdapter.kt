@@ -34,7 +34,6 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
 
         holder.name.text = currentImage.name
 
-
         holder.cropbtn.setOnClickListener {
             var intent: Intent = Intent(context, CropImageActivity::class.java)
             intent.putExtra(Companion.crop,currentImage.image)
