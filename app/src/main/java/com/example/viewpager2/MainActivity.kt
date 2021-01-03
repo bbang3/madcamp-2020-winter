@@ -18,8 +18,8 @@ class MainActivity : FragmentActivity() {
         viewPager = findViewById(R.id.viewPager)
         tabLayout = findViewById(R.id.tabLayout)
         val adapter = FragmentAdapter(this)
-        val fragments = listOf<Fragment>(HomeFragment(), OneFragment(), GalleryFragment(),ThreeFragment())
-        val tabTitles = listOf<String>("Home","Tab1","Gallery", "Tab3")
+        val fragments = listOf<Fragment>(HomeFragment(), PhoneFragment(), GalleryFragment(),ThreeFragment())
+        val tabTitles = listOf<String>("Home","Contact","Gallery", "Tab3")
         adapter.fragments.addAll(fragments)
         viewPager.adapter = adapter
         TabLayoutMediator(tabLayout, viewPager){tab, position ->
@@ -31,12 +31,10 @@ class MainActivity : FragmentActivity() {
 class FragmentAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity){
     var fragments = mutableListOf<Fragment>()
     override fun getItemCount(): Int {
-        Log.i("itemcount","success")
         return fragments.size
     }
 
     override fun createFragment(position: Int): Fragment {
-        Log.i("createfragment","success")
         return fragments[position]
     }
 
