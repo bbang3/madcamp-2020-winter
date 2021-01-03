@@ -35,6 +35,7 @@ class PhoneAdapter(val list: List<Phone>) : RecyclerView.Adapter<PhoneAdapter.Ho
             this.mPhone = phone
             itemView.textName.text = phone.name
             itemView.textPhone.text = phone.phone
+            itemView.btnPhone.setImageResource(R.drawable.ic_baseline_call_24)
         }
     }
 
