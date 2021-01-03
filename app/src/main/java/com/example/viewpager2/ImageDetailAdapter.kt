@@ -36,7 +36,6 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
             var intent: Intent = Intent(context, CropImageActivity::class.java)
             intent.putExtra(Companion.crop,currentImage.image)
             intent.putExtra("name",currentImage.name)
-            Log.i("aaaa","adapter"+currentImage.image?.toString())
             context.startActivity(intent)
         }
     }
