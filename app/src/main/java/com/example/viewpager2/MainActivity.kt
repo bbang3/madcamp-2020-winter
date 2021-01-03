@@ -31,12 +31,10 @@ class MainActivity : FragmentActivity() {
 class FragmentAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity){
     var fragments = mutableListOf<Fragment>()
     override fun getItemCount(): Int {
-        Log.i("itemcount","success")
         return fragments.size
     }
 
     override fun createFragment(position: Int): Fragment {
-        Log.i("createfragment","success")
         return fragments[position]
     }
 

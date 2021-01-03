@@ -26,7 +26,11 @@ class PhoneFragment : Fragment() {
     private val newPhoneAddActivityRequestCode = 1
     private val phoneDeleteRequestCode = 2
 
-    private val permissions = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE) // permissions required in this fragment
+    private val permissions = arrayOf(
+        Manifest.permission.READ_CONTACTS,
+        Manifest.permission.WRITE_CONTACTS,
+        Manifest.permission.CALL_PHONE
+    ) // permissions required in this fragment
     private val writeContactRequestCode = 100
 
     private lateinit var adapter: PhoneAdapter
@@ -53,29 +57,15 @@ class PhoneFragment : Fragment() {
 
     private fun fabOnClick(view: View) {
         var permissionOperation = false
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            val writeContactPermission = Manifest.permission.WRITE_CONTACTS
-
-            if(checkSelfPermission(view.context, writeContactPermission) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(arrayOf(writeContactPermission), writeContactRequestCode)
-            }
-            else {
-                permissionOperation = true
-            }
-        } else permissionOperation = true
-
-
-        if(permissionOperation) {
-            val intent = Intent(context, PhoneAddActivity::class.java)
-            startActivityForResult(intent, newPhoneAddActivityRequestCode)
-        }
+        val intent = Intent(context, PhoneAddActivity::class.java)
+        startActivityForResult(intent, newPhoneAddActivityRequestCode)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         // 연락처가 추가되거나 삭제된 이후 phoneList를 갱신함
-        if(requestCode == newPhoneAddActivityRequestCode || requestCode == phoneDeleteRequestCode){
+        if (requestCode == newPhoneAddActivityRequestCode || requestCode == phoneDeleteRequestCode) {
             changeList()
         }
     }
@@ -97,7 +87,7 @@ class PhoneFragment : Fragment() {
         phoneViewModel.getPhoneList().addAll(getPhoneNumbers(sortText, searchText))
 
         adapter = PhoneAdapter(phoneViewModel.getPhoneList())
-        adapter.itemClick = object: PhoneAdapter.ItemClick {
+        adapter.itemClick = object : PhoneAdapter.ItemClick {
             override fun onClick(view: View, position: Int) {
                 val intent = Intent(activity, PhoneDetailActivity::class.java)
                 val currentItem = phoneViewModel.getPhoneList()[position]
@@ -122,7 +112,7 @@ class PhoneFragment : Fragment() {
 
     private fun setRadioListener(view: View) {
         radiogroup_sort_by.setOnCheckedChangeListener { group, checkedId ->
-            when(checkedId) {
+            when (checkedId) {
                 R.id.radio_asc -> sortText = "asc"
                 R.id.radio_desc -> sortText = "desc"
             }
@@ -148,13 +138,13 @@ class PhoneFragment : Fragment() {
 
     private fun getPhoneNumbers(sort: String, searchName: String?): MutableList<Phone> {
         val list = mutableListOf<Phone>()
-            val phoneUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
-            val projections = arrayOf(
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
-                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
-                ContactsContract.CommonDataKinds.Phone.NUMBER
+        val phoneUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+        val projections = arrayOf(
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+            ContactsContract.CommonDataKinds.Phone.NUMBER
         )
-            var whenClause: String? = null
+        var whenClause: String? = null
         var whereValues: Array<String>? = null
         if (searchName?.isNotEmpty() == true) {
             whenClause = ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " like ?"
@@ -182,7 +172,14 @@ class PhoneFragment : Fragment() {
     }
 
     private fun isPermitted(): Boolean {
-        return permissions.all { perm -> context?.let { checkSelfPermission(it, perm) } == PackageManager.PERMISSION_GRANTED}
+        return permissions.all { perm ->
+            context?.let {
+                checkSelfPermission(
+                    it,
+                    perm
+                )
+            } == PackageManager.PERMISSION_GRANTED
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -204,9 +201,8 @@ class PhoneFragment : Fragment() {
                     .show()
                 activity?.finish()
             }
-        }
-        else if(requestCode == writeContactRequestCode) {
-            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        } else if (requestCode == writeContactRequestCode) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 val intent = Intent(context, PhoneAddActivity::class.java)
                 startActivityForResult(intent, newPhoneAddActivityRequestCode)
                 adapter.notifyDataSetChanged()

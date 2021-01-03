@@ -1,10 +1,11 @@
 package com.example.viewpager2
 
-import android.R.id
-import android.icu.util.UniversalTimeScale.toLong
+import android.content.ContentResolver
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import android.provider.ContactsContract
+import android.provider.ContactsContract.PhoneLookup
+import android.provider.ContactsContract.RawContacts
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -22,70 +23,58 @@ class PhoneDetailActivity : AppCompatActivity() {
 
         val bundle = intent.extras
         var id: String? = null
+        var name: String?
+        var phone: String?
 
         bundle?.let {
             id = it.getString("id")
-            val name = it.getString("name")
-            val phone = it.getString("phone")
+            name = it.getString("name")
+            phone = it.getString("phone")
 
             nameTextView.text = name
             phoneTextView.text = phone
-
         }
 
-        var deleteButton:Button = findViewById(R.id.delete_btn)
+        var deleteButton: Button = findViewById(R.id.delete_btn)
         deleteButton.setOnClickListener {
-            id?.let { it -> deleteButtonOnClick(it) }
+            id?.let { deleteButtonOnClick(it) }
             finish()
         }
     }
 
     private fun deleteButtonOnClick(id: String) {
-        val rawContactId: Long = id.toLong()
-
-        val contentResolver = contentResolver
-
-        val dataContentUri: Uri = ContactsContract.Data.CONTENT_URI
-
-        // Create data table where clause.
-
-        // Create data table where clause.
-        val dataWhereClauseBuf = StringBuffer()
-        dataWhereClauseBuf.append(ContactsContract.Data.RAW_CONTACT_ID)
-        dataWhereClauseBuf.append(" = ")
-        dataWhereClauseBuf.append(rawContactId)
-
-        contentResolver.delete(dataContentUri, dataWhereClauseBuf.toString(), null)
-
-        val rawContactUri: Uri = ContactsContract.RawContacts.CONTENT_URI
-
-        // Create raw_contacts table where clause.
-
-        // Create raw_contacts table where clause.
-        val rawContactWhereClause = StringBuffer()
-        rawContactWhereClause.append(ContactsContract.RawContacts._ID)
-        rawContactWhereClause.append(" = ")
-        rawContactWhereClause.append(rawContactId)
-
-        // Delete raw_contacts table related data.
-
-        // Delete raw_contacts table related data.
-        contentResolver.delete(rawContactUri, rawContactWhereClause.toString(), null)
-
-        val contactUri: Uri = ContactsContract.Contacts.CONTENT_URI
-
-        // Create contacts table where clause.
-
-        // Create contacts table where clause.
-        val contactWhereClause = StringBuffer()
-        contactWhereClause.append(ContactsContract.Contacts._ID)
-        contactWhereClause.append(" = ")
-        contactWhereClause.append(rawContactId)
-
-        // Delete raw_contacts table related data.
-
-        // Delete raw_contacts table related data.
-        contentResolver.delete(contactUri, contactWhereClause.toString(), null)
-
+        deleteContactFromRawContactID(id.toLong())
     }
+
+    private fun deleteContactFromRawContactID(CONTACT_ID: Long) {
+        val where = RawContacts.CONTACT_ID + " = " + CONTACT_ID.toString()
+        contentResolver.delete(RawContacts.CONTENT_URI, where, null)
+    }
+
+
+    private fun getContactIdFromNameAndNumber(display_name: String, number: String?): Long {
+        var rawContactId: Long = -1
+        val contactUri: Uri =
+            Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number))
+        val projection = arrayOf(PhoneLookup._ID, PhoneLookup.TYPE, PhoneLookup.DISPLAY_NAME)
+        var cursor: Cursor? = null
+        try {
+            cursor = contentResolver.query(contactUri, projection, null, null, null)
+            if (cursor?.moveToFirst() == true) {
+                do {
+                    val phoneName: String =
+                        cursor.getString(cursor.getColumnIndex(PhoneLookup.DISPLAY_NAME))
+                    if (display_name == phoneName) {
+                        rawContactId = cursor.getLong(cursor.getColumnIndex(PhoneLookup._ID))
+                    }
+                } while (cursor.moveToNext())
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            cursor?.close()
+        }
+        return rawContactId
+    }
+
 }
