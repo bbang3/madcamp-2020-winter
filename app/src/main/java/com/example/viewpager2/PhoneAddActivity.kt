@@ -3,6 +3,7 @@ package com.example.viewpager2
 import android.content.ContentProviderOperation
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_phone_add.*
 
@@ -28,13 +29,19 @@ class PhoneAddActivity : AppCompatActivity() {
         val name = name.text.toString()
         val phone = phone.text.toString()
 
-        val contact = ArrayList<ContentProviderOperation>()
-        contact.add(
-            ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
-                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
-                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
-                .build()
-        )
+        if(name.isNullOrEmpty() || phone.isNullOrEmpty()) {
+            Toast.makeText(this, "name or phone must not be null!", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+            val contact = ArrayList<ContentProviderOperation>()
+
+            contact.add(
+                ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                    .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                    .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                    .build()
+            )
 
         // name
         contact.add(

@@ -1,7 +1,6 @@
 package com.example.viewpager2
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -20,8 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_phone.*
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.ViewModel
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_phone.view.*
 
 class PhoneFragment : Fragment() {
@@ -32,9 +29,9 @@ class PhoneFragment : Fragment() {
     private val permissions = arrayOf(Manifest.permission.READ_CONTACTS, Manifest.permission.CALL_PHONE) // permissions required in this fragment
     private val writeContactRequestCode = 100
 
-    lateinit var adapter: PhoneAdapter
-    var searchText = ""
-    var sortText = "asc"
+    private lateinit var adapter: PhoneAdapter
+    private var searchText = ""
+    private var sortText = "asc"
 
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreateView(
@@ -49,8 +46,9 @@ class PhoneFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fab_add.setOnClickListener { fabOnClick(view) }
-        checkAndStart()
+        setRadioListener(view)
 
+        checkAndStart()
     }
 
     private fun fabOnClick(view: View) {
@@ -115,11 +113,21 @@ class PhoneFragment : Fragment() {
         recycler.layoutManager = LinearLayoutManager(getContext())
     }
 
-    fun changeList() {
+    private fun changeList() {
         phoneViewModel.getPhoneList().clear()
         phoneViewModel.getPhoneList().addAll(getPhoneNumbers(sortText, searchText))
 
         adapter.notifyDataSetChanged()
+    }
+
+    private fun setRadioListener(view: View) {
+        radiogroup_sort_by.setOnCheckedChangeListener { group, checkedId ->
+            when(checkedId) {
+                R.id.radio_asc -> sortText = "asc"
+                R.id.radio_desc -> sortText = "desc"
+            }
+            changeList()
+        }
     }
 
     private fun setSearchListener() {
