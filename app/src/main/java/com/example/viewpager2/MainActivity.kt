@@ -1,7 +1,6 @@
 package com.example.viewpager2
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
@@ -19,7 +18,7 @@ class MainActivity : FragmentActivity() {
         tabLayout = findViewById(R.id.tabLayout)
         val adapter = FragmentAdapter(this)
 
-        val fragments = listOf<Fragment>(HomeFragment(), PhoneFragment(), GalleryFragment(),ThreeFragment())
+        val fragments = listOf<Fragment>(HomeFragment(), PhoneFragment(), GalleryFragment(),WeatherFragment())
         val tabTitles = listOf<String>("Home","Contact","Gallery", "Tab3")
         adapter.fragments.addAll(fragments)
         viewPager.adapter = adapter
