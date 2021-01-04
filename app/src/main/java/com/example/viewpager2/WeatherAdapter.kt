@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
-class WeatherAdapter(private val weatherList: ArrayList<String>) :
+class WeatherAdapter(private val weatherList: ArrayList<Weather>) :
     RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() {
 
     override fun onCreateViewHolder(
@@ -26,7 +26,10 @@ class WeatherAdapter(private val weatherList: ArrayList<String>) :
 
     override fun onBindViewHolder(holder: WeatherAdapter.WeatherViewHolder, position: Int) {
         var currentItem = weatherList[position]
-        holder.textView.text = currentItem
+        holder.date.text = currentItem.date
+        holder.status.text = currentItem.status
+        holder.temp.text = currentItem.temp
+//        holder.weatherIcon.srcCompat = currentItem.weatherIcon
         holder.card.setOnClickListener {
             val intent: Intent = Intent(holder.card.context, WeatherDetailActivity::class.java)
             holder.card.context.startActivity(intent)
@@ -35,7 +38,12 @@ class WeatherAdapter(private val weatherList: ArrayList<String>) :
 
     class WeatherViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
-        val textView: TextView = itemView.findViewById(R.id.item_textview)
+        val date: TextView = itemView.findViewById(R.id.date)
+        val status: TextView = itemView.findViewById(R.id.status)
+        val temp: TextView = itemView.findViewById(R.id.temp)
+        val weatherIcon: Image = itemView.findViewById(R.id.weatherIcon)
         val card: CardView = itemView.findViewById(R.id.weather_card)
     }
+
+
 }

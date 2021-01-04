@@ -12,13 +12,49 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardBackgroundColor="@color/purple_200">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2020.01.04"
+                android:textSize="20dp" />
+                />
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/item_textview"
+            android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My item" />
+            android:layout_gravity="left"
+            android:text="\nClear Sky"
+            android:textAlignment=""
+            android:textSize="18dp" />
+
+        <TextView
+            android:id="@+id/temp"
+            android:layout_width="wrap_content"
+            android:layout_height="119dp"
+            android:layout_gravity="center"
+            android:fontFamily="sans-serif-thin"
+            android:text="   29°C"
+            android:textSize="100dp" />
+
+        <ImageView
+            android:id="@+id/weatherIcon"
+            android:layout_width="76dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="56dp"
+            tools:srcCompat="@tools:sample/avatars" />
+
 
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
