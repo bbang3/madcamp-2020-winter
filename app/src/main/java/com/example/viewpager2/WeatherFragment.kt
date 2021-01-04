@@ -11,8 +11,10 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_weather.*
-import kotlinx.android.synthetic.main.weather_detail.*
+import kotlinx.android.synthetic.main.activity_weather_detail.*
 import org.json.JSONObject
 import java.lang.Exception
 import java.net.URL
@@ -20,23 +22,24 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 @Suppress("DEPRECATION")
-class ThreeFragment : Fragment() {
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-
-        }
-    }
+class WeatherFragment : Fragment() {
+    private var weatherList: ArrayList<String> = arrayListOf("Card a", "Card b", "Card c")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val inflater =  inflater.inflate(R.layout.weather_detail, container, false)
-        return inflater
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_weather, container, false)
+
+        var rvWeather = view.findViewById<RecyclerView>(R.id.rv_weather)
+        rvWeather.adapter = WeatherAdapter(weatherList)
+        rvWeather.layoutManager = LinearLayoutManager(activity)
+        rvWeather.setHasFixedSize(true)
+
+        return view
     }
+
 
 //    override fun onActivityCreated(savedInstanceState: Bundle?) {
 //        super.onActivityCreated(savedInstanceState)
