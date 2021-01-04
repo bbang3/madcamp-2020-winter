@@ -1,9 +1,10 @@
 package com.example.viewpager2
 
 
+import android.app.Activity
+import android.content.ContentResolver
 import android.content.Context
-import android.content.Intent
-import android.util.Log
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,14 +12,16 @@ import android.widget.ImageButton
 
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.theartofdev.edmodo.cropper.CropImage
 
 class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>) : RecyclerView.Adapter<ImageDetailAdapter.ImageDetailViewHolder>() {
+
     class ImageDetailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById<ImageView>(R.id.gallery_detail_image)
         val name: TextView = itemView.findViewById<TextView>(R.id.gallery_detail_name)
         val cropbtn : ImageButton = itemView.findViewById<ImageButton>(R.id.cropbtn)
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageDetailViewHolder {
@@ -35,12 +38,12 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
         holder.name.text = currentImage.name
 
         holder.cropbtn.setOnClickListener {
-            var intent: Intent = Intent(context, CropImageActivity::class.java)
-            intent.putExtra(Companion.crop,currentImage.image)
-            intent.putExtra("name",currentImage.name)
-            context.startActivity(intent)
+            val imageId: Int? = currentImage.image
+            if(imageId != null){
+                var uri: Uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.resources.getResourcePackageName(imageId) + '/' + context.resources.getResourceTypeName(imageId) + '/' + context.resources.getResourceEntryName(imageId) )
+                CropImage.activity(uri).start(context as Activity)
+            }
         }
-
     }
 
     override fun getItemCount(): Int {
