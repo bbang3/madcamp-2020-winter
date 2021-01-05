@@ -90,10 +90,11 @@ class WeatherFragment : Fragment() {
             super.onPostExecute(result)
             try {
                 val jsonObj = JSONObject(result)
+                val timeZoneOffset:Long = jsonObj.getLong("timezone_offset")
 
                 val current = jsonObj.getJSONObject("current")
                 val dt =  current.getLong("dt")
-                val updatedDate = SimpleDateFormat("yyyy.MM.dd a hh:mm ", Locale.US).format(Date((dt) * 1000))
+                val updatedDate = SimpleDateFormat("yyyy.MM.dd a hh:mm ", Locale.US).format(Date((dt + timeZoneOffset) * 1000))
 
                 val todayTemp = current.getInt("temp")
                 val todayWeather = current.getJSONArray("weather").getJSONObject(0)
@@ -154,13 +155,14 @@ class WeatherFragment : Fragment() {
             super.onPostExecute(result)
             try {
                 val jsonObj = JSONObject(result)
+                val timeZoneOffset:Long = jsonObj.getLong("timezone_offset")
                 val hourlyArray = jsonObj.getJSONArray("hourly")
 
-                for (i in 0..11) {
+                for (i in 0..23) {
                     val currentHourObj = hourlyArray.getJSONObject(i)
 
                     val dt = currentHourObj.getLong("dt")
-                    val date = SimpleDateFormat("hh a", Locale.US).format(Date(dt * 1000))
+                    val date = SimpleDateFormat("hh a", Locale.US).format(Date((dt + timeZoneOffset) * 1000))
                     val weather = currentHourObj.getJSONArray("weather").getJSONObject(0).getString("main")
                     val temp = currentHourObj.getDouble("temp").roundToInt()
 
