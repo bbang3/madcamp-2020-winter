@@ -31,17 +31,7 @@ import kotlin.math.roundToInt
 @Suppress("DEPRECATION")
 class WeatherFragment : Fragment() {
     lateinit var adapter: WeatherAdapter
-<<<<<<< HEAD
     lateinit var hourlyAdapter: WeatherHourlyAdapter
-=======
-    lateinit var Day1 : Weather
-    lateinit var Day2 : Weather
-    lateinit var Day3 : Weather
-    lateinit var Day4 : Weather
-    lateinit var Day5 : Weather
-    lateinit var Day6 : Weather
-    lateinit var Day7 : Weather
->>>>>>> inhwa
 
     var weatherList: ArrayList<Weather> = ArrayList()
     var weatherHourlyList: ArrayList<Weather> = ArrayList()
