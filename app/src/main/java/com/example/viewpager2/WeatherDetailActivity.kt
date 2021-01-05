@@ -67,7 +67,8 @@ class WeatherDetailActivity : AppCompatActivity() {
                     0 -> jsonObj.getJSONObject("current")
                     else -> jsonObj.getJSONArray("daily").getJSONObject(weatherIndex)
                 }
-                val timeZoneOffset:Long = jsonObj.getLong("timezone_offset")
+//                val timeZoneOffset:Long = jsonObj.getLong("timezone_offset")
+                val timeZoneOffset:Long = 0
 
                 val dt:Long = currentDay.getLong("dt")
                 val updatedDate = SimpleDateFormat("yyyy.MM.dd a hh:mm ", Locale.US).format(Date((dt + timeZoneOffset) * 1000))
