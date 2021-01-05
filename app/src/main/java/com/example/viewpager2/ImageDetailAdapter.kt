@@ -56,14 +56,12 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
             val intent = Intent()
             val image = currentImage.image
             val resources = context.resources
+
             val uri: Uri = Uri.parse(
-                "content://"+resources.getResourcePackageName(image!!) + '/'+resources.getResourceTypeName(image)+'/'
-                    +resources.getResourceEntryName(image))
-            Log.i("aaaaUri",uri.toString())
-            val finalUri  = FileProvider.getUriForFile(context, "com.bignerdranch.android.test.fileprovider", uri.toFile())
-            Log.i("aaaafinalUri",finalUri.toString())
+                ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+resources.getResourcePackageName(image!!) + '/'+resources.getResourceTypeName(image)+'/'
+                        +resources.getResourceEntryName(image))
             intent.action = Intent.ACTION_SEND
-            intent.putExtra(Intent.EXTRA_STREAM,finalUri)
+            intent.putExtra(Intent.EXTRA_STREAM,uri)
             intent.type = "image/*"
             context.startActivity(Intent.createChooser(intent, "Please select app "))
         }

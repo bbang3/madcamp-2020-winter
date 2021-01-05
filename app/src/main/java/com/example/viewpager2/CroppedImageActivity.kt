@@ -22,19 +22,20 @@ class CroppedImageActivity: AppCompatActivity() {
         val builder = StrictMode.VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
         supportActionBar?.hide()
-        
+
         var bundle: Bundle? = intent.getExtras()
         val croppedImageUri: Uri = bundle?.get("uri") as Uri
-        val finalUri  = FileProvider.getUriForFile(this, "com.bignerdranch.android.test.fileprovider", croppedImageUri.toFile())
         findViewById<ImageView>(R.id.cropped_image).setImageURI(croppedImageUri)
         val intent = Intent()
         Log.i("aaaa","0")
         sharebtn1.setOnClickListener(){
-            val intent = Intent()
+            Log.i("aaaa","1")
             intent.action = Intent.ACTION_SEND
-            intent.putExtra(Intent.EXTRA_STREAM,finalUri)
+            intent.putExtra(Intent.EXTRA_STREAM,croppedImageUri)
             intent.type = "image/*"
+            Log.i("aaaa","2")
             startActivity(Intent.createChooser(intent,"Please choose app"))
+            Log.i("aaaa","3")
         }
 
     }
