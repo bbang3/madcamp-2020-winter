@@ -117,7 +117,7 @@ class WeatherFragment : Fragment() {
                 activity?.findViewById<ImageView>(R.id.today_statusIcon)?.setImageResource(todayIcon)
                 activity?.findViewById<TextView>(R.id.today_temp)?.text = "${todayTemp}°C"
 
-                for (i in 1..5) {
+                for (i in 1..7) {
                     var weatherInfo = WeatherInfo(jsonObj, i)
                     val weather = Weather(
                         weatherInfo.date,
