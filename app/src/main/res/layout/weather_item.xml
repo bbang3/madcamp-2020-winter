@@ -4,74 +4,85 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <androidx.cardview.widget.CardView
-        android:id="@+id/weather_card"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="150sp"
-            android:orientation="horizontal">
-            <LinearLayout
-                android:id="@+id/layout1"
-                android:layout_width="15dp"
-                android:layout_height="match_parent"
-                android:background="@color/purple_200"
-                android:orientation="horizontal">
-
-            </LinearLayout>
-<!--            <ImageView-->
-<!--                android:id="@+id/tempColor"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_marginStart="0dp"-->
-<!--                android:layout_marginTop="0dp"-->
-<!--                android:foreground="#1392CC"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                app:srcCompat="@android:drawable/edit_text" />-->
+        android:layout_height="match_parent">
+        <androidx.cardview.widget.CardView
+            android:id="@+id/weather_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_marginLeft="10dp">
-                <TextView
-                    android:id="@+id/date"
+                android:layout_height="150sp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:id="@+id/layout1"
+                    android:layout_width="15dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/purple_200"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
+                <!--            <ImageView-->
+                <!--                android:id="@+id/tempColor"-->
+                <!--                android:layout_width="wrap_content"-->
+                <!--                android:layout_height="match_parent"-->
+                <!--                android:layout_marginStart="0dp"-->
+                <!--                android:layout_marginTop="0dp"-->
+                <!--                android:foreground="#1392CC"-->
+                <!--                app:layout_constraintStart_toStartOf="parent"-->
+                <!--                app:layout_constraintTop_toTopOf="parent"-->
+                <!--                app:srcCompat="@android:drawable/edit_text" />-->
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="2020.01.04"
-                    android:textSize="20dp" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp">
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2020.01.04"
+                        android:textSize="20dp" />
+                    <TextView
+                        android:id="@+id/status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:text="Clear Sky"
+                        android:textSize="18dp" />
+                    />
+                    <ImageView
+                        android:id="@+id/statusIcon"
+                        android:layout_width="98dp"
+                        android:layout_height="96dp"
+                        tools:src="@drawable/clear_sky" />
+                </LinearLayout>
+
                 <TextView
-                    android:id="@+id/status"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/temp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="left"
-                    android:text="Clear Sky"
-                    android:textSize="18dp" />
-                />
-                <ImageView
-                    android:id="@+id/statusIcon"
-                    android:layout_width="98dp"
-                    android:layout_height="96dp"
-                    tools:src="@drawable/clear_sky" />
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginTop="0dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="29°C"
+                    android:textSize="75dp" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/temp"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="0dp"
-                android:layout_marginTop="0dp"
-                android:fontFamily="sans-serif-thin"
-                android:text="29°C"
-                android:textSize="75dp" />
-        </LinearLayout>
-    </androidx.cardview.widget.CardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="150dp"
+                android:background="#A5A0A0"></LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </ScrollView>
+
     >
 </androidx.constraintlayout.widget.ConstraintLayout>

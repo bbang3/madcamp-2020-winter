@@ -34,19 +34,16 @@ import kotlin.collections.ArrayList
 
 @Suppress("DEPRECATION")
 class WeatherFragment : Fragment() {
-    lateinit var Today: Weather
     lateinit var Tomorrow: Weather
     lateinit var OneDayAfter: Weather
     lateinit var adapter: WeatherAdapter
+    lateinit var Day1 : Weather
+    lateinit var Day2 : Weather
+    lateinit var Day3 : Weather
+    lateinit var Day4 : Weather
+    lateinit var Day5 : Weather
 
     var weatherList: ArrayList<Weather> = ArrayList()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("aaaa","weatherTask b")
-//        weatherTask().execute()
-        Log.i("aaaa","weatherTask a")
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -66,19 +63,8 @@ class WeatherFragment : Fragment() {
         return view
     }
 
-//    override fun onActivityCreated(savedInstanceState: Bundle?) {
-//        super.onActivityCreated(savedInstanceState)
-//        weatherTask().execute()
-//    }
 
     inner class weatherTask() : AsyncTask<String, Void, String>() {
-        override fun onPreExecute() {
-            super.onPreExecute()
-//            findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
-//            findViewById<RelativeLayout>(R.id.mainContainer).visibility = View.GONE
-//            findViewById<TextView>(R.id.errorText).visibility = View.GONE
-        }
-
         override fun doInBackground(vararg params: String?): String? {
             var response: String?
             try {
@@ -97,100 +83,43 @@ class WeatherFragment : Fragment() {
             super.onPostExecute(result)
             try {
                 val jsonObj = JSONObject(result)
-                val today = jsonObj.getJSONObject("current")
-                val todayWeather = today.getJSONArray("weather").getJSONObject(0)
-                val todayWeatherDiscription = todayWeather.getString("main")
-                val todayUpdatedAt: Long = today.getLong("dt")
-                val todayUpdatedAtText = SimpleDateFormat(
-                    "yyyy.MM.dd",
-                    Locale.KOREAN
-                ).format(Date(todayUpdatedAt * 1000))
-                val todayTemp = today.getString("temp") + ".24°C"
-//                val todayIcon = todayWeather.getString("icon")
-
-                val tomorrow = jsonObj.getJSONArray("daily").getJSONObject(1)
-                val tomorrowWeather = tomorrow.getJSONArray("weather").getJSONObject(0)
-                val tomorrowWeatherDiscription = tomorrowWeather.getString("main")
-                val tomorrowUpdatedAt: Long = tomorrow.getLong("dt")
-                val tomorrowUpdatedAtText = SimpleDateFormat(
-                    "yyyy.MM.dd",
-                    Locale.KOREAN
-                ).format(Date(tomorrowUpdatedAt * 1000))
-                val tomorrowTemp = tomorrow.getJSONObject("temp").getString("day") + "°C"
-//                val tomorrowIcon = tomorrowWeather.getString("icon")
-
-                val onedayafter = jsonObj.getJSONArray("daily").getJSONObject(2)
-                val onedayafterWeather = onedayafter.getJSONArray("weather").getJSONObject(0)
-                val onedayafterWeatherDiscription = onedayafterWeather.getString("main")
-                val onedayafterUpdatedAt: Long = onedayafter.getLong("dt")
-                val onedayafterUpdatedAtText = SimpleDateFormat(
-                    "yyyy.MM.dd",
-                    Locale.KOREAN
-                ).format(Date(onedayafterUpdatedAt * 1000))
-                val onedayafterTemp = onedayafter.getJSONObject("temp").getString("day") + "°C"
-//                val onedayafterIcon = onedayafterWeather.getString("icon")
-
-                var todayIcon: Int = when(todayWeatherDiscription){
-                    "Clear"->  R.drawable.clear_sky
-                    "Clouds" -> R.drawable.clouds
-                    "Snow" -> R.drawable.snow
-                    "Thunderstorm" -> R.drawable.thunderstorm
-                    "Drizzle" -> R.drawable.rain
-                    "Rain" -> R.drawable.rain
-                    else -> R.drawable.clear_sky
+                class WeatherInfo(var position: Int){
+                    var day =jsonObj.getJSONArray("daily").getJSONObject(position)
+                    var weatherObj = day.getJSONArray("weather").getJSONObject(0)
+                    var weatherDisc = weatherObj.getString("main")
+                    var date = SimpleDateFormat(
+                        "yyyy.MM.dd",
+                        Locale.KOREAN
+                    ).format(Date(day.getLong("dt") * 1000))
+                    var temp = day.getJSONObject("temp").getString("day") + "°C"
+                    var icon: Int = when(weatherDisc){
+                        "Clear"->  R.drawable.clear_sky
+                        "Clouds" -> R.drawable.clouds
+                        "Snow" -> R.drawable.snow
+                        "Thunderstorm" -> R.drawable.thunderstorm
+                        "Drizzle" -> R.drawable.rain
+                        "Rain" -> R.drawable.rain
+                        else -> R.drawable.clear_sky
+                    }
+                    var tempNum : Float = temp.substring(0,temp.length-2).toFloat()
+                    var red: Float = ((tempNum+15)*8.5).toFloat()
+                    var blue: Float = ((15-tempNum)*8.5).toFloat()
+                    var green: Float = 0.toFloat()
+                    var tempColor = Color.rgb(red,green,blue)
                 }
-
-                var tempInt0 : Float = todayTemp.substring(0,todayTemp.length-2).toFloat()
-                var red0: Float = ((tempInt0+15)*8.5).toFloat()
-                var blue0: Float = ((15-tempInt0)*8.5).toFloat()
-                var green0: Float = 0.toFloat()
-                var tempColor0 = Color.rgb(red0,green0,blue0)
-
-//                var todayIconUri : Uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context?.resources?.getResourcePackageName(todayIcon) + '/' + context?.resources.getResourceTypeName(todayIcon) + '/' + context?.resources?.getResourceEntryName(todayIcon))
-
-                Today = Weather(todayUpdatedAtText,todayWeatherDiscription,todayIcon,todayTemp,tempColor0)
-                Log.i("aaaa","today"+todayUpdatedAtText+"\n"+todayWeatherDiscription+"\n"+todayTemp)
-
-                lateinit var tomorrowUri : Uri
-                var tomorrowIcon: Int = when(tomorrowWeatherDiscription){
-                    "Clear"->  R.drawable.clear_sky
-                    "Clouds" -> R.drawable.clouds
-                    "Snow" -> R.drawable.snow
-                    "Thunderstorm" -> R.drawable.thunderstorm
-                    "Drizzle" -> R.drawable.rain
-                    "Rain" -> R.drawable.rain
-                    else -> R.drawable.clear_sky
-                }
-                var tempInt1 : Float = todayTemp.substring(0,todayTemp.length-2).toFloat()
-                var red1: Float = ((tempInt1+15)*8.5).toFloat()
-                Log.i("aaaared",red1.toString())
-                var blue1: Float = ((15-tempInt1)*8.5).toFloat()
-                Log.i("aaaablue",blue1.toString())
-                var green1: Float = 0.toFloat()
-                var tempColor1 = Color.rgb(red1,green1,blue1)
-                Log.i("aaaacolor",tempColor1.toString())
-                Tomorrow = Weather(tomorrowUpdatedAtText,tomorrowWeatherDiscription,tomorrowIcon,tomorrowTemp,tempColor1)
-
-
-                var onedayafterIcon : Int = when(onedayafterWeatherDiscription){
-                    "Clear"->  R.drawable.clear_sky
-                    "Clouds" -> R.drawable.clouds
-                    "Snow" -> R.drawable.snow
-                    "Thunderstorm" -> R.drawable.thunderstorm
-                    "Drizzle" -> R.drawable.rain
-                    "Rain" -> R.drawable.rain
-                    else -> R.drawable.clear_sky
-                }
-                var tempInt2 : Float = todayTemp.substring(0,todayTemp.length-2).toFloat()
-                var red2: Float = ((tempInt2+15)*8.5).toFloat()
-                var blue2: Float = ((15-tempInt2)*8.5).toFloat()
-                var green2: Float = 0.toFloat()
-                var tempColor2 = Color.rgb(red2,green2,blue2)
-                OneDayAfter = Weather(onedayafterUpdatedAtText,onedayafterWeatherDiscription,onedayafterIcon,onedayafterTemp,tempColor2)
-
-                weatherList.addAll(arrayListOf(Today, Tomorrow, OneDayAfter))
+                var Obj1 = WeatherInfo(1)
+                Day1 = Weather(Obj1.date,Obj1.weatherDisc,Obj1.icon,Obj1.temp,Obj1.tempColor)
+                var Obj2 = WeatherInfo(2)
+                Day2 = Weather(Obj2.date,Obj2.weatherDisc,Obj2.icon,Obj2.temp,Obj2.tempColor)
+                var Obj3 = WeatherInfo(3)
+                Day3 = Weather(Obj3.date,Obj3.weatherDisc,Obj3.icon,Obj3.temp,Obj3.tempColor)
+                var Obj4 = WeatherInfo(4)
+                Day4 = Weather(Obj4.date,Obj4.weatherDisc,Obj4.icon,Obj4.temp,Obj4.tempColor)
+                var Obj5 = WeatherInfo(5)
+                Day5 = Weather(Obj5.date,Obj5.weatherDisc,Obj5.icon,Obj5.temp,Obj5.tempColor)
+                weatherList.addAll(arrayListOf(Day1,Day2, Day3, Day4, Day5))
                 adapter.notifyDataSetChanged()
-                Log.i("WeatherFragment", "${weatherList.size}")
+
 
             } catch (e: Exception) {
                 e.printStackTrace()
