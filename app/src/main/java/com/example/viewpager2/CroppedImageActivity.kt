@@ -22,7 +22,7 @@ class CroppedImageActivity: AppCompatActivity() {
         val builder = StrictMode.VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
         supportActionBar?.hide()
-        
+
         var bundle: Bundle? = intent.getExtras()
         val croppedImageUri: Uri = bundle?.get("uri") as Uri
         val finalUri  = FileProvider.getUriForFile(this, "com.bignerdranch.android.test.fileprovider", croppedImageUri.toFile())
