@@ -1,8 +1,11 @@
 package com.example.viewpager2
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.ContentResolver
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.AsyncTask
 import android.os.Bundle
@@ -35,6 +38,7 @@ class WeatherFragment : Fragment() {
     lateinit var Tomorrow: Weather
     lateinit var OneDayAfter: Weather
     lateinit var adapter: WeatherAdapter
+
     var weatherList: ArrayList<Weather> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +83,7 @@ class WeatherFragment : Fragment() {
             var response: String?
             try {
                 response =
-                    URL("https://api.openweathermap.org/data/2.5/onecall?lat=36.33&lon=127.42&appid=828226bad003adf44e43727a145b1fa4&exclude=hourly,minutely").readText(
+                    URL("https://api.openweathermap.org/data/2.5/onecall?lat=36.33&lon=127.42&appid=828226bad003adf44e43727a145b1fa4&exclude=hourly,minutely&units=metric").readText(
                         Charsets.UTF_8
                     )
             } catch (e: Exception) {
@@ -88,6 +92,7 @@ class WeatherFragment : Fragment() {
             return response
         }
 
+        @SuppressLint("NewApi")
         override fun onPostExecute(result: String) {
             super.onPostExecute(result)
             try {
@@ -100,10 +105,10 @@ class WeatherFragment : Fragment() {
                     "yyyy.MM.dd",
                     Locale.KOREAN
                 ).format(Date(todayUpdatedAt * 1000))
-                val todayTemp = today.getString("temp") + "°C"
+                val todayTemp = today.getString("temp") + ".24°C"
 //                val todayIcon = todayWeather.getString("icon")
 
-                val tomorrow = jsonObj.getJSONArray("daily").getJSONObject(0)
+                val tomorrow = jsonObj.getJSONArray("daily").getJSONObject(1)
                 val tomorrowWeather = tomorrow.getJSONArray("weather").getJSONObject(0)
                 val tomorrowWeatherDiscription = tomorrowWeather.getString("main")
                 val tomorrowUpdatedAt: Long = tomorrow.getLong("dt")
@@ -111,10 +116,10 @@ class WeatherFragment : Fragment() {
                     "yyyy.MM.dd",
                     Locale.KOREAN
                 ).format(Date(tomorrowUpdatedAt * 1000))
-                val tomorrowTemp = tomorrow.getString("temp") + "°C"
+                val tomorrowTemp = tomorrow.getJSONObject("temp").getString("day") + "°C"
 //                val tomorrowIcon = tomorrowWeather.getString("icon")
 
-                val onedayafter = jsonObj.getJSONArray("daily").getJSONObject(1)
+                val onedayafter = jsonObj.getJSONArray("daily").getJSONObject(2)
                 val onedayafterWeather = onedayafter.getJSONArray("weather").getJSONObject(0)
                 val onedayafterWeatherDiscription = onedayafterWeather.getString("main")
                 val onedayafterUpdatedAt: Long = onedayafter.getLong("dt")
@@ -122,9 +127,8 @@ class WeatherFragment : Fragment() {
                     "yyyy.MM.dd",
                     Locale.KOREAN
                 ).format(Date(onedayafterUpdatedAt * 1000))
-                val onedayafterTemp = onedayafter.getString("temp") + "°C"
+                val onedayafterTemp = onedayafter.getJSONObject("temp").getString("day") + "°C"
 //                val onedayafterIcon = onedayafterWeather.getString("icon")
-
 
                 var todayIcon: Int = when(todayWeatherDiscription){
                     "Clear"->  R.drawable.clear_sky
@@ -135,9 +139,16 @@ class WeatherFragment : Fragment() {
                     "Rain" -> R.drawable.rain
                     else -> R.drawable.clear_sky
                 }
+
+                var tempInt0 : Float = todayTemp.substring(0,todayTemp.length-2).toFloat()
+                var red0: Float = ((tempInt0+15)*8.5).toFloat()
+                var blue0: Float = ((15-tempInt0)*8.5).toFloat()
+                var green0: Float = 0.toFloat()
+                var tempColor0 = Color.rgb(red0,green0,blue0)
+
 //                var todayIconUri : Uri = Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context?.resources?.getResourcePackageName(todayIcon) + '/' + context?.resources.getResourceTypeName(todayIcon) + '/' + context?.resources?.getResourceEntryName(todayIcon))
 
-                Today = Weather(todayUpdatedAtText,todayWeatherDiscription,todayIcon,todayTemp)
+                Today = Weather(todayUpdatedAtText,todayWeatherDiscription,todayIcon,todayTemp,tempColor0)
                 Log.i("aaaa","today"+todayUpdatedAtText+"\n"+todayWeatherDiscription+"\n"+todayTemp)
 
                 lateinit var tomorrowUri : Uri
@@ -150,9 +161,17 @@ class WeatherFragment : Fragment() {
                     "Rain" -> R.drawable.rain
                     else -> R.drawable.clear_sky
                 }
-                Tomorrow = Weather(tomorrowUpdatedAtText,tomorrowWeatherDiscription,tomorrowIcon,tomorrowTemp)
+                var tempInt1 : Float = todayTemp.substring(0,todayTemp.length-2).toFloat()
+                var red1: Float = ((tempInt1+15)*8.5).toFloat()
+                Log.i("aaaared",red1.toString())
+                var blue1: Float = ((15-tempInt1)*8.5).toFloat()
+                Log.i("aaaablue",blue1.toString())
+                var green1: Float = 0.toFloat()
+                var tempColor1 = Color.rgb(red1,green1,blue1)
+                Log.i("aaaacolor",tempColor1.toString())
+                Tomorrow = Weather(tomorrowUpdatedAtText,tomorrowWeatherDiscription,tomorrowIcon,tomorrowTemp,tempColor1)
 
-                 var onedayafterUri : Uri
+
                 var onedayafterIcon : Int = when(onedayafterWeatherDiscription){
                     "Clear"->  R.drawable.clear_sky
                     "Clouds" -> R.drawable.clouds
@@ -162,7 +181,12 @@ class WeatherFragment : Fragment() {
                     "Rain" -> R.drawable.rain
                     else -> R.drawable.clear_sky
                 }
-                OneDayAfter = Weather(onedayafterUpdatedAtText,onedayafterWeatherDiscription,onedayafterIcon,onedayafterTemp)
+                var tempInt2 : Float = todayTemp.substring(0,todayTemp.length-2).toFloat()
+                var red2: Float = ((tempInt2+15)*8.5).toFloat()
+                var blue2: Float = ((15-tempInt2)*8.5).toFloat()
+                var green2: Float = 0.toFloat()
+                var tempColor2 = Color.rgb(red2,green2,blue2)
+                OneDayAfter = Weather(onedayafterUpdatedAtText,onedayafterWeatherDiscription,onedayafterIcon,onedayafterTemp,tempColor2)
 
                 weatherList.addAll(arrayListOf(Today, Tomorrow, OneDayAfter))
                 adapter.notifyDataSetChanged()
