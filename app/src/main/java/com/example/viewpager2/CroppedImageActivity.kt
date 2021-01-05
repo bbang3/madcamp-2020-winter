@@ -1,11 +1,16 @@
 package com.example.viewpager2
 
+import android.content.ContentResolver
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.StrictMode
 import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
+import androidx.core.net.toFile
 import kotlinx.android.synthetic.main.activity_image_cropped.*
 import java.security.AccessController.getContext
 
@@ -14,6 +19,8 @@ class CroppedImageActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_image_cropped)
+        val builder = StrictMode.VmPolicy.Builder()
+        StrictMode.setVmPolicy(builder.build())
         supportActionBar?.hide()
 
         var bundle: Bundle? = intent.getExtras()
@@ -30,29 +37,7 @@ class CroppedImageActivity: AppCompatActivity() {
             startActivity(Intent.createChooser(intent,"Please choose app"))
             Log.i("aaaa","3")
         }
-//        val message : String = text.text.toString()
-//        val intent = Intent()
-//        intent.action = Intent.ACTION_SEND
-//        intent.putExtra(Intent.EXTRA_TEXT, message)
-//        intent.type = "text/plain"
-//        startActivity(Intent.createChooser(intent, "Please select app "))
 
     }
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        val intent = Intent()
-//        Log.i("aaaa","0")
-//        sharebtn1.setOnClickListener(){
-//            Log.i("aaaa","1")
-//            intent.action = Intent.ACTION_SEND
-//            intent.putExtra(Intent.EXTRA_STREAM,croppedImageUri)
-//            intent.type = "image/*"
-//            Log.i("aaaa","2")
-//            startActivity(Intent.createChooser(intent,"Please choose app"))
-//            Log.i("aaaa","3")
-//        }
-//    }
-
 }
 

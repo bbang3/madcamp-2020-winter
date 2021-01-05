@@ -33,7 +33,7 @@ class WeatherDetailActivity : AppCompatActivity() {
         val weatherIndex: Int? = bundle?.getInt("index")
 
         if (weatherIndex != null) {
-            WeatherTask(weatherIndex).execute()
+            WeatherTask(weatherIndex+1).execute()
         }
         else {
             Toast.makeText(this, "Invalid access", Toast.LENGTH_SHORT).show()
