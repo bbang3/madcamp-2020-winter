@@ -22,6 +22,7 @@ class MainActivity : FragmentActivity() {
 
         val fragments = listOf<Fragment>(PhoneFragment(), GalleryFragment(),WeatherFragment())
         val tabTitles = listOf<String>("Contact","Gallery", "Weather")
+        
         adapter.fragments.addAll(fragments)
         viewPager.adapter = adapter
         TabLayoutMediator(tabLayout, viewPager){tab, position ->

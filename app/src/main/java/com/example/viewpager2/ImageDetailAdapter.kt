@@ -5,14 +5,20 @@ import android.content.Context
 import android.content.Intent
 import android.app.Activity
 import android.net.Uri
+import android.os.StrictMode
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.FileProvider
+import androidx.core.net.toFile
 import androidx.recyclerview.widget.RecyclerView
 import com.theartofdev.edmodo.cropper.CropImage
+import java.io.File
+import java.security.AccessController.getContext
 
 class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>) : RecyclerView.Adapter<ImageDetailAdapter.ImageDetailViewHolder>() {
 
@@ -24,6 +30,8 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageDetailViewHolder {
+        val builder = StrictMode.VmPolicy.Builder()
+        StrictMode.setVmPolicy(builder.build())
         val view = LayoutInflater.from(parent.context).inflate(R.layout.gallery_detail_item, parent, false)
         return ImageDetailViewHolder(view)
     }
@@ -48,9 +56,10 @@ class ImageDetailAdapter(val context: Context, val imageList: MutableList<Image>
             val intent = Intent()
             val image = currentImage.image
             val resources = context.resources
+
             val uri: Uri = Uri.parse(
                 ContentResolver.SCHEME_ANDROID_RESOURCE+"://"+resources.getResourcePackageName(image!!) + '/'+resources.getResourceTypeName(image)+'/'
-                    +resources.getResourceEntryName(image))
+                        +resources.getResourceEntryName(image))
             intent.action = Intent.ACTION_SEND
             intent.putExtra(Intent.EXTRA_STREAM,uri)
             intent.type = "image/*"
