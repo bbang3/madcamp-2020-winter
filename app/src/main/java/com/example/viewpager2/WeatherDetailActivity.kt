@@ -33,14 +33,14 @@ class WeatherDetailActivity : AppCompatActivity() {
         val weatherIndex: Int? = bundle?.getInt("index")
 
         if (weatherIndex != null) {
-            weatherTask(weatherIndex).execute()
+            WeatherTask(weatherIndex).execute()
         }
         else {
             Toast.makeText(this, "Invalid access", Toast.LENGTH_SHORT).show()
             finish()
         }
     }
-    inner class weatherTask(val weatherIndex: Int) : AsyncTask<String, Void, String>() {
+    inner class WeatherTask(val weatherIndex: Int) : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
             /* Showing the ProgressBar, Making the main design GONE */
@@ -103,7 +103,6 @@ class WeatherDetailActivity : AppCompatActivity() {
                 val address:String = CITY.capitalize()
 
                 /* Populating extracted data into our views */
-//                findViewById<TextView>(R.id.address).text = address
                 findViewById<TextView>(R.id.address).text = address
                 findViewById<TextView>(R.id.updated_at).text = when(weatherIndex) { 0 -> "Updated at: $updatedDate" else -> "Forecast for: $updatedDate"}
 
