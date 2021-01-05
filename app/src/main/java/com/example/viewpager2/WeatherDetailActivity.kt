@@ -4,7 +4,6 @@ package com.example.viewpager2
 
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
@@ -103,7 +102,7 @@ class WeatherDetailActivity : AppCompatActivity() {
                 /* Populating extracted data into our views */
                 findViewById<TextView>(R.id.address).text = address
                 findViewById<TextView>(R.id.updated_at).text = when(weatherIndex) { 0 -> "Updated at: $updatedDate" else -> "Forecast for: $updatedDate"}
-                findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
+                findViewById<TextView>(R.id.today_weather).text = weatherDescription.capitalize()
 
                 // setting icon
                 val weatherIconUri:String = "icon_$weatherIconId"
