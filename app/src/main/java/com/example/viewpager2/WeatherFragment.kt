@@ -42,6 +42,8 @@ class WeatherFragment : Fragment() {
     lateinit var Day3 : Weather
     lateinit var Day4 : Weather
     lateinit var Day5 : Weather
+    lateinit var Day6 : Weather
+    lateinit var Day7 : Weather
 
     var weatherList: ArrayList<Weather> = ArrayList()
 
@@ -73,6 +75,7 @@ class WeatherFragment : Fragment() {
                         Charsets.UTF_8
                     )
             } catch (e: Exception) {
+                e.printStackTrace()
                 response = null
             }
             return response
@@ -102,9 +105,9 @@ class WeatherFragment : Fragment() {
                         else -> R.drawable.clear_sky
                     }
                     var tempNum : Float = temp.substring(0,temp.length-2).toFloat()
-                    var red: Float = ((tempNum+15)*8.5).toFloat()
+                    var red: Float = ((15+tempNum)*8.5).toFloat()
                     var blue: Float = ((15-tempNum)*8.5).toFloat()
-                    var green: Float = 0.toFloat()
+                    var green: Float =0.toFloat()
                     var tempColor = Color.rgb(red,green,blue)
                 }
                 var Obj1 = WeatherInfo(1)
@@ -117,7 +120,11 @@ class WeatherFragment : Fragment() {
                 Day4 = Weather(Obj4.date,Obj4.weatherDisc,Obj4.icon,Obj4.temp,Obj4.tempColor)
                 var Obj5 = WeatherInfo(5)
                 Day5 = Weather(Obj5.date,Obj5.weatherDisc,Obj5.icon,Obj5.temp,Obj5.tempColor)
-                weatherList.addAll(arrayListOf(Day1,Day2, Day3, Day4, Day5))
+                var Obj6 = WeatherInfo(6)
+                Day6 = Weather(Obj6.date,Obj6.weatherDisc,Obj6.icon,Obj6.temp,Obj6.tempColor)
+                var Obj7 = WeatherInfo(7)
+                Day7 = Weather(Obj7.date,Obj7.weatherDisc,Obj7.icon,Obj7.temp,Obj7.tempColor)
+                weatherList.addAll(arrayListOf(Day1,Day2, Day3, Day4, Day5, Day6, Day7))
                 adapter.notifyDataSetChanged()
 
 
