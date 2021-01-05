@@ -33,9 +33,10 @@ class PhoneAdapter(val list: List<Phone>) : RecyclerView.Adapter<PhoneAdapter.Ho
 
         fun setPhone(phone: Phone) {
             this.mPhone = phone
+            itemView.profile_image.setImageResource(R.drawable.ic_outline_account_circle_24)
             itemView.textName.text = phone.name
             itemView.textPhone.text = phone.phone
-            itemView.btnPhone.setImageResource(R.drawable.ic_baseline_call_24)
+            itemView.btnPhone.setImageResource(R.drawable.ic_outline_call_24)
         }
     }
 

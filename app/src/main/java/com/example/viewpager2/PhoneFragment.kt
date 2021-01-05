@@ -3,6 +3,7 @@ package com.example.viewpager2
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -18,6 +19,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.fragment_phone.*
 import androidx.core.content.ContextCompat.checkSelfPermission
+import androidx.core.content.ContextCompat.getColor
 import androidx.fragment.app.activityViewModels
 import kotlinx.android.synthetic.main.fragment_phone.view.*
 
@@ -47,9 +49,13 @@ class PhoneFragment : Fragment() {
         return view
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         fab_add.setOnClickListener { fabOnClick(view) }
+
+        radio_asc.buttonTintList = ColorStateList.valueOf(getColor(view.context, R.color.purple_500))
+        radio_desc.buttonTintList = ColorStateList.valueOf(getColor(view.context, R.color.purple_500))
         setRadioListener(view)
 
         checkAndStart()
