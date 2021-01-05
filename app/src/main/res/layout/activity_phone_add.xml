@@ -38,7 +38,6 @@
         android:hint="Your name"
         android:inputType="textPersonName"
         android:textColorLink="@color/purple_200"
-        android:textCursorDrawable="null"
         app:layout_constraintBottom_toTopOf="@+id/phone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

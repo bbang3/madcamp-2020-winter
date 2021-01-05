@@ -29,6 +29,7 @@ class WeatherAdapter(private val weatherList: ArrayList<String>) :
         holder.textView.text = currentItem
         holder.card.setOnClickListener {
             val intent: Intent = Intent(holder.card.context, WeatherDetailActivity::class.java)
+            intent.putExtra("index", position)
             holder.card.context.startActivity(intent)
         }
     }
