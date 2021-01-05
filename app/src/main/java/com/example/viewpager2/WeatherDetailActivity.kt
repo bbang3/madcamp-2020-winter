@@ -43,7 +43,6 @@ class WeatherDetailActivity : AppCompatActivity() {
     inner class WeatherTask(val weatherIndex: Int) : AsyncTask<String, Void, String>() {
         override fun onPreExecute() {
             super.onPreExecute()
-            /* Showing the ProgressBar, Making the main design GONE */
             findViewById<ProgressBar>(R.id.loader).visibility = View.VISIBLE
             mainContainer.visibility = View.GONE
             findViewById<TextView>(R.id.errorText).visibility = View.GONE
@@ -64,7 +63,6 @@ class WeatherDetailActivity : AppCompatActivity() {
         override fun onPostExecute(result: String) {
             super.onPostExecute(result)
             try {
-                /* Extracting JSON returns from the API */
                 val jsonObj = JSONObject(result)
                 val currentDay:JSONObject = when(weatherIndex){
                     0 -> jsonObj.getJSONObject("current")
@@ -105,7 +103,6 @@ class WeatherDetailActivity : AppCompatActivity() {
                 /* Populating extracted data into our views */
                 findViewById<TextView>(R.id.address).text = address
                 findViewById<TextView>(R.id.updated_at).text = when(weatherIndex) { 0 -> "Updated at: $updatedDate" else -> "Forecast for: $updatedDate"}
-
                 findViewById<TextView>(R.id.status).text = weatherDescription.capitalize()
 
                 // setting icon
@@ -148,7 +145,6 @@ class WeatherDetailActivity : AppCompatActivity() {
                 findViewById<TextView>(R.id.wind).text = "${windSpeed}m/s"
                 findViewById<TextView>(R.id.pressure).text = "${pressure}hPa"
 
-                /* Views populated, Hiding the loader, Showing the main design */
                 findViewById<ProgressBar>(R.id.loader).visibility = View.GONE
                 findViewById<ConstraintLayout>(R.id.mainContainer).visibility = View.VISIBLE
 
