@@ -1,3 +1,5 @@
 package com.example.viewpager2
 
-data class Weather(val date: String, val status: String, val weatherIcon: Image, val temp: String)
+import android.widget.ImageView
+
+data class Weather(var date: String, var status: String, var weatherIcon: Int, var temp: String)
