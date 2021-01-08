@@ -5,10 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var phoneRouter = require('./routes/phones');
 
 var app = express();
-var PORT = 8080;
+const PORT = 8080;
+
+const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
+// const DBConfig = require('./.config_db.json')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,8 +24,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// connect to DB
+// console.log(`mongodb://${DBConfig.username}:${DBConfig.passwd}@localhost:27017/${DBConfig.db}`);
+mongoose.connect(
+  `mongodb://localhost:27017/madcamp`, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+  }, () => {console.log('connected to DB')}
+);
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/phone', phoneRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -40,7 +53,7 @@ app.use(function(err, req, res, next) {
 });
 
 app.listen(PORT, () => {
-  console.log(`Server  listen PORT ${PORT}`)
+  console.log(`Server is listening on PORT ${PORT}`)
 })
 
 module.exports = app;
