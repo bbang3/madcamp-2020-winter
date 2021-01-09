@@ -4,17 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Following">
+    tools:context=".NewsFeedFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center">
         <TextView
-            android:id="@+id/Following"
+            android:id="@+id/NewsFeed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Following"
+            android:text="NewsFeed"
             android:textSize="30sp"/>
     </LinearLayout>
 

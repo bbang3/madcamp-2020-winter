@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentPagerAdapter
 
 class TabViewPagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
     private var fragmentList = listOf(
-        Pair("Following", Following()), Pair("NewsFeed", NewsFeed()), Pair("MyPage", MyPage())
+        Pair("Following", FollowingFragment()), Pair("NewsFeed", NewsFeedFragment()), Pair("MyPage", MyPageFragment())
     )
 
     override fun getItem(position: Int): Fragment {
