@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.example.madstagram"
+        applicationId "com.example.madstagrarn"
         minSdkVersion 17
         targetSdkVersion 30
         versionCode 1
@@ -39,7 +39,9 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-
+    // Facebook
+    implementation 'com.facebook.android:facebook-login:[8.1)'
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     // Gson
     implementation 'com.google.code.gson:gson:2.8.5'
     // Retrofit2
