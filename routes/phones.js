@@ -64,9 +64,9 @@ router.put('/:phone_id', async (req, res) => {
   console.log(req.params.phone_id)
   var { name, phoneNumber, email } = req.body;
   try {
-    const updatedPhone = await Phone.findOneAndUpdate(
-      { _id: req.params.phone_id },
-      { $set: req.body },
+    const updatedPhone = await Phone.findByIdAndUpdate(
+      req.params.phone_id,
+      req.body,
       { new: true}
     );
     res.json(updatedPhone)
