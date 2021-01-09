@@ -28,12 +28,11 @@ router.post("/", async (req, res, next) => {
   // phone.email = email
 
   try {
-    const newPhone = await phone.save();
+    const output = await phone.save();
     console.log('Create Success');
-    res.status(200).json({
-      message: "Create success",
-      data: newPhone
-    });
+    res.status(200).json(
+      output
+    );
   }
   catch (err){
     res.status(500).json({
@@ -57,6 +56,40 @@ router.get('/:phone_id', async (req, res) => {
     res.status(500).json({
       message: error
     })
+  }
+})
+
+// UPDATE specific phone
+router.put('/:phone_id', async (req, res) => {
+  console.log(req.params.phone_id)
+  var { name, phoneNumber, email } = req.body;
+  try {
+    const updatedPhone = await Phone.findOneAndUpdate(
+      { _id: req.params.phone_id },
+      { $set: req.body },
+      { new: true}
+    );
+    res.json(updatedPhone)
+} catch (error) {
+    res.status(500).json({message: error});
+  }
+})
+
+// DELETE specific phone
+router.delete('/:phone_id', async (req, res) => {
+  console.log(req.params.phone_id)
+
+  try {
+    const delResult = await Phone.deleteOne({_id: req.params.phone_id});
+    if(delResult.deletedCount == 0) {
+      res.status(404).json({message: "Phone not found"})
+    }
+    else {
+      res.status(200).json({message: "Delete success"})
+    }
+  } catch (error) { {}
+    console.log(error);
+    res.status(500).json({message: error});
   }
 })
 
