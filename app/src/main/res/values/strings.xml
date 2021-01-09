@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Madstagram</string>
+    <string name="app_name">madstagrarn</string>
+    <string name="facebook_app_id">685703502122336</string>
+    <string name="fb_login_protocol_scheme">fb685703502122336</string>
 </resources>

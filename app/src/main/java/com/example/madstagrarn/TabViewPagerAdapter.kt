@@ -1,4 +1,4 @@
-package com.example.madstagram
+package com.example.madstagrarn
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

@@ -1,4 +1,4 @@
-package com.example.madstagram
+package com.example.madstagrarn
 
 import android.view.LayoutInflater
 import android.view.View
@@ -25,7 +25,7 @@ class FollowingAdapter (private val followingUserList: ArrayList<User>)
 
         holder.name.text = currentItem.name
         holder.phoneNumber.text = currentItem.phoneNumber
-        holder.profileImage.setImageResource(R.drawable.madstagram_logo)
+        holder.profileImage.setImageResource(R.drawable.madstagrarn_logo)
     }
 
     override fun getItemCount(): Int {

@@ -1,4 +1,4 @@
-package com.example.madstagram
+package com.example.madstagrarn
 
 import android.os.Bundle
 import android.util.Log
@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.madstagram.network.DataService
+import com.example.madstagrarn.network.DataService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class FollowingFragment : Fragment() {
-    private val dataService: DataService = DataService()
+    private val dataService: DataService =
+        DataService()
     private var followingUserList: ArrayList<User> = ArrayList()
     private var currentUserId: String = "5ff9d8a656a88c7127c00685"
     private lateinit var currentUser: User
@@ -25,7 +26,7 @@ class FollowingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view: View = inflater.inflate(R.layout.fragment_following, container, false)
+        val view: View = inflater.inflate(R.layout.following_fragment, container, false)
         loadCurrentUserInfo()
 
         val rvFollowing: RecyclerView = view.findViewById(R.id.rv_following)

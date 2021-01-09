@@ -1,5 +1,5 @@
-package com.example.madstagram.network
-import com.example.madstagram.User
+package com.example.madstagrarn.network
+import com.example.madstagrarn.User
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit

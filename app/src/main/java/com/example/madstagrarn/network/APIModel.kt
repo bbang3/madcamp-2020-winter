@@ -1,4 +1,4 @@
-package com.example.madstagram.network
+package com.example.madstagrarn.network
 
 data class UserResponse (
     val id: String, var isFacebookUser: Boolean, var username: String, var password: String, var phoneNumber: String,

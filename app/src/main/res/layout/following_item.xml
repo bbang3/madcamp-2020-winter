@@ -14,7 +14,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/info_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/info_container"
-        tools:srcCompat="@drawable/madstagram_logo" />
+        tools:srcCompat="@drawable/madstagrarn_logo" />
 
     <LinearLayout
         android:id="@+id/info_container"
