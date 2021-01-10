@@ -18,11 +18,7 @@ router.get('/', async (req, res, next) => {
 // CREATE new phones
 router.post("/", async (req, res, next) => {
   var { name, phoneNumber, email } = req.body;
-  var phone = new Phone({
-    name: name,
-    phoneNumber: phoneNumber,
-    email: email
-  });
+  var phone = new Phone({ name: name, phoneNumber: phoneNumber, email: email });
   // phone.name = name;
   // phone.phoneNumber = phoneNumber;
   // phone.email = email
@@ -30,11 +26,9 @@ router.post("/", async (req, res, next) => {
   try {
     const output = await phone.save();
     console.log('Create Success');
-    res.status(200).json(
-      output
-    );
+    res.status(201).json(output);
   }
-  catch (err){
+  catch (err) {
     res.status(500).json({
       result: 0,
       message: err
@@ -67,11 +61,11 @@ router.put('/:phone_id', async (req, res) => {
     const updatedPhone = await Phone.findByIdAndUpdate(
       req.params.phone_id,
       req.body,
-      { new: true}
+      { new: true }
     );
     res.json(updatedPhone)
-} catch (error) {
-    res.status(500).json({message: error});
+  } catch (error) {
+    res.status(500).json({ message: error });
   }
 })
 
@@ -80,16 +74,16 @@ router.delete('/:phone_id', async (req, res) => {
   console.log(req.params.phone_id)
 
   try {
-    const delResult = await Phone.deleteOne({_id: req.params.phone_id});
-    if(delResult.deletedCount == 0) {
-      res.status(404).json({message: "Phone not found"})
+    const delResult = await Phone.deleteOne({ _id: req.params.phone_id });
+    if (delResult.deletedCount == 0) {
+      res.status(404).json({ message: "Phone not found" })
     }
     else {
-      res.status(200).json({message: "Delete success"})
+      res.status(200).json({ message: "Delete success" })
     }
-  } catch (error) { {}
+  } catch (error) {
     console.log(error);
-    res.status(500).json({message: error});
+    res.status(500).json({ message: error });
   }
 })
 

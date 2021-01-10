@@ -1,17 +1,19 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
+const mongoose = require('mongoose')
 
-var indexRouter = require('./routes/index');
-var phoneRouter = require('./routes/phones');
 
-var app = express();
+let indexRouter = require('./routes/index');
+let phoneRouter = require('./routes/phones');
+let imageRouter = require('./routes/images');
+let userRouter = require('./routes/users');
+
+let app = express();
 const PORT = 8080;
 
-const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
 // const DBConfig = require('./.config_db.json')
 
 // view engine setup
@@ -28,21 +30,25 @@ app.use(express.static(path.join(__dirname, 'public')));
 // console.log(`mongodb://${DBConfig.username}:${DBConfig.passwd}@localhost:27017/${DBConfig.db}`);
 mongoose.connect(
   `mongodb://localhost:27017/madcamp`, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
-  }, () => {console.log('connected to DB')}
+  useUnifiedTopology: true,
+  useNewUrlParser: true,
+  useFindAndModify: false
+}, () => { console.log('connected to DB') }
 );
+
 
 app.use('/', indexRouter);
 app.use('/api/phone', phoneRouter);
+app.use('/api/image', imageRouter);
+app.use('/api/user', userRouter);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -54,6 +60,6 @@ app.use(function(err, req, res, next) {
 
 app.listen(PORT, () => {
   console.log(`Server is listening on PORT ${PORT}`)
-})
+});
 
 module.exports = app;
