@@ -24,9 +24,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val login_button_facebook = findViewById<LinearLayout>(R.id.login_button_facebook)
 
+        startActivity(Intent(this, InsideActivity::class.java))
         login_button_facebook.setOnClickListener(View.OnClickListener{
             callbackManager = CallbackManager.Factory.create()
             LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"))
@@ -48,14 +48,16 @@ class MainActivity : AppCompatActivity() {
                     override fun onCancel() {
                     }
                     override fun onError(error: FacebookException?) {
+                        error?.printStackTrace()
                     }
                 }
             )
         })
 
-        if(check_login()){
-            startActivity(Intent(this, InsideActivity::class.java))
-        }
+//        if(check_login()){
+        startActivity(Intent(this, InsideActivity::class.java))
+        this.finish()
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

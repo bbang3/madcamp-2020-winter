@@ -1,5 +1,6 @@
 package com.example.madstagrarn
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madstagrarn.network.DataService
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -17,7 +19,7 @@ class FollowingFragment : Fragment() {
     private val dataService: DataService =
         DataService()
     private var followingUserList: ArrayList<User> = ArrayList()
-    private var currentUserId: String = "5ff9d8a656a88c7127c00685"
+    private var currentId: String = "5ff9d417643c5e699511a5e7"
     private lateinit var currentUser: User
     private lateinit var adapter: FollowingAdapter
 
@@ -35,6 +37,12 @@ class FollowingFragment : Fragment() {
         rvFollowing.adapter = adapter
         rvFollowing.layoutManager = LinearLayoutManager(view.context)
 
+        val followingAddButton: FloatingActionButton = view.findViewById(R.id.following_add_button)
+        followingAddButton.setOnClickListener {
+            val intent = Intent(activity, FollowingAddActivity::class.java)
+            startActivity(intent)
+        }
+
         return view
     }
 
@@ -43,7 +51,7 @@ class FollowingFragment : Fragment() {
     }
 
     private fun loadCurrentUserInfo() {
-        dataService.service.getUser(currentUserId).enqueue(object : Callback<User> {
+        dataService.service.getUser(currentId).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if(response.isSuccessful) {
                     Log.i("loadCurrentUserInfo", response.body()!!.toString())

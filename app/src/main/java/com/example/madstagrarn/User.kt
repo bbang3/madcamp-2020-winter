@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat
 data class User(
     val _id: String,
     var isFacebookUser: Boolean,
-    var username: String?,
+    var userId: String?,
     var password: String?,
     var phoneNumber: String,
     var name: String,

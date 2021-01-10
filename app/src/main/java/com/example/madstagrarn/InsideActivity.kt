@@ -23,5 +23,6 @@ class InsideActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        this.finish()
     }
 }
