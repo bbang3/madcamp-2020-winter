@@ -19,9 +19,14 @@ class FollowingFragment : Fragment() {
     private val dataService: DataService =
         DataService()
     private var followingUserList: ArrayList<User> = ArrayList()
-    private var currentId: String = "5ff9d417643c5e699511a5e7"
+    private var currentId: String = "5ff9d8a656a88c7127c00685"
     private lateinit var currentUser: User
     private lateinit var adapter: FollowingAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        loadCurrentUserInfo()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,7 +34,7 @@ class FollowingFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view: View = inflater.inflate(R.layout.following_fragment, container, false)
-        loadCurrentUserInfo()
+        Log.i("onCreateView", "Created")
 
         val rvFollowing: RecyclerView = view.findViewById(R.id.rv_following)
         rvFollowing.setHasFixedSize(true)
@@ -44,10 +49,6 @@ class FollowingFragment : Fragment() {
         }
 
         return view
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     private fun loadCurrentUserInfo() {

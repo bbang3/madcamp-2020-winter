@@ -1,4 +1,5 @@
 package com.example.madstagrarn.network
+import com.example.madstagrarn.Phone
 import com.example.madstagrarn.User
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -23,6 +24,9 @@ interface RetrofitService {
 
     @GET("api/user/{id}")
     fun getUser(@Path("id") id: String) : Call<User>
+
+    @GET("api/user")
+    fun getUsersByContact(@Body body: ArrayList<Phone>) : Call<ArrayList<User>>
 //    @GET("api/phone")
 //    fun getPhoneList(): Call<ArrayList<Phone>>
 //
