@@ -1,16 +1,20 @@
 package com.example.madstagrarn
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class TabViewPagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+class TabViewPagerAdapter(fm: FragmentManager, bundle: Bundle): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+    private val adapterBundle: Bundle = bundle
     private var fragmentList = listOf(
         Pair("Following", FollowingFragment()), Pair("NewsFeed", NewsFeedFragment()), Pair("MyPage", MyPageFragment())
     )
 
     override fun getItem(position: Int): Fragment {
-        return fragmentList[position].second
+        val fragment: Fragment = fragmentList[position].second
+        fragment.arguments = adapterBundle
+        return fragment
     }
 
     override fun getCount(): Int = fragmentList.size

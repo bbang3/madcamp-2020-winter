@@ -28,6 +28,9 @@ class FollowingFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        // User 정보는 arguments?.getSerializable("User") 에 들어있음!
+
         val view: View = inflater.inflate(R.layout.following_fragment, container, false)
         loadCurrentUserInfo()
 
