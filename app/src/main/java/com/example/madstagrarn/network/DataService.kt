@@ -9,7 +9,7 @@ import retrofit2.http.*
 
 
 class DataService {
-    private val BASE_URL = "http://192.249.18.244:8080/"
+    private val BASE_URL = "http://192.249.18.246:8080/"
     var retrofitClient = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -27,6 +27,11 @@ interface RetrofitService {
 
     @GET("api/user")
     fun getUsersByContact(@Body body: ArrayList<Phone>) : Call<ArrayList<User>>
+
+    @FormUrlEncoded
+    @POST("api/user/login")
+    fun loginRequest(@Field("userId") userId: String, @Field("password") password: String) : Call<User>
+
 //    @GET("api/phone")
 //    fun getPhoneList(): Call<ArrayList<Phone>>
 //
