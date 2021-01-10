@@ -3,7 +3,7 @@ var Schema = mongoose.Schema
 
 var userSchema = new Schema({
     isFacebookUser: Boolean,
-    username: String,
+    userId: String,
     password: String,
     phoneNumber: String,
     name: String,

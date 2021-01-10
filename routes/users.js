@@ -32,7 +32,7 @@ router.get('/:user_id/following', async (req, res) => {
         console.log(currentUser.followingIds);
 
         for (followingId of currentUser.followingIds) {
-            let followingUser = await User.findById(followingId, '-username -password -signupDate -followingIds');
+            let followingUser = await User.findById(followingId, '-userId -password -signupDate -followingIds');
             followingUserArray.push(followingUser);
         }
         res.status(200).json(
