@@ -1,5 +1,6 @@
 package com.example.madstagrarn
 
+import java.io.Serializable
 import java.text.SimpleDateFormat
 
 data class User(
@@ -12,4 +13,4 @@ data class User(
     var followingIds: ArrayList<String>,
     var posts: ArrayList<String>,
     var signUpDate: String
-)
+): Serializable
