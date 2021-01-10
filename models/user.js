@@ -2,11 +2,11 @@ const mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
 var userSchema = new Schema({
-    isFacebookUser: Boolean,
-    userId: String,
+    isFacebookUser: { type: Boolean, default: false },
+    userId: { type: String, required: true },
     password: String,
     phoneNumber: String,
-    name: String,
+    name: { type: String, required: true },
     followingIds: [String],
     posts: [String],
     signUpDate: { type: Date, default: Date.now() }
