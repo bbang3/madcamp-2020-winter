@@ -2,8 +2,14 @@
 # Created by https://www.toptal.com/developers/gitignore/api/node
 # Edit at https://www.toptal.com/developers/gitignore?templates=node
 
+# image file
+images/
+
 # DB Connection
 .config_db.json
+
+# Sample file
+sample_user.json
 
 ### Node ###
 # Logs
