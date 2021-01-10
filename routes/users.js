@@ -32,7 +32,7 @@ router.get('/:user_id/following', async (req, res) => {
         console.log(currentUser.followingIds);
 
         for (followingId of currentUser.followingIds) {
-            let followingUser = await User.findById(followingId, '-username -password -signupDate -followingIds');
+            let followingUser = await User.findById(followingId, '-userId -password -signupDate -followingIds');
             followingUserArray.push(followingUser);
         }
         res.status(200).json(
@@ -50,6 +50,19 @@ router.post('/', async (req, res) => {
     try {
         const output = await newUser.save();
         res.status(200).json(output);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+})
+
+// login request
+router.post('/login', async (req, res) => {
+    try {
+        console.log(req.body.userId, req.body.password);
+        const currentUser = await User.findOne({userId: req.body.userId, password: req.body.password});
+        console.log(currentUser);
+        if(currentUser === null) res.status(404).send("User not found");
+        else res.status(200).json(currentUser);
     } catch (error) {
         res.status(500).json({ message: error });
     }

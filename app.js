@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // connect to DB
 // console.log(`mongodb://${DBConfig.username}:${DBConfig.passwd}@localhost:27017/${DBConfig.db}`);
 mongoose.connect(
-  `mongodb://localhost:27017/madcamp`, {
+  `mongodb://192.249.18.244:27017/madcamp`, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useFindAndModify: false
