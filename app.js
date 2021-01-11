@@ -3,6 +3,7 @@ let express = require('express');
 let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
+let bodyParser = require('body-parser');
 const mongoose = require('mongoose')
 
 
@@ -10,6 +11,7 @@ let indexRouter = require('./routes/index');
 let phoneRouter = require('./routes/phones');
 let imageRouter = require('./routes/images');
 let userRouter = require('./routes/users');
+let postRouter = require('./routes/posts');
 
 let app = express();
 const PORT = 8080;
@@ -25,6 +27,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // connect to DB
 // console.log(`mongodb://${DBConfig.username}:${DBConfig.passwd}@localhost:27017/${DBConfig.db}`);
@@ -39,8 +42,9 @@ mongoose.connect(
 
 app.use('/', indexRouter);
 app.use('/api/phone', phoneRouter);
-app.use('/api/image', imageRouter);
+app.use('/image', imageRouter);
 app.use('/api/user', userRouter);
+app.use('/api/post', postRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

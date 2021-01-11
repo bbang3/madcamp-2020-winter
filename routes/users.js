@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user.js');
+const Post = require('../models/post.js');
 
-// GET ALL
+// GET ALL (ONLY FOR DEBUGGING)
 router.get('/', async (req, res) => {
     try {
         const output = await User.find();
@@ -70,6 +71,29 @@ router.post('/contact', async (req, res) => {
             }
         } else { res.status(500).send('Invalid request'); }
         res.status(200).json(contactUserArray);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+});
+
+// RETRIEVE user's posts
+router.get('/:userId/posts', async (req, res) => {
+    console.log(req.params.userId);
+    try {
+        const user = await User.findOne({ userId: req.params.userId });
+        if (!user) {
+            return req.status(404).send('User not found');
+        }
+        const posts = user.posts;
+        console.log(posts);
+        let postList = [];
+        for (postId of posts) {
+            const post = await Post.findById(postId);
+            postList.push(post);
+            console.log(post);
+        }
+        res.json(postList);
+
     } catch (error) {
         res.status(500).json({ message: error });
     }
