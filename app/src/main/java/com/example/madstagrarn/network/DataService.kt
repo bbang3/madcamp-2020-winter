@@ -25,7 +25,7 @@ interface RetrofitService {
     @GET("api/user/{id}")
     fun getUser(@Path("id") id: String) : Call<User>
 
-    @GET("api/user")
+    @POST("api/user/contact")
     fun getUsersByContact(@Body body: ArrayList<Phone>) : Call<ArrayList<User>>
 
     @FormUrlEncoded
