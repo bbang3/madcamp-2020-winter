@@ -40,9 +40,11 @@ interface RetrofitService {
     @POST("api/post")
     fun uploadPost(@Part("userId") id: RequestBody, @Part image:MultipartBody.Part, @Part("description") description: RequestBody) : Call<Post>
 
+    @GET("api/post/{postId}")
+    fun getPost(@Path("postId") postId: String) : Call<Post>
+
     @GET("api/user/{id}/posts")
     fun getUserPosts(@Path("id") id: String) : Call<ArrayList<Post>>
-
 
 //    @GET("api/phone")
 //    fun getPhoneList(): Call<ArrayList<Phone>>

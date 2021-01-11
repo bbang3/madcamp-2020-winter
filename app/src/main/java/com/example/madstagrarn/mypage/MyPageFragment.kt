@@ -1,7 +1,7 @@
 package com.example.madstagrarn.mypage
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,18 +13,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.madstagrarn.Post
 import com.example.madstagrarn.R
 import com.example.madstagrarn.User
 import com.example.madstagrarn.network.DataService
 import retrofit2.Callback
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call
 import retrofit2.Response
-import java.io.*
 
 class MyPageFragment: Fragment() {
     private val dataService: DataService = DataService()
@@ -37,7 +33,7 @@ class MyPageFragment: Fragment() {
         super.onCreate(savedInstanceState)
         currentUser = arguments?.getSerializable("User") as User
 
-        loadUserPostsFromServer()
+        loadUserPosts()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -45,37 +41,41 @@ class MyPageFragment: Fragment() {
 
         view.findViewById<TextView>(R.id.mypage_name).text = currentUser.name
         view.findViewById<TextView>(R.id.mypage_phone).text = currentUser.phoneNumber
-        view.findViewById<ImageView>(R.id.mypage_profile_image).setImageResource(R.drawable.person)
+
+        val profileImageView: ImageView = view.findViewById(R.id.mypage_profile_image)
+        Glide.with(view)
+            .load(dataService.BASE_URL + "image/default_user_profile.png")
+            .circleCrop()
+            .into(profileImageView)
+
+        val addPostTextView: TextView = view.findViewById(R.id.add_post_text)
+        addPostTextView.setOnClickListener {
+            val intent = Intent(view.context, PostAddActivity::class.java)
+            intent.putExtra("User", currentUser)
+            startActivityForResult(intent, 0)
+        }
 
         val rvPost = view.findViewById<RecyclerView>(R.id.rv_mypost)
         rvPost.setHasFixedSize(true)
         rvPost.layoutManager = LinearLayoutManager(view.context)
         rvPost.adapter = adapter
 
-//        val bitmapImage = BitmapFactory.decodeResource(resources, R.drawable.madstagrarn_logo)
-//        val imageFile = convertBitmapToFile("sample.jpg", bitmapImage)
-//        val reqFile = imageFile.asRequestBody("image/${imageFile.extension}".toMediaTypeOrNull())
-//        val imagePart = MultipartBody.Part.createFormData("image", imageFile.name, reqFile)
-//        val userIdPart = currentUser.userId.toRequestBody(MultipartBody.FORM)
-//        val descriptionPart = "My first post".toRequestBody(MultipartBody.FORM)
-//
-//        dataService.service.uploadPost(userIdPart, imagePart, descriptionPart).enqueue(object: Callback<Post>{
-//            override fun onResponse(call: Call<Post>, response: Response<Post>) {
-//                if(response.isSuccessful) {
-//                    Log.i("uploadPost", response.body()!!.toString())
-//                    Toast.makeText(context!!, "Success", Toast.LENGTH_SHORT)
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<Post>, t: Throwable) {
-//                t.printStackTrace()
-//            }
-//
-//        })
+
         return view
     }
 
-    private fun loadUserPostsFromServer() {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode == 0) {
+            if(resultCode == RESULT_OK) {
+                val postId = data?.getStringExtra("postId")!!
+                Log.i("loadNewPost", postId)
+                loadNewPost(postId)
+            }
+        }
+    }
+
+    private fun loadUserPosts() {
         dataService.service.getUserPosts(currentUser.userId).enqueue(object: Callback<ArrayList<Post>>{
             override fun onResponse(
                 call: Call<ArrayList<Post>>,
@@ -98,31 +98,22 @@ class MyPageFragment: Fragment() {
         })
     }
 
-    private fun convertBitmapToFile(fileName: String, bitmap: Bitmap): File {
-        //create a file to write bitmap data
-        val file = File(context?.cacheDir, fileName)
-        file.createNewFile()
+    private fun loadNewPost(postId: String) {
+        dataService.service.getPost(postId).enqueue(object: Callback<Post>{
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                Log.i("loadNewPost", response.body()!!.toString())
+                if(response.isSuccessful) {
+                    postList.add(0, response.body()!!)
+                    adapter.notifyDataSetChanged()
+                }
+            }
 
-        //Convert bitmap to byte array
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos)
-        val bitMapData = bos.toByteArray()
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+                t.printStackTrace()
+            }
 
-        //write the bytes in file
-        var fos: FileOutputStream? = null
-        try {
-            fos = FileOutputStream(file)
-        } catch (e: FileNotFoundException) {
-            e.printStackTrace()
-        }
-        try {
-            fos?.write(bitMapData)
-            fos?.flush()
-            fos?.close()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-        return file
+        })
     }
+
 
 }

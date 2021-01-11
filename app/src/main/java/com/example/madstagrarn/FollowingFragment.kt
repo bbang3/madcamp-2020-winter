@@ -19,7 +19,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class FollowingFragment : Fragment() {
-    private val dataService: DataService = DataService()
+    private val dataService: DataService =DataService()
     private var followingUserList: ArrayList<User> = ArrayList()
     private lateinit var currentUser: User
     private lateinit var adapter: FollowingAdapter

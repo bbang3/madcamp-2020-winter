@@ -3,7 +3,10 @@
     package="com.example.madstagrarn">
 
     <uses-permission android:name="android.permission.INTERNET" /> <!--  -->
-    <uses-permission android:name="android.permission.READ_CONTACTS" /> <!-- Read contact for FollowingAddActivity -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -13,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Madstagrarn">
-        <activity android:name=".FollowingAddActivity"></activity>
+        <activity android:name=".mypage.PostAddActivity"></activity>
+        <activity android:name=".FollowingAddActivity" />
         <activity android:name=".InsideActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
