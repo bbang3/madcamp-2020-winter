@@ -3,6 +3,7 @@ import com.example.madstagrarn.Phone
 import com.example.madstagrarn.Post
 import com.example.madstagrarn.User
 import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -37,10 +38,12 @@ interface RetrofitService {
 
     @Multipart
     @POST("api/post")
-    fun uploadPost(@Part("id") id: String, @Part image:MultipartBody.Part, @Part("description") description: String) : Call<ResponseBody>
+    fun uploadPost(@Part("userId") id: RequestBody, @Part image:MultipartBody.Part, @Part("description") description: RequestBody) : Call<Post>
 
     @GET("api/user/{id}/posts")
-    fun getUserPosts(@Path("id") id: String) : Call<Post>
+    fun getUserPosts(@Path("id") id: String) : Call<ArrayList<Post>>
+
+
 //    @GET("api/phone")
 //    fun getPhoneList(): Call<ArrayList<Phone>>
 //
