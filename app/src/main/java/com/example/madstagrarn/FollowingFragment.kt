@@ -6,26 +6,28 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.madstagrarn.network.DataService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class FollowingFragment : Fragment() {
-    private val dataService: DataService =
-        DataService()
+    private val dataService: DataService = DataService()
     private var followingUserList: ArrayList<User> = ArrayList()
-    private var currentId: String = "5ff9d8a656a88c7127c00685"
     private lateinit var currentUser: User
     private lateinit var adapter: FollowingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadCurrentUserInfo()
+        currentUser = arguments?.getSerializable("User") as User
+        loadFollowingUserList()
     }
 
     override fun onCreateView(
@@ -50,17 +52,15 @@ class FollowingFragment : Fragment() {
             val intent = Intent(activity, FollowingAddActivity::class.java)
             startActivity(intent)
         }
-
         return view
     }
 
     private fun loadCurrentUserInfo() {
-        dataService.service.getUser(currentId).enqueue(object : Callback<User> {
+        dataService.service.getUser(currentUser._id).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if(response.isSuccessful) {
                     Log.i("loadCurrentUserInfo", response.body()!!.toString())
                     currentUser = response.body()!!
-                    loadFollowingUserList()
                 }
             }
             override fun onFailure(call: Call<User>, t: Throwable) {

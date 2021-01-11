@@ -1,2 +1,3 @@
-package com.example.madstagrarn 
+package com.example.madstagrarn
 
+data class Post ()

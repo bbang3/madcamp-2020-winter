@@ -8,27 +8,30 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class FollowingAddAdapter (private val phoneList: ArrayList<Phone>, private val userList: ArrayList<User>)
-    : RecyclerView.Adapter<FollowingAddAdapter.FollowingAddViewHolder>() {
-    class FollowingAddViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class SignedUserAdapter (private val userList: ArrayList<User>)
+    : RecyclerView.Adapter<SignedUserAdapter.SignedUserViewHolder>() {
+    class SignedUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.findViewById(R.id.name_text)
         var phoneNumber: TextView = itemView.findViewById(R.id.phonenumber_text)
         var profileImage: ImageView = itemView.findViewById(R.id.profile_image)
-        var addButton: ImageButton = itemView.findViewById(R.id.add_button)
+        var followButton: ImageButton = itemView.findViewById(R.id.follow_button)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowingAddViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.following_item, parent, false)
-        return FollowingAddViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SignedUserViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.signed_user_item, parent, false)
+        return SignedUserViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: FollowingAddViewHolder, position: Int) {
-        val currentItem = phoneList[position]
+    override fun onBindViewHolder(holder: SignedUserViewHolder, position: Int) {
+        val currentItem = userList[position]
 
         holder.name.text = currentItem.name
         holder.phoneNumber.text = currentItem.phoneNumber
-
         holder.profileImage.setImageResource(R.drawable.madstagrarn_logo)
+
+        holder.followButton.setOnClickListener {
+
+        }
     }
 
     override fun getItemCount(): Int {

@@ -1,6 +1,8 @@
 package com.example.madstagrarn.network
 import com.example.madstagrarn.Phone
+import com.example.madstagrarn.Post
 import com.example.madstagrarn.User
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -9,7 +11,7 @@ import retrofit2.http.*
 
 
 class DataService {
-    private val BASE_URL = "http://192.249.18.246:8080/"
+    val BASE_URL = "http://192.249.18.244:8080/"
     var retrofitClient = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -19,19 +21,26 @@ class DataService {
 }
 
 interface RetrofitService {
+
     @GET("api/user/{id}/following")
     fun getFollowingUsers(@Path("id") id: String) : Call<ArrayList<User>>
 
     @GET("api/user/{id}")
     fun getUser(@Path("id") id: String) : Call<User>
 
-    @GET("api/user")
-    fun getUsersByContact(@Body body: ArrayList<Phone>) : Call<ArrayList<User>>
+    @POST("api/user/contact")
+    fun getUsersByContact(@Body phoneList: ArrayList<Phone>) : Call<ArrayList<User>>
 
     @FormUrlEncoded
     @POST("api/user/login")
     fun loginRequest(@Field("userId") userId: String, @Field("password") password: String) : Call<User>
 
+    @Multipart
+    @POST("api/post")
+    fun uploadPost(@Part("id") id: String, @Part image:MultipartBody.Part, @Part("description") description: String) : Call<ResponseBody>
+
+    @GET("api/user/{id}/posts")
+    fun getUserPosts(@Path("id") id: String) : Call<Post>
 //    @GET("api/phone")
 //    fun getPhoneList(): Call<ArrayList<Phone>>
 //

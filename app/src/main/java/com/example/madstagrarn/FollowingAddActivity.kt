@@ -14,10 +14,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.madstagrarn.network.DataService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import kotlin.math.sign
 
 
 class FollowingAddActivity : AppCompatActivity() {
@@ -26,16 +29,29 @@ class FollowingAddActivity : AppCompatActivity() {
     private val contactUserList: ArrayList<User> = ArrayList()
     private val dataService: DataService = DataService()
 
+    private var signedUserList: ArrayList<User> = ArrayList()
+    private var unsignedPhoneList: ArrayList<Phone> = ArrayList()
+
+    private lateinit var rvSignedUser: RecyclerView
+    private lateinit var rvUnsignedUser: RecyclerView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_following_add)
 
-        if(getContactWithPermission()) {
-            getContactUsers()
-        }
+        getContactWithPermission()
+
+        rvSignedUser = findViewById<RecyclerView>(R.id.rv_user_signed)
+        rvSignedUser.setHasFixedSize(true)
+        rvSignedUser.layoutManager = LinearLayoutManager(this)
+
+        rvUnsignedUser = findViewById<RecyclerView>(R.id.rv_user_unsigned)
+        rvUnsignedUser.setHasFixedSize(true)
+        rvUnsignedUser.layoutManager = LinearLayoutManager(this)
     }
 
     private fun getContactUsers() {
+        Log.i("FollwingAddActivity", "phoneList size: ${phoneList.size}")
         dataService.service.getUsersByContact(phoneList).enqueue(object :
             Callback<ArrayList<User>> {
             override fun onResponse(
@@ -43,19 +59,33 @@ class FollowingAddActivity : AppCompatActivity() {
                 response: Response<ArrayList<User>>
             ) {
                 if(response.isSuccessful) {
-
+                    val receivedUserList = response.body()!!
+                    Log.i("getContactUsers", receivedUserList.toString())
+                    for(phone in phoneList) {
+                        var isFound: Boolean = false
+                        for(user in receivedUserList) {
+                            if(phone.phoneNumber == user.phoneNumber) {
+                                signedUserList.add(user)
+                                isFound = true
+                                break
+                            }
+                        }
+                        if(!isFound) unsignedPhoneList.add(phone)
+                    }
+                    Log.i("getContactUsers", signedUserList.toString())
+                    Log.i("getContactUsers", unsignedPhoneList.toString())
+                    rvSignedUser.adapter = SignedUserAdapter(signedUserList)
+                    rvUnsignedUser.adapter = UnsignedUserAdapter(unsignedPhoneList)
                 }
             }
 
             override fun onFailure(call: Call<ArrayList<User>>, t: Throwable) {
                 t.printStackTrace()
             }
-
         })
     }
 
     private fun getAllContacts() {
-        val recievedPhoneList: ArrayList<String> = ArrayList()
         val cr = contentResolver
         val cur: Cursor? = cr.query(ContactsContract.Contacts.CONTENT_URI, null, null, null, null)
         if ((cur?.getCount() ?: 0) > 0) {
@@ -85,10 +115,11 @@ class FollowingAddActivity : AppCompatActivity() {
             }
         }
         cur?.close()
+        getContactUsers()
     }
 
 
-    private fun getContactWithPermission() : Boolean {
+    private fun getContactWithPermission() {
         if (Build.VERSION.SDK_INT >= 23) {
             // only for gingerbread and newer versions
             val permission: String = Manifest.permission.WRITE_CONTACTS
@@ -104,7 +135,6 @@ class FollowingAddActivity : AppCompatActivity() {
         } else {
             getAllContacts()
         }
-        return true
     }
 
     override fun onRequestPermissionsResult(
