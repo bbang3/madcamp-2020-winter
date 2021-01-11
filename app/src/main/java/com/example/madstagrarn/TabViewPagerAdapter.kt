@@ -5,15 +5,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 
-class TabViewPagerAdapter(fm: FragmentManager, bundle: Bundle): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
-    private val adapterBundle: Bundle = bundle
+class TabViewPagerAdapter(fm: FragmentManager, val bundle: Bundle): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
     private var fragmentList = listOf(
         Pair("Following", FollowingFragment()), Pair("NewsFeed", NewsFeedFragment()), Pair("MyPage", MyPageFragment())
     )
 
     override fun getItem(position: Int): Fragment {
         val fragment: Fragment = fragmentList[position].second
-        fragment.arguments = adapterBundle
+        fragment.arguments = bundle
         return fragment
     }
 

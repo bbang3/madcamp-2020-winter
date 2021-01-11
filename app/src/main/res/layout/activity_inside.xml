@@ -7,6 +7,16 @@
     android:orientation="vertical"
     tools:context=".InsideActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:padding="10dp"
+        android:text="Madstagrarn"
+        android:textColor="@color/facebook"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/tab_view_pager"
         android:layout_above="@+id/tabs"
