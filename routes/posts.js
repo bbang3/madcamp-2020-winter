@@ -33,7 +33,6 @@ router.post('/', upload.single('image'), async (req, res) => {
         console.log(req.file);
         console.log(req.body.userId);
         console.log(req.body.description);
-
         let { userId, description } = req.body;
         const author = await User.findOne({ userId: userId });
 
@@ -50,6 +49,7 @@ router.post('/', upload.single('image'), async (req, res) => {
         });
 
         const output = await newPost.save();
+        console.log(output._id);
 
         author.posts.push(output._id);
         author.save();
@@ -62,5 +62,43 @@ router.post('/', upload.single('image'), async (req, res) => {
 });
 
 // RETRIEVE single post
+router.get('/:postId', async (req, res) => {
+    try {
+        console.log(req.params.postId);
+        const post = await Post.findById(req.params.postId);
+        if (!post) {
+            return res.status(404).send('Post not found');
+        }
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+});
+
+router.delete('/:postId', async (req, res) => {
+    try {
+        console.log(req.params.postId);
+
+        const delPost = await Post.findById(req.params.postId);
+        if (!delPost) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+        console.log(delPost);
+        const authorId = delPost.authorId;
+        const author = await User.findById(authorId);
+
+        if (!author) {
+            return res.status(404).json({ message: "Author not found" });
+        }
+        console.log("!");
+        await Post.findByIdAndRemove(delPost._id);
+        author.posts.remove(delPost._id);
+        author.save();
+
+        res.status(200).send('Delete success');
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+});
 
 module.exports = router;
