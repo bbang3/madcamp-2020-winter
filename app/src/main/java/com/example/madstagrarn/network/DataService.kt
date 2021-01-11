@@ -34,7 +34,11 @@ interface RetrofitService {
 
     @FormUrlEncoded
     @POST("api/user/login")
-    fun loginRequest(@Field("userId") userId: String, @Field("password") password: String) : Call<User>
+    fun loginRequest(@Field("isFacebookUser") isFacebookUser: Boolean, @Field("userId") userId: String, @Field("password") password: String) : Call<User>
+
+    @FormUrlEncoded
+    @POST("api/user")
+    fun signupRequest(@Field("isFacebookUser") isFacebookUser: Boolean, @Field("userId") userId: String, @Field("password") password: String, @Field("name") name: String, @Field("phoneNumber") phoneNumber: String): Call<User>
 
     @Multipart
     @POST("api/post")

@@ -1,7 +1,10 @@
 package com.example.madstagrarn
 
+import android.app.Notification
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
@@ -13,6 +16,8 @@ class InsideActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inside)
+        val actionBar: ActionBar? = getSupportActionBar()
+        actionBar?.hide()
 
         val bundle = Bundle()
         bundle.putSerializable("User", intent.extras!!.get("User") as Serializable)
@@ -30,6 +35,5 @@ class InsideActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        this.finish()
     }
 }
