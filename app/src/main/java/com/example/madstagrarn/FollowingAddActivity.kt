@@ -18,7 +18,7 @@ import com.example.madstagrarn.network.DataService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+import androidx.appcompat.app.ActionBar
 
 class FollowingAddActivity : AppCompatActivity() {
     private val readContactRequestCode = 100
@@ -29,6 +29,8 @@ class FollowingAddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_following_add)
+        val actionBar: ActionBar? = getSupportActionBar()
+        actionBar?.hide()
 
         if(getContactWithPermission()) {
             getContactUsers()
@@ -50,7 +52,6 @@ class FollowingAddActivity : AppCompatActivity() {
             override fun onFailure(call: Call<ArrayList<User>>, t: Throwable) {
                 t.printStackTrace()
             }
-
         })
     }
 
@@ -148,5 +149,4 @@ class FollowingAddActivity : AppCompatActivity() {
             }
         }
     }
-
 }
