@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="facebook">#FF1877F2</color>
     <color name="facebook_dark">#FF02132B</color>
+    <color name="facebook_gray">#FFE4E6EB</color>
 </resources>

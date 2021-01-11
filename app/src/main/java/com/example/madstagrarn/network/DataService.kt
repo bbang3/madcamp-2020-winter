@@ -37,8 +37,15 @@ interface RetrofitService {
     fun loginRequest(@Field("isFacebookUser") isFacebookUser: Boolean, @Field("userId") userId: String, @Field("password") password: String) : Call<User>
 
     @FormUrlEncoded
-    @POST("api/user")
+    @POST("api/user/signup")
     fun signupRequest(@Field("isFacebookUser") isFacebookUser: Boolean, @Field("userId") userId: String, @Field("password") password: String, @Field("name") name: String, @Field("phoneNumber") phoneNumber: String): Call<User>
+
+    @FormUrlEncoded
+    @PUT("api/user/follow")
+    fun followRequest(@Field("id") id: String, @Field("followingId") followingId: String): Call<User>
+
+    @DELETE("api/user/unfollow/{id}/{followingId}")
+    fun unfollowRequest(@Path("id") id: String, @Path("followingId") followingId: String): Call<User>
 
     @Multipart
     @POST("api/post")

@@ -11,21 +11,13 @@
         android:id="@+id/rv_following"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/following_item">
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rv_following"
-        tools:src="@tools:sample/avatars" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/following_add_button"
