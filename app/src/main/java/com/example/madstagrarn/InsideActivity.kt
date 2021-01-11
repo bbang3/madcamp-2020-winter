@@ -1,17 +1,24 @@
 package com.example.madstagrarn
 
 import android.app.Notification
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.example.madstagrarn.network.DataService
 import com.google.android.material.tabs.TabLayout
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.io.Serializable
 
 
 class InsideActivity : AppCompatActivity() {
+    private val dataService: DataService = DataService()
+    lateinit var currentUser: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,7 +27,8 @@ class InsideActivity : AppCompatActivity() {
         actionBar?.hide()
 
         val bundle = Bundle()
-        bundle.putSerializable("User", intent.extras!!.get("User") as Serializable)
+        currentUser = intent.extras!!.get("User") as User
+        bundle.putSerializable("User", currentUser)
 
         val tabs: TabLayout = findViewById(R.id.tabs)
         val tabViewPager: ViewPager = findViewById(R.id.tab_view_pager);
@@ -35,5 +43,11 @@ class InsideActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+//        loadCurrentUserInfo()
     }
 }

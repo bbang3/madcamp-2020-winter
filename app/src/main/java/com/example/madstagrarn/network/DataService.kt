@@ -1,6 +1,9 @@
 package com.example.madstagrarn.network
 import com.example.madstagrarn.Phone
+import com.example.madstagrarn.Post
 import com.example.madstagrarn.User
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Retrofit
@@ -9,7 +12,7 @@ import retrofit2.http.*
 
 
 class DataService {
-    private val BASE_URL = "http://192.249.18.246:8080/"
+    val BASE_URL = "http://192.249.18.246:8080/"
     var retrofitClient = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -19,6 +22,7 @@ class DataService {
 }
 
 interface RetrofitService {
+
     @GET("api/user/{id}/following")
     fun getFollowingUsers(@Path("id") id: String) : Call<ArrayList<User>>
 
@@ -26,16 +30,35 @@ interface RetrofitService {
     fun getUser(@Path("id") id: String) : Call<User>
 
     @POST("api/user/contact")
-    fun getUsersByContact(@Body body: ArrayList<Phone>) : Call<ArrayList<User>>
+    fun getUsersByContact(@Body phoneList: ArrayList<Phone>) : Call<ArrayList<User>>
 
     @FormUrlEncoded
     @POST("api/user/login")
     fun loginRequest(@Field("isFacebookUser") isFacebookUser: Boolean, @Field("userId") userId: String, @Field("password") password: String) : Call<User>
 
     @FormUrlEncoded
-    @POST("api/user")
+    @POST("api/user/signup")
     fun signupRequest(@Field("isFacebookUser") isFacebookUser: Boolean, @Field("userId") userId: String, @Field("password") password: String, @Field("name") name: String, @Field("phoneNumber") phoneNumber: String): Call<User>
 
+    @FormUrlEncoded
+    @PUT("api/user/follow")
+    fun followRequest(@Field("id") id: String, @Field("followingId") followingId: String): Call<User>
+
+    @DELETE("api/user/unfollow/{id}/{followingId}")
+    fun unfollowRequest(@Path("id") id: String, @Path("followingId") followingId: String): Call<User>
+
+    @Multipart
+    @POST("api/post")
+    fun uploadPost(@Part("userId") id: RequestBody, @Part image:MultipartBody.Part, @Part("description") description: RequestBody) : Call<Post>
+
+    @GET("api/post/{postId}")
+    fun getPost(@Path("postId") postId: String) : Call<Post>
+
+    @GET("api/user/{id}/posts")
+    fun getUserPosts(@Path("id") id: String) : Call<ArrayList<Post>>
+
+    @DELETE("api/post/{id}")
+    fun deletePost(@Path("id") id: String) : Call<ResponseBody>
 //    @GET("api/phone")
 //    fun getPhoneList(): Call<ArrayList<Phone>>
 //

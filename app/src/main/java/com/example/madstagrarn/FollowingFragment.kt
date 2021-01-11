@@ -1,31 +1,38 @@
 package com.example.madstagrarn
 
+import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.madstagrarn.network.DataService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class FollowingFragment : Fragment() {
-    private val dataService: DataService =
-        DataService()
+    private val dataService: DataService =DataService()
     private var followingUserList: ArrayList<User> = ArrayList()
-    private var currentId: String = "5ff9d8a656a88c7127c00685"
     private lateinit var currentUser: User
     private lateinit var adapter: FollowingAdapter
+    private lateinit var rvFollowing: RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        loadCurrentUserInfo()
+        currentUser = arguments?.getSerializable("User") as User
+
+        loadFollowingUserList()
     }
 
     override fun onCreateView(
@@ -35,32 +42,41 @@ class FollowingFragment : Fragment() {
     ): View? {
 
         // User 정보는 arguments?.getSerializable("User") 에 들어있음!
+        loadCurrentUserInfo()
+        loadFollowingUserList()
 
-        val view: View = inflater.inflate(R.layout.following_fragment, container, false)
+        val view = inflater.inflate(R.layout.following_fragment, container, false)
         Log.i("onCreateView", "Created")
 
-        val rvFollowing: RecyclerView = view.findViewById(R.id.rv_following)
+        rvFollowing = view.findViewById(R.id.rv_following)
         rvFollowing.setHasFixedSize(true)
-        adapter = FollowingAdapter(followingUserList)
+        adapter = FollowingAdapter(followingUserList, currentUser)
         rvFollowing.adapter = adapter
         rvFollowing.layoutManager = LinearLayoutManager(view.context)
 
         val followingAddButton: FloatingActionButton = view.findViewById(R.id.following_add_button)
         followingAddButton.setOnClickListener {
             val intent = Intent(activity, FollowingAddActivity::class.java)
-            startActivity(intent)
+            intent.putExtra("User", currentUser)
+            startActivityForResult(intent, 0)
         }
 
         return view
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        loadCurrentUserInfo()
+        loadFollowingUserList()
+    }
+
     private fun loadCurrentUserInfo() {
-        dataService.service.getUser(currentId).enqueue(object : Callback<User> {
+        dataService.service.getUser(currentUser._id).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
                 if(response.isSuccessful) {
                     Log.i("loadCurrentUserInfo", response.body()!!.toString())
                     currentUser = response.body()!!
-                    loadFollowingUserList()
                 }
             }
             override fun onFailure(call: Call<User>, t: Throwable) {
@@ -76,6 +92,7 @@ class FollowingFragment : Fragment() {
                 response: Response<ArrayList<User>>
             ) {
                 if(response.isSuccessful){
+                    followingUserList.clear()
                     Log.i("loadCurrentUserInfo", response.body()!!.toString())
                     followingUserList.addAll(response.body()!!)
                     adapter.notifyDataSetChanged()
