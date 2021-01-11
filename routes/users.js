@@ -69,13 +69,20 @@ router.get('/:user_id/following', async (req, res) => {
 // user ADD
 router.post('/', async (req, res) => {
     console.log(req.body);
-    let newUser = new User(req.body);
+    const existUser = await User.find({ isFacebookUser: req.body.isFacebookUser, userId: req.body.userId })
     try {
-        const output = await newUser.save();
-        res.status(200).json(output);
+        if(existUser.length > 0){
+            res.status(404).send("User already exist");
+        }
+        else{
+            let newUser = new User(req.body);
+            const output = await newUser.save();
+            res.status(200).json(output);
+        }
     } catch (error) {
         res.status(500).json({ message: error });
     }
+    
 })
 
 // Retrieve users by contact
@@ -155,6 +162,25 @@ router.post('/login', async (req, res) => {
         const currentUser = await User.findOne({ userId: req.body.userId, password: req.body.password });
         console.log(currentUser);
         if (currentUser === null) res.status(404).send("User not found");
+        else res.status(200).json(currentUser);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+})
+
+// login request
+router.post('/login', async (req, res) => {
+    try {
+        console.log(req.body.isFacebookUser, req.body.userId, req.body.password);
+        let currentUser
+        if(!req.body.isFacebookUser){
+            currentUser = await User.findOne({isFacebookUser: false, userId: req.body.userId, password: req.body.password});
+        }
+        else{
+            currentUser = await User.findOne({isFacebookUser: true, userId: req.body.userId});
+        }
+        console.log(currentUser);
+        if(currentUser === null) res.status(404).send("User not found");
         else res.status(200).json(currentUser);
     } catch (error) {
         res.status(500).json({ message: error });
