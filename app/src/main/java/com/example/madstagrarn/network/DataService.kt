@@ -12,7 +12,7 @@ import retrofit2.http.*
 
 
 class DataService {
-    val BASE_URL = "http://192.249.18.244:8080/"
+    val BASE_URL = "http://192.249.18.246:8080/"
     var retrofitClient = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
