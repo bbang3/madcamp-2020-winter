@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Posted at: 2021.-01-12 05:20"
-            android:textSize="10sp"/>
+            android:textSize="10sp" />
 
         <ImageView
             android:id="@+id/post_image"
@@ -32,6 +32,13 @@
             android:layout_height="wrap_content"
             android:text="This trip is amzaing!"
             android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/post_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="delete" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

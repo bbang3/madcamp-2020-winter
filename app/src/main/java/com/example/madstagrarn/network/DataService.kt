@@ -46,6 +46,8 @@ interface RetrofitService {
     @GET("api/user/{id}/posts")
     fun getUserPosts(@Path("id") id: String) : Call<ArrayList<Post>>
 
+    @DELETE("api/post/{id}")
+    fun deletePost(@Path("id") id: String) : Call<ResponseBody>
 //    @GET("api/phone")
 //    fun getPhoneList(): Call<ArrayList<Phone>>
 //
