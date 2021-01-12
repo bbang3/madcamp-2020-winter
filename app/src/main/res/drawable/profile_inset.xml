@@ -3,6 +3,5 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:drawable="@drawable/profile_darkgrey_border"
     android:insetRight="5dp"
-    android:insetTop="5dp"
     android:insetLeft="5dp">
 </inset>

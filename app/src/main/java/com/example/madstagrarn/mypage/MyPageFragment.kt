@@ -2,9 +2,13 @@ package com.example.madstagrarn.mypage
 
 import android.Manifest
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.database.Cursor
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -12,6 +16,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -19,6 +24,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.madstagrarn.MainActivity
 import com.example.madstagrarn.dataclass.Post
 import com.example.madstagrarn.R
 import com.example.madstagrarn.dataclass.User
@@ -58,7 +64,32 @@ class MyPageFragment: Fragment() {
         val view: View = inflater.inflate(R.layout.mypage_fragment, container, false)
 
         view.findViewById<TextView>(R.id.mypage_name).text = currentUser.name
-//        view.findViewById<TextView>(R.id.mypage_phone).text = currentUser.phoneNumber
+
+        val logoutButton = view.findViewById<ImageView>(R.id.logout_button)
+        logoutButton.setOnClickListener {
+            val inflater = view.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val view = inflater.inflate(R.layout.logout_popup, null)
+            val acceptButton = view.findViewById<Button>(R.id.accept_button)
+            val cancelButton = view.findViewById<Button>(R.id.cancel_button)
+
+            val logoutPopup = AlertDialog.Builder(view.context)
+                .create()
+
+            logoutPopup?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+            acceptButton.setOnClickListener {
+                logoutPopup.dismiss()
+                startActivity(Intent(this.requireActivity(), MainActivity::class.java))
+                this.requireActivity().finish()
+            }
+
+            cancelButton.setOnClickListener {
+                logoutPopup.dismiss()
+            }
+
+            logoutPopup.setView(view)
+            logoutPopup.show()
+        }
 
         profileImageView = view.findViewById(R.id.mypage_profile_image)
         profileImageViewPost = view.findViewById(R.id.mypage_post_profile_image)

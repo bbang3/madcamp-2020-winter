@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background"
@@ -10,16 +10,22 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:orientation="vertical"
-        android:layout_centerVertical="true">
+        android:orientation="vertical">
 
         <ImageView
             android:layout_width="160dp"
             android:layout_height="160dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/madstagrarn_logo" />
+            android:src="@drawable/healthtagram_logo" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/healthtagram_font" />
 
         <EditText
             android:id="@+id/login_id"
@@ -32,9 +38,9 @@
             android:drawableStart="@drawable/person"
             android:drawablePadding="10dp"
             android:hint="Id"
-            android:padding="10dp"
             android:inputType="text"
-            android:lines="1"/>
+            android:lines="1"
+            android:padding="10dp" />
 
         <EditText
             android:id="@+id/login_password"
@@ -47,9 +53,9 @@
             android:drawableStart="@drawable/lock"
             android:drawablePadding="10dp"
             android:hint="Password"
-            android:padding="10dp"
             android:inputType="textWebPassword"
             android:lines="1"
+            android:padding="10dp"
             android:password="true" />
 
         <TextView
@@ -61,7 +67,7 @@
             android:layout_marginEnd="20dp"
             android:padding="10dp"
             android:text="Forgot Password ?"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/login_button"
@@ -72,36 +78,37 @@
             android:background="@drawable/login_button_background"
             android:text="Log in"
             android:textAllCaps="false"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="18sp"
-            app:backgroundTint="#E4E4E4" />
+            app:backgroundTint="#2E4C73" />
 
         <LinearLayout
             android:id="@+id/login_button_facebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
             android:background="@drawable/login_button_background_facebook"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:padding="3dp"
-            android:gravity="center">
+            android:padding="3dp">
+
             <ImageView
-                android:layout_margin="5dp"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
-                android:src="@mipmap/facebook"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:src="@mipmap/facebook" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:text="Log in with Facebook"
-                android:textColor="@color/white"
                 android:textAllCaps="false"
-                android:textSize="18sp"
-                android:layout_gravity="center"/>
+                android:textColor="@color/white"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
@@ -113,7 +120,7 @@
             android:layout_marginTop="5dp"
             android:padding="10dp"
             android:text="Sign up"
-            android:textColor="@color/white"
-            android:textSize="18sp"/>
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </LinearLayout>
 </RelativeLayout>
