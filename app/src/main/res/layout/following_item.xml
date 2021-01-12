@@ -7,9 +7,9 @@
     android:layout_margin="4dp">
 
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/following_profile_image"
         android:layout_width="55dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:adjustViewBounds="true"
         android:layout_marginLeft="10dp"
         app:layout_constraintBottom_toBottomOf="@+id/info_container"
@@ -26,7 +26,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/follow_button"
-        app:layout_constraintStart_toEndOf="@+id/profile_image"
+        app:layout_constraintStart_toEndOf="@+id/following_profile_image"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView

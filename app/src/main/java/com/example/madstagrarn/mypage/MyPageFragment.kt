@@ -1,12 +1,18 @@
 package com.example.madstagrarn.mypage
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.database.Cursor
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -18,9 +24,16 @@ import com.example.madstagrarn.Post
 import com.example.madstagrarn.R
 import com.example.madstagrarn.User
 import com.example.madstagrarn.network.DataService
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.TedPermission
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
 import retrofit2.Callback
 import retrofit2.Call
 import retrofit2.Response
+import java.io.File
 
 class MyPageFragment: Fragment() {
     private val dataService: DataService = DataService()
@@ -28,6 +41,11 @@ class MyPageFragment: Fragment() {
 
     private var postList: ArrayList<Post> = ArrayList()
     private var adapter: PostAdapter = PostAdapter(postList, dataService)
+
+    private var tempFile: File? = null
+    private val PICK_FROM_ALBUM = 1
+    private lateinit var profileImageView: ImageView
+    private var isPermissionGranted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,13 +60,22 @@ class MyPageFragment: Fragment() {
         view.findViewById<TextView>(R.id.mypage_name).text = currentUser.name
         view.findViewById<TextView>(R.id.mypage_phone).text = currentUser.phoneNumber
 
-        val profileImageView: ImageView = view.findViewById(R.id.mypage_profile_image)
+        profileImageView = view.findViewById(R.id.mypage_profile_image)
         profileImageView.setOnClickListener { modifyProfileImage() }
 
-        Glide.with(view)
-            .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
-            .circleCrop()
-            .into(profileImageView)
+        if(currentUser.profileImage.isNullOrEmpty() || currentUser.profileImage == "default_user_profile.png") {
+            Glide.with(view)
+                .load(R.drawable.person_profile)
+                .circleCrop()
+                .into(profileImageView)
+        } else {
+            Glide.with(view)
+                .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
+                .thumbnail()
+                .circleCrop()
+                .into(profileImageView)
+        }
+
 
         val addPostTextView: TextView = view.findViewById(R.id.add_post_text)
         addPostTextView.setOnClickListener {
@@ -59,7 +86,7 @@ class MyPageFragment: Fragment() {
 
         val rvPost = view.findViewById<RecyclerView>(R.id.rv_mypost)
         rvPost.setHasFixedSize(true)
-        rvPost.layoutManager = LinearLayoutManager(view.context)
+        rvPost.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, true)
         rvPost.adapter = adapter
 
 
@@ -67,16 +94,54 @@ class MyPageFragment: Fragment() {
     }
 
     private fun modifyProfileImage() {
-        
+//        tedPermission()
+        goToAlbum()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 0) {
             if(resultCode == RESULT_OK) {
-                val postId = data?.getStringExtra("postId")!!
-                Log.i("loadNewPost", postId)
-                loadNewPost(postId)
+                val postId = data?.getStringExtra("postId")
+                if (postId != null) {
+                    Log.i("loadNewPost", postId)
+                    loadNewPost(postId)
+                }
+            }
+        } else if (requestCode == PICK_FROM_ALBUM) {
+            val photoUri: Uri? = data?.data
+            var cursor: Cursor? =null;
+            try {
+                /*
+                 *  Uri 스키마를
+                 *  content:/// 에서 file:/// 로  변경한다.
+                 */
+                if(photoUri != null) {
+                    cursor = context!!.contentResolver.query(photoUri, arrayOf(MediaStore.Images.Media.DATA), null, null, null);
+                }
+
+                val columnIndex:Int? = cursor?.getColumnIndexOrThrow (MediaStore.Images.Media.DATA);
+                cursor?.moveToFirst();
+
+                if(columnIndex != null) {
+                    tempFile = File(cursor?.getString(columnIndex))
+                    profileImageView.setImageBitmap(BitmapFactory.decodeFile(tempFile!!.absolutePath))
+
+                    val profileImageFile: File = tempFile as File
+                    val reqFile = profileImageFile.asRequestBody("image/${profileImageFile.extension}".toMediaTypeOrNull())
+                    val imagePart = MultipartBody.Part.createFormData("image", profileImageFile.name, reqFile)
+                    dataService.service.updateUser(currentUser.userId, imagePart).enqueue(object: Callback<User>{
+                        override fun onResponse(call: Call<User>, response: Response<User>) {
+                            if(response.isSuccessful) {
+                                Log.i("updateUser", response.body()!!.toString())
+                                currentUser = response.body()!!
+                            }
+                        }
+                        override fun onFailure(call: Call<User>, t: Throwable) { t.printStackTrace() }
+                    })
+                }
+            } finally {
+                cursor?.close()
             }
         }
     }
@@ -109,7 +174,7 @@ class MyPageFragment: Fragment() {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.i("loadNewPost", response.body()!!.toString())
                 if(response.isSuccessful) {
-                    postList.add(0, response.body()!!)
+                    postList.add(response.body()!!)
                     adapter.notifyDataSetChanged()
                 }
             }
@@ -121,5 +186,32 @@ class MyPageFragment: Fragment() {
         })
     }
 
+    private fun goToAlbum() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = MediaStore.Images.Media.CONTENT_TYPE
+        startActivityForResult(intent, PICK_FROM_ALBUM)
+    }
 
+
+    private fun tedPermission() : Boolean {
+        val permissionListener: PermissionListener = object : PermissionListener {
+            override fun onPermissionGranted() {
+                isPermissionGranted = true
+            }
+
+            override fun onPermissionDenied(deniedPermissions: ArrayList<String?>?) {
+                // 권한 요청 실패
+                isPermissionGranted = false
+            }
+        }
+
+        TedPermission.with(context!!)
+            .setPermissionListener(permissionListener)
+            .setRationaleMessage(resources.getString(R.string.permission_2))
+            .setDeniedMessage(resources.getString(R.string.permission_1))
+            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+            .check()
+
+        return true
+    }
 }

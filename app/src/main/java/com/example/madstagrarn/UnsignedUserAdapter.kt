@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +13,7 @@ class UnsignedUserAdapter (private val phoneList: ArrayList<Phone>)
     class UnsignedUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.findViewById(R.id.name_text)
         var phoneNumber: TextView = itemView.findViewById(R.id.phonenumber_text)
-        var profileImage: ImageView = itemView.findViewById(R.id.profile_image)
+        var profileImage: ImageView = itemView.findViewById(R.id.following_profile_image)
         var inviteButton: Button = itemView.findViewById(R.id.invite_button)
     }
 

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.madstagrarn.Post
@@ -30,7 +31,7 @@ class PostAdapter (private val postList: ArrayList<Post>, private val dataServic
 
             Glide.with(itemView)
                 .load("${dataService.BASE_URL}image/${post.images[0]}")
-                .thumbnail(0.1f)
+                .thumbnail()
                 .into(image)
         }
 
@@ -44,6 +45,7 @@ class PostAdapter (private val postList: ArrayList<Post>, private val dataServic
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val currentItem = postList[position]
         holder.bind(currentItem, dataService)
+
         holder.delButton.setOnClickListener { deletePost(currentItem._id, position) }
     }
 

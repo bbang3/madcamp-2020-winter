@@ -56,10 +56,10 @@ class PostAddActivity : AppCompatActivity() {
 
         image = findViewById(com.example.madstagrarn.R.id.addpost_image)
         image.setOnClickListener {
+            tedPermission()
+            goToAlbum()
             if(isPermissionGranted) {
-                goToAlbum()
             } else {
-                tedPermission()
             }
         }
     }
@@ -74,7 +74,7 @@ class PostAddActivity : AppCompatActivity() {
         val description: EditText = findViewById(R.id.description_edit)
         val imageFile: File = tempFile as File
 
-        val bitmapImage = BitmapFactory.decodeResource(resources, R.drawable.madstagrarn_logo)
+//        val bitmapImage = BitmapFactory.decodeResource(resources, R.drawable.madstagrarn_logo)
 //        val imageFile = convertBitmapToFile("sample.jpg", bitmapImage)
         val reqFile = imageFile.asRequestBody("image/${imageFile.extension}".toMediaTypeOrNull())
         val imagePart = MultipartBody.Part.createFormData("image", imageFile.name, reqFile)

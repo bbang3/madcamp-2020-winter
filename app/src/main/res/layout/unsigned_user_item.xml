@@ -7,7 +7,7 @@
     android:layout_margin="4dp">
 
     <ImageView
-        android:id="@+id/profile_image"
+        android:id="@+id/following_profile_image"
         android:layout_width="55dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
@@ -26,7 +26,7 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/invite_button"
-        app:layout_constraintStart_toEndOf="@+id/profile_image"
+        app:layout_constraintStart_toEndOf="@+id/following_profile_image"
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView

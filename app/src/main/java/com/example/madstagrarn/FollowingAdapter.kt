@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.madstagrarn.network.DataService
 import retrofit2.Call
 import retrofit2.Callback
@@ -22,7 +23,7 @@ class FollowingAdapter(
     class FollowingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.findViewById(R.id.name_text)
         var phoneNumber: TextView = itemView.findViewById(R.id.phonenumber_text)
-        var profileImage: ImageView = itemView.findViewById(R.id.profile_image)
+        var profileImage: ImageView = itemView.findViewById(R.id.following_profile_image)
         var followButton: Button = itemView.findViewById(R.id.follow_button)
     }
 
@@ -37,7 +38,20 @@ class FollowingAdapter(
 
         holder.name.text = currentItem.name
         holder.phoneNumber.text = currentItem.phoneNumber
-        holder.profileImage.setImageResource(R.drawable.person)
+
+        if(currentItem.profileImage.isNullOrEmpty() || currentItem.profileImage == "default_user_profile.png") {
+            Glide.with(holder.itemView)
+                .load(R.drawable.person)
+                .circleCrop()
+                .into(holder.profileImage)
+        } else {
+            Glide.with(holder.itemView)
+                .load(dataService.BASE_URL + "image/${currentItem.profileImage}")
+                .thumbnail()
+                .circleCrop()
+                .into(holder.profileImage)
+        }
+
         if (true) {
             holder.followButton.setBackgroundColor(Color.parseColor("#FFE4E6EB"))
             holder.followButton.setTextColor(Color.BLACK)
