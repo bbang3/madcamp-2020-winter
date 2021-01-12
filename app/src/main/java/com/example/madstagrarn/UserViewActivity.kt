@@ -31,7 +31,7 @@ class UserViewActivity : AppCompatActivity() {
 
         val actionBar: ActionBar? = getSupportActionBar()
         actionBar?.hide()
-        
+
         currentUser = intent.extras!!.get("User") as User
         Log.i("UserViewActivity", currentUser.toString())
         adapter = ViewPostAdapter(postList, currentUser, dataService)
