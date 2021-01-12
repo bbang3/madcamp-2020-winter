@@ -10,13 +10,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.madstagrarn.dataclass.Post
 import com.example.madstagrarn.R
+import com.example.madstagrarn.dataclass.User
 import com.example.madstagrarn.network.DataService
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class PostAdapter(private val postList: ArrayList<Post>, private val dataService: DataService) :
+class PostAdapter(private val postList: ArrayList<Post>, private val currentUser: User, private val dataService: DataService) :
     RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var image: ImageView = itemView.findViewById(R.id.post_image)
@@ -26,18 +27,23 @@ class PostAdapter(private val postList: ArrayList<Post>, private val dataService
         val profileImageView: ImageView = itemView.findViewById(R.id.post_profile)
         var delButton: Button = itemView.findViewById(R.id.post_delete_button)
 
-        fun bind(post: Post, dataService: DataService) {
+        fun bind(post: Post, currentUser: User, dataService: DataService) {
             description.text = post.description
             postDate.text = post.date
             author.text = post.author
 
-
-            Glide.with(itemView)
-                .load(dataService.BASE_URL + "api/user/${post.authorId}/profile")
-//                .signature(ObjectKey(System.currentTimeMillis() / (3 * 1000))) // refresh every 3 seconds
-                .thumbnail()
-                .circleCrop()
-                .into(profileImageView)
+            if(currentUser.profileImage.isNullOrEmpty() || currentUser.profileImage == "default_user_profile.png") {
+                Glide.with(itemView)
+                    .load(R.drawable.person_profile)
+                    .circleCrop()
+                    .into(profileImageView)
+            } else {
+                Glide.with(itemView)
+                    .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
+                    .thumbnail()
+                    .circleCrop()
+                    .into(profileImageView)
+            }
 
             Glide.with(itemView)
                 .load("${dataService.BASE_URL}image/${post.images[0]}")
@@ -54,7 +60,7 @@ class PostAdapter(private val postList: ArrayList<Post>, private val dataService
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val currentItem = postList[position]
-        holder.bind(currentItem, dataService)
+        holder.bind(currentItem, currentUser, dataService)
 
         holder.delButton.setOnClickListener { deletePost(currentItem._id, position) }
     }

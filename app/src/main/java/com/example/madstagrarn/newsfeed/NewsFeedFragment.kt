@@ -53,7 +53,7 @@ class NewsFeedFragment: Fragment() {
             ) {
                 if(response.isSuccessful) {
                     val receivedPostList: ArrayList<Post> = response.body()!!
-                    if(receivedPostList.size > postList.size) {
+                    if(receivedPostList.size > postList.size) { // refresh only when new posts are loaded
                         for(i in 0 until (receivedPostList.size - postList.size))
                             postList.add(i, receivedPostList[i])
                         adapter.notifyDataSetChanged()
