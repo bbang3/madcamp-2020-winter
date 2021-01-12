@@ -75,6 +75,16 @@ router.get('/:postId', async (req, res) => {
     }
 });
 
+// RETRIEVE newsfeed posts
+router.get('/newsfeed/:userId', async (req, res) => {
+    try {
+
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+});
+
+// DELETE single post
 router.delete('/:postId', async (req, res) => {
     try {
         console.log(req.params.postId);

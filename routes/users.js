@@ -108,7 +108,7 @@ router.put('/:userId', upload.single('image'), async (req, res) => {
             return res.status(404).send('User not found');
         }
         console.log(user);
-        if (user.profileImage && user.profileImage !== "default_user_profile") {
+        if (user.profileImage && user.profileImage !== "default_user_profile.png") {
             console.log(user.profileImage);
 
             const filePath = path.join(__dirname, `../images/${user.profileImage}`)
@@ -143,6 +143,19 @@ router.get('/:userId/posts', async (req, res) => {
         }
         res.json(postList);
 
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+});
+
+// RETRIEVE user profile image
+router.get('/:userId/profile', async (req, res) => {
+    console.log(req.params.userId);
+    try {
+        const user = await User.findById(req.params.userId);
+        console.log(user);
+        const filePath = path.join(__dirname, `../images/${user.profileImage}`);
+        return res.status(200).sendFile(filePath);
     } catch (error) {
         res.status(500).json({ message: error });
     }
