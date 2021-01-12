@@ -6,28 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".following.FollowingAddActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:layout_marginTop="7dp"
-            android:layout_marginLeft="5dp"
-            android:padding="7dp"
-            android:src="@drawable/healthtagram_font"
-            android:scaleType="fitStart"/>
-
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:src="@drawable/page_curl"
-            android:layout_gravity="right"/>
-
-    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -37,6 +15,28 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="7dp"
+                    android:layout_marginLeft="5dp"
+                    android:padding="7dp"
+                    android:src="@drawable/healthtagram_font"
+                    android:scaleType="fitStart"/>
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/page_curl"
+                    android:layout_gravity="right"/>
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_user_signed"

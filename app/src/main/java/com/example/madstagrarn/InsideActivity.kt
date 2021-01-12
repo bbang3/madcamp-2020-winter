@@ -25,12 +25,6 @@ class InsideActivity : AppCompatActivity() {
         currentUser = intent.extras!!.get("User") as User
         bundle.putSerializable("User", currentUser)
 
-        val logoutButton = findViewById<ImageView>(R.id.logout_button)
-        logoutButton.setOnClickListener {
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
-
         val tabs: TabLayout = findViewById(R.id.tabs)
         val tabViewPager: ViewPager = findViewById(R.id.tab_view_pager);
         val tabViewPagerAdapter = TabViewPagerAdapter(supportFragmentManager, bundle)
