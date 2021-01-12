@@ -67,11 +67,11 @@ class MyPageFragment: Fragment() {
 
         if(currentUser.profileImage.isNullOrEmpty() || currentUser.profileImage == "default_user_profile.png") {
             Glide.with(view)
-                .load(R.drawable.person_profile)
+                .load(R.drawable.profile)
                 .circleCrop()
                 .into(profileImageView)
             Glide.with(view)
-                .load(R.drawable.person_profile)
+                .load(R.drawable.profile)
                 .circleCrop()
                 .into(profileImageViewPost)
         } else {
@@ -148,6 +148,20 @@ class MyPageFragment: Fragment() {
                             if(response.isSuccessful) {
                                 Log.i("updateUser", response.body()!!.toString())
                                 currentUser = response.body()!!
+                                adapter.currentUser = currentUser
+                                adapter.notifyDataSetChanged()
+
+                                Glide.with(profileImageView)
+                                    .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
+                                    .thumbnail()
+                                    .circleCrop()
+                                    .into(profileImageView)
+
+                                Glide.with(profileImageViewPost)
+                                    .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
+                                    .thumbnail()
+                                    .circleCrop()
+                                    .into(profileImageViewPost)
                             }
                         }
                         override fun onFailure(call: Call<User>, t: Throwable) { t.printStackTrace() }
@@ -171,7 +185,7 @@ class MyPageFragment: Fragment() {
 
                     Log.i("loadUserPosts", "${postList.size}")
                 } else {
-                    Toast.makeText(context!!, "Failed to load posts", Toast.LENGTH_SHORT)
+                    Toast.makeText(context!!, "Failed to load posts", Toast.LENGTH_SHORT).show()
                 }
             }
 

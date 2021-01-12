@@ -23,7 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.coroutines.coroutineContext
 
-class PostAdapter(private val postList: ArrayList<Post>, private val currentUser: User, private val dataService: DataService) :
+class PostAdapter(private val postList: ArrayList<Post>, var currentUser: User, private val dataService: DataService) :
     RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
     private lateinit var view: View
 
@@ -42,7 +42,7 @@ class PostAdapter(private val postList: ArrayList<Post>, private val currentUser
 
             if(currentUser.profileImage.isNullOrEmpty() || currentUser.profileImage == "default_user_profile.png") {
                 Glide.with(itemView)
-                    .load(R.drawable.person_profile)
+                    .load(R.drawable.profile)
                     .circleCrop()
                     .into(profileImageView)
             } else {
