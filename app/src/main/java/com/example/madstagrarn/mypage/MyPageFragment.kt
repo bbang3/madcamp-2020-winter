@@ -43,8 +43,10 @@ class MyPageFragment: Fragment() {
         view.findViewById<TextView>(R.id.mypage_phone).text = currentUser.phoneNumber
 
         val profileImageView: ImageView = view.findViewById(R.id.mypage_profile_image)
+        profileImageView.setOnClickListener { modifyProfileImage() }
+
         Glide.with(view)
-            .load(dataService.BASE_URL + "image/default_user_profile.png")
+            .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
             .circleCrop()
             .into(profileImageView)
 
@@ -62,6 +64,10 @@ class MyPageFragment: Fragment() {
 
 
         return view
+    }
+
+    private fun modifyProfileImage() {
+        
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

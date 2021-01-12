@@ -10,6 +10,7 @@ data class User(
     var password: String?,
     var phoneNumber: String,
     var name: String,
+    var profileImage: String,
     var followingIds: ArrayList<String>,
     var posts: ArrayList<String>,
     var signUpDate: String
