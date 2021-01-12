@@ -58,12 +58,13 @@ class SignedUserAdapter(
             Glide.with(holder.itemView)
                 .load(R.drawable.person)
                 .circleCrop()
+                .placeholder(R.drawable.loading_spinner)
                 .into(holder.profileImage)
         } else {
             Glide.with(holder.itemView)
                 .load(dataService.BASE_URL + "image/${currentItem.profileImage}")
-                .thumbnail()
                 .circleCrop()
+                .placeholder(R.drawable.loading_spinner)
                 .into(holder.profileImage)
         }
 
