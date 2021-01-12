@@ -77,11 +77,18 @@ router.get('/:postId', async (req, res) => {
 
 // RETRIEVE newsfeed posts
 router.get('/newsfeed/:userId', async (req, res) => {
-    try {
+    console.log(req.params.userId);
+    const user = await User.findOne({ userId: req.params.userId });
 
-    } catch (error) {
-        res.status(500).json({ message: error });
+    let posts = [];
+    for (followingId of user.followingIds) {
+        const userPosts = await Post.find({ authorId: followingId });
+        posts.push(...userPosts);
     }
+    posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+    console.log(posts.length);
+
+    res.status(200).json(posts);
 });
 
 // DELETE single post
@@ -93,16 +100,13 @@ router.delete('/:postId', async (req, res) => {
         if (!delPost) {
             return res.status(404).json({ message: "Post not found" });
         }
-        console.log(delPost);
         const authorId = delPost.authorId;
         const author = await User.findById(authorId);
 
         if (!author) {
             return res.status(404).json({ message: "Author not found" });
         }
-        console.log("!");
 
-        console.log(delPost.images);
         for (image of delPost.images) {
             const filePath = path.join(__dirname, `../images/${image}`);
             console.log(filePath);
@@ -112,8 +116,6 @@ router.delete('/:postId', async (req, res) => {
         await Post.findByIdAndRemove(delPost._id);
         author.posts.remove(delPost._id);
         author.save();
-
-
         res.status(200).send('Delete success');
     } catch (error) {
         res.status(500).json({ message: error });

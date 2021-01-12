@@ -5,7 +5,6 @@ var userSchema = new Schema({
     isFacebookUser: { type: Boolean, default: false },
     userId: { type: String, required: true },
     password: String,
-    name: String,
     phoneNumber: String,
     name: { type: String, required: true },
     profileImage: { type: String, default: "default_user_profile.png" },

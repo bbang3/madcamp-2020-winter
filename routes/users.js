@@ -54,7 +54,7 @@ router.get('/:user_id/following', async (req, res) => {
         console.log(currentUser.followingIds);
 
         for (followingId of currentUser.followingIds) {
-            let followingUser = await User.findById(followingId, '-userId -password -signUpDate -followingIds');
+            let followingUser = await User.findById(followingId, '-password');
             followingUserArray.push(followingUser);
         }
         res.status(200).json(
@@ -111,7 +111,7 @@ router.post('/contact', async (req, res) => {
             let contactList = req.body;
             for (contact of contactList) {
                 console.log(contact);
-                let contactUser = await User.findOne({ phoneNumber: contact.phoneNumber }, '-userId -password -signUpDate -followingIds');
+                let contactUser = await User.findOne({ phoneNumber: contact.phoneNumber }, '-password');
                 if (contactUser !== null)
                     contactUserArray.push(contactUser);
             }
@@ -135,7 +135,7 @@ router.put('/:userId', upload.single('image'), async (req, res) => {
         if (user.profileImage && user.profileImage !== "default_user_profile.png") {
             console.log(user.profileImage);
 
-            const filePath = path.join(__dirname, `../images/${user.profileImage}`)
+            const filePath = path.join(__dirname, `./.images/${user.profileImage}`)
             console.log(filePath);
             await fs.unlink(filePath);
         }
@@ -200,7 +200,7 @@ router.post('/login', async (req, res) => {
 });
 // Add user to followinglist
 router.put('/follow/:user_id/:followingId', async (req, res) => {
-    try{
+    try {
         console.log(req.params)
         let currentUser = await User.findById(req.params.user_id);
         currentUser.followingIds.push(req.params.followingId)
@@ -236,7 +236,7 @@ router.delete('/unfollow/:user_id/:followingId', async (req, res) => {
                 }
             }
         );
-        res.status(200).json(currentUser);
+        res.status(200).json(updatedUser);
     } catch (error) {
         res.status(500).json({ message: error });
     }
