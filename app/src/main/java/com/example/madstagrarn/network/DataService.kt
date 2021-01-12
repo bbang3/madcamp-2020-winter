@@ -12,7 +12,7 @@ import retrofit2.http.*
 
 
 class DataService {
-    val BASE_URL = "http://192.249.18.244:8080/"
+    val BASE_URL = "http://192.249.18.246:8080/"
     var retrofitClient = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
@@ -34,7 +34,18 @@ interface RetrofitService {
 
     @FormUrlEncoded
     @POST("api/user/login")
-    fun loginRequest(@Field("userId") userId: String, @Field("password") password: String) : Call<User>
+    fun loginRequest(@Field("isFacebookUser") isFacebookUser: Boolean, @Field("userId") userId: String, @Field("password") password: String) : Call<User>
+
+    @FormUrlEncoded
+    @POST("api/user/signup")
+    fun signupRequest(@Field("isFacebookUser") isFacebookUser: Boolean, @Field("userId") userId: String, @Field("password") password: String, @Field("name") name: String, @Field("phoneNumber") phoneNumber: String): Call<User>
+
+    @FormUrlEncoded
+    @PUT("api/user/follow")
+    fun followRequest(@Field("id") id: String, @Field("followingId") followingId: String): Call<User>
+
+    @DELETE("api/user/unfollow/{id}/{followingId}")
+    fun unfollowRequest(@Path("id") id: String, @Path("followingId") followingId: String): Call<User>
 
     @Multipart
     @POST("api/post")

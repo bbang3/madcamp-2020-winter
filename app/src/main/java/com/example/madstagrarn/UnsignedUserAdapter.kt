@@ -3,6 +3,7 @@ package com.example.madstagrarn
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,7 +15,7 @@ class UnsignedUserAdapter (private val phoneList: ArrayList<Phone>)
         var name: TextView = itemView.findViewById(R.id.name_text)
         var phoneNumber: TextView = itemView.findViewById(R.id.phonenumber_text)
         var profileImage: ImageView = itemView.findViewById(R.id.profile_image)
-        var inviteButton: ImageButton = itemView.findViewById(R.id.invite_button)
+        var inviteButton: Button = itemView.findViewById(R.id.invite_button)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnsignedUserViewHolder {
@@ -27,7 +28,7 @@ class UnsignedUserAdapter (private val phoneList: ArrayList<Phone>)
 
         holder.name.text = currentItem.name
         holder.phoneNumber.text = currentItem.phoneNumber
-        holder.profileImage.setImageResource(R.drawable.ic_baseline_person_add_24)
+        holder.profileImage.setImageResource(R.drawable.person)
     }
 
     override fun getItemCount(): Int {
