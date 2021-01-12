@@ -100,21 +100,24 @@ class MyPageFragment: Fragment() {
             Glide.with(view)
                 .load(R.drawable.profile)
                 .circleCrop()
+                .placeholder(R.drawable.loading_spinner)
                 .into(profileImageView)
             Glide.with(view)
                 .load(R.drawable.profile)
                 .circleCrop()
+                .placeholder(R.drawable.loading_spinner)
                 .into(profileImageViewPost)
         } else {
             Glide.with(view)
                 .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
-                .thumbnail()
                 .circleCrop()
+                .placeholder(R.drawable.loading_spinner)
                 .into(profileImageView)
+
             Glide.with(view)
                 .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
-                .thumbnail()
                 .circleCrop()
+                .placeholder(R.drawable.loading_spinner)
                 .into(profileImageViewPost)
         }
 

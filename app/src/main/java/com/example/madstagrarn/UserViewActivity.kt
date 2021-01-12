@@ -44,12 +44,13 @@ class UserViewActivity : AppCompatActivity() {
             Glide.with(this)
                 .load(R.drawable.profile)
                 .circleCrop()
+                .placeholder(R.drawable.loading_spinner)
                 .into(profileImageView)
         } else {
             Glide.with(this)
                 .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
-                .thumbnail()
                 .circleCrop()
+                .placeholder(R.drawable.loading_spinner)
                 .into(profileImageView)
         }
 

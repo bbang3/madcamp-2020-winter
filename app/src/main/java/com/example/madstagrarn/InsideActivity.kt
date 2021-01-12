@@ -1,46 +1,66 @@
 package com.example.madstagrarn
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.ImageView
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import com.example.madstagrarn.dataclass.User
+import com.example.madstagrarn.following.FollowingFragment
+import com.example.madstagrarn.mypage.MyPageFragment
 import com.example.madstagrarn.network.DataService
-import com.google.android.material.tabs.TabLayout
+import com.example.madstagrarn.newsfeed.NewsFeedFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class InsideActivity : AppCompatActivity() {
     private val dataService: DataService = DataService()
     lateinit var currentUser: User
 
+    private val fragmentOne = FollowingFragment()
+    private val fragmentTwo = NewsFeedFragment()
+    private val fragmentThree = MyPageFragment()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_inside)
-        val actionBar: ActionBar? = getSupportActionBar()
-        actionBar?.hide()
 
         val bundle = Bundle()
         currentUser = intent.extras!!.get("User") as User
         bundle.putSerializable("User", currentUser)
 
-        val tabs: TabLayout = findViewById(R.id.tabs)
-        val tabViewPager: ViewPager = findViewById(R.id.tab_view_pager);
-        val tabViewPagerAdapter = TabViewPagerAdapter(supportFragmentManager, bundle)
-        tabViewPager.adapter = tabViewPagerAdapter
-        tabs.setupWithViewPager(tabViewPager)
+        fragmentOne.arguments = bundle
+        fragmentTwo.arguments = bundle
+        fragmentThree.arguments = bundle
 
-        tabViewPager.setCurrentItem(1)
-        tabs.getTabAt(0)!!.setIcon(R.drawable.search)
-        tabs.getTabAt(1)!!.setIcon(R.drawable.home)
-        tabs.getTabAt(2)!!.setIcon(R.drawable.person)
+        replaceFragment(fragmentTwo)
+
+        findViewById<BottomNavigationView>(R.id.bottom_navbar).setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.menu_following -> {
+                    replaceFragment(fragmentOne)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.menu_home -> {
+                    replaceFragment(fragmentTwo)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                R.id.menu_mypage -> {
+                    replaceFragment(fragmentThree)
+                    return@setOnNavigationItemSelectedListener true
+                }
+                else ->
+                    return@setOnNavigationItemSelectedListener false
+            }
+        }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.frameLayout, fragment)
+        ft.commit()
     }
 
     override fun onBackPressed() {
-    }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
     }
 }

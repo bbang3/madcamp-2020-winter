@@ -53,13 +53,13 @@ class NewsFeedPostAdapter(private val postList: ArrayList<Post>, private val dat
 
             Glide.with(itemView)
                 .load(dataService.BASE_URL + "api/user/${post.authorId}/profile")
-                .thumbnail()
                 .circleCrop()
+                .placeholder(R.drawable.loading_spinner)
                 .into(profileImageView)
 
             Glide.with(itemView)
                 .load("${dataService.BASE_URL}image/${post.images[0]}")
-                .thumbnail()
+                .placeholder(R.drawable.loading_spinner)
                 .into(image)
         }
     }

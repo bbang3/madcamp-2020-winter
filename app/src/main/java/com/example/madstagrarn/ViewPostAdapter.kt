@@ -44,18 +44,19 @@ class ViewPostAdapter(private val postList: ArrayList<Post>, var currentUser: Us
                 Glide.with(itemView)
                     .load(R.drawable.profile)
                     .circleCrop()
+                    .placeholder(R.drawable.loading_spinner)
                     .into(profileImageView)
             } else {
                 Glide.with(itemView)
                     .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
-                    .thumbnail()
                     .circleCrop()
+                    .placeholder(R.drawable.loading_spinner)
                     .into(profileImageView)
             }
 
             Glide.with(itemView)
                 .load("${dataService.BASE_URL}image/${post.images[0]}")
-                .thumbnail()
+                .placeholder(R.drawable.loading_spinner)
                 .into(image)
         }
 
