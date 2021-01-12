@@ -52,6 +52,7 @@ class PostAddActivity : AppCompatActivity() {
         }
         addButton.setOnClickListener {
             addPost()
+            Toast.makeText(this@PostAddActivity, tempFile.toString(), Toast.LENGTH_SHORT).show()
         }
 
         image = findViewById(com.example.madstagrarn.R.id.addpost_image)
@@ -152,7 +153,7 @@ class PostAddActivity : AppCompatActivity() {
             .setPermissionListener(permissionListener)
             .setRationaleMessage(resources.getString(R.string.permission_2))
             .setDeniedMessage(resources.getString(R.string.permission_1))
-            .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+            .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
             .check()
 
         return true

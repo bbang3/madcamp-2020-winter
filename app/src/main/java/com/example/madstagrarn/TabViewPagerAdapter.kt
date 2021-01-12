@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.example.madstagrarn.mypage.MyPageFragment
+import com.example.madstagrarn.newsfeed.NewsFeedFragment
 
 class TabViewPagerAdapter(fm: FragmentManager, val bundle: Bundle): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
     private var fragmentList = listOf(
