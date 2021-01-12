@@ -48,8 +48,8 @@ class MyPageFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentUser = arguments?.getSerializable("User") as User
-
         loadUserPosts()
+        tedPermission()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -74,7 +74,6 @@ class MyPageFragment: Fragment() {
                 .into(profileImageView)
         }
 
-
         val addPostTextView: TextView = view.findViewById(R.id.add_post_text)
         addPostTextView.setOnClickListener {
             val intent = Intent(view.context, PostAddActivity::class.java)
@@ -86,7 +85,6 @@ class MyPageFragment: Fragment() {
         rvPost.setHasFixedSize(true)
         rvPost.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, true)
         rvPost.adapter = adapter
-
 
         return view
     }
@@ -123,7 +121,11 @@ class MyPageFragment: Fragment() {
 
                 if(columnIndex != null) {
                     tempFile = File(cursor?.getString(columnIndex))
-                    profileImageView.setImageBitmap(BitmapFactory.decodeFile(tempFile!!.absolutePath))
+                    Glide.with(profileImageView)
+                        .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
+                        .thumbnail()
+                        .circleCrop()
+                        .into(profileImageView)
 
                     val profileImageFile: File = tempFile as File
                     val reqFile = profileImageFile.asRequestBody("image/${profileImageFile.extension}".toMediaTypeOrNull())

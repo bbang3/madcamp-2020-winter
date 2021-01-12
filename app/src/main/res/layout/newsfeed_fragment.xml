@@ -6,16 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".newsfeed.NewsFeedFragment">
 
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_newsfeed_posts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="center">
-        <TextView
-            android:id="@+id/NewsFeed"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NewsFeed"
-            android:textSize="30sp"/>
-    </LinearLayout>
-
+        tools:listitem="@layout/newsfeed_post_item"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
