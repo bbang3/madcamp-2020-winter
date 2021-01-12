@@ -38,7 +38,7 @@ class MyPageFragment: Fragment() {
     private lateinit var currentUser: User
 
     private var postList: ArrayList<Post> = ArrayList()
-    private var adapter: PostAdapter = PostAdapter(postList, dataService)
+    private lateinit var adapter: PostAdapter
 
     private var tempFile: File? = null
     private val PICK_FROM_ALBUM = 1
@@ -49,6 +49,7 @@ class MyPageFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentUser = arguments?.getSerializable("User") as User
+        adapter = PostAdapter(postList, currentUser, dataService)
         loadUserPosts()
         tedPermission()
     }

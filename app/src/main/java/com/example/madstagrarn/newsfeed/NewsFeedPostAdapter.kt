@@ -19,11 +19,11 @@ import retrofit2.Response
 class NewsFeedPostAdapter(private val postList: ArrayList<Post>, private val dataService: DataService) :
     RecyclerView.Adapter<NewsFeedPostAdapter.NewsFeedPostViewHolder>() {
     class NewsFeedPostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var image: ImageView = itemView.findViewById(R.id.post_image)
-        var description: TextView = itemView.findViewById(R.id.post_description)
-        var postDate: TextView = itemView.findViewById(R.id.post_date)
-        val author: TextView = itemView.findViewById(R.id.post_author)
-        val profileImageView: ImageView = itemView.findViewById(R.id.post_profile)
+        var image: ImageView = itemView.findViewById(R.id.newsfeed_post_image)
+        var description: TextView = itemView.findViewById(R.id.newsfeed_post_description)
+        var postDate: TextView = itemView.findViewById(R.id.newsfeed_post_date)
+        val author: TextView = itemView.findViewById(R.id.newsfeed_post_author)
+        val profileImageView: ImageView = itemView.findViewById(R.id.newsfeed_post_profile)
 
         fun bind(post: Post, dataService: DataService) {
             description.text = post.description
@@ -45,7 +45,7 @@ class NewsFeedPostAdapter(private val postList: ArrayList<Post>, private val dat
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsFeedPostViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.mypost_item, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.newsfeed_post_item, parent, false)
         return NewsFeedPostViewHolder(view)
     }
 

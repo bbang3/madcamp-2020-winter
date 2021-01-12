@@ -5,7 +5,9 @@ import android.content.Intent
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.*
@@ -45,7 +47,6 @@ class PostAddActivity : AppCompatActivity() {
         currentUser = intent.extras?.get("User") as User
         tedPermission()
 
-
         val addButton = findViewById<ImageButton>(R.id.add_post_button)
         val cancelButton = findViewById<ImageButton>(R.id.add_cancel_button)
 
@@ -60,10 +61,8 @@ class PostAddActivity : AppCompatActivity() {
 
         image = findViewById(com.example.madstagrarn.R.id.addpost_image)
         image.setOnClickListener {
-            tedPermission()
-            goToAlbum()
             if(isPermissionGranted) {
-            } else {
+                goToAlbum()
             }
         }
     }
@@ -123,9 +122,15 @@ class PostAddActivity : AppCompatActivity() {
 
                 if(columnIndex != null) {
                     tempFile = File(cursor?.getString(columnIndex))
-                    image.setImageBitmap(BitmapFactory.decodeFile(tempFile!!.absolutePath))
-                }
-                if(tempFile != null) {
+
+                    if (Build.VERSION.SDK_INT >= 29) {
+                        val source = ImageDecoder.createSource(
+                            this.contentResolver, Uri.fromFile(tempFile)
+                        )
+                        image.setImageBitmap(ImageDecoder.decodeBitmap(source))
+                    } else {
+                        image.setImageBitmap(BitmapFactory.decodeFile(tempFile!!.absolutePath))
+                    }
                 }
             } finally {
                 cursor?.close()
@@ -156,7 +161,7 @@ class PostAddActivity : AppCompatActivity() {
             .setPermissionListener(permissionListener)
             .setRationaleMessage(resources.getString(R.string.permission_2))
             .setDeniedMessage(resources.getString(R.string.permission_1))
-            .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)
+            .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .check()
 
         return true

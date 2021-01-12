@@ -23,7 +23,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.coroutines.coroutineContext
 
-class PostAdapter(private val postList: ArrayList<Post>, private val dataService: DataService) :
+class PostAdapter(private val postList: ArrayList<Post>, private val currentUser: User, private val dataService: DataService) :
     RecyclerView.Adapter<PostAdapter.PostViewHolder>() {
     private lateinit var view: View
 
@@ -35,17 +35,23 @@ class PostAdapter(private val postList: ArrayList<Post>, private val dataService
         val profileImageView: ImageView = itemView.findViewById(R.id.post_profile)
         var delButton: ImageButton = itemView.findViewById(R.id.post_delete_button)
 
-        fun bind(post: Post, dataService: DataService) {
+        fun bind(post: Post, currentUser: User, dataService: DataService) {
             description.text = post.description
             postDate.text = post.date
             author.text = post.author
 
-            Glide.with(itemView)
-                .load(dataService.BASE_URL + "api/user/${post.authorId}/profile")
-//                .signature(ObjectKey(System.currentTimeMillis() / (3 * 1000))) // refresh every 3 seconds
-                .thumbnail()
-                .circleCrop()
-                .into(profileImageView)
+            if(currentUser.profileImage.isNullOrEmpty() || currentUser.profileImage == "default_user_profile.png") {
+                Glide.with(itemView)
+                    .load(R.drawable.person_profile)
+                    .circleCrop()
+                    .into(profileImageView)
+            } else {
+                Glide.with(itemView)
+                    .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
+                    .thumbnail()
+                    .circleCrop()
+                    .into(profileImageView)
+            }
 
             Glide.with(itemView)
                 .load("${dataService.BASE_URL}image/${post.images[0]}")
@@ -62,7 +68,7 @@ class PostAdapter(private val postList: ArrayList<Post>, private val dataService
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
         val currentItem = postList[position]
-        holder.bind(currentItem, dataService)
+        holder.bind(currentItem, currentUser, dataService)
 
         holder.delButton.setOnClickListener {
             val inflater = holder.itemView.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
