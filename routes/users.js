@@ -33,7 +33,6 @@ router.get('/', async (req, res) => {
     } catch (error) {
         res.status(500).json({ message: error });
     }
-
 });
 
 // GET Specific user
@@ -67,12 +66,37 @@ router.get('/:user_id/following', async (req, res) => {
 });
 
 // user ADD
-router.post('/', async (req, res) => {
+router.post('/signup', async (req, res) => {
     console.log(req.body);
-    let newUser = new User(req.body);
+    const existUser = await User.find({ isFacebookUser: req.body.isFacebookUser, userId: req.body.userId })
     try {
-        const output = await newUser.save();
-        res.status(200).json(output);
+        if (existUser.length > 0) {
+            res.status(404).send("User already exist");
+        }
+        else {
+            let newUser = new User(req.body);
+            const output = await newUser.save();
+            res.status(200).json(output);
+        }
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+})
+
+// login request
+router.post('/login', async (req, res) => {
+    try {
+        console.log(req.body.isFacebookUser, req.body.userId, req.body.password);
+        let currentUser
+        if (!req.body.isFacebookUser) {
+            currentUser = await User.findOne({ isFacebookUser: req.body.isFacebookUser, userId: req.body.userId, password: req.body.password });
+        }
+        else {
+            currentUser = await User.findOne({ isFacebookUser: req.body.isFacebookUser, userId: req.body.userId });
+        }
+        console.log(currentUser);
+        if (currentUser === null) res.status(404).send("User not found");
+        else res.status(200).json(currentUser);
     } catch (error) {
         res.status(500).json({ message: error });
     }
@@ -148,6 +172,7 @@ router.get('/:userId/posts', async (req, res) => {
     }
 });
 
+
 // RETRIEVE user profile image
 router.get('/:userId/profile', async (req, res) => {
     console.log(req.params.userId);
@@ -169,6 +194,49 @@ router.post('/login', async (req, res) => {
         console.log(currentUser);
         if (currentUser === null) res.status(404).send("User not found");
         else res.status(200).json(currentUser);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+});
+// Add user to followinglist
+router.put('/follow', async (req, res) => {
+    try {
+        console.log(req.body)
+        let currentUser = await User.findById(req.body.id);
+        currentUser.followingIds.push(req.body.followingId)
+        console.log(currentUser)
+        const updatedUser = await User.findByIdAndUpdate(
+            currentUser._id,
+            currentUser,
+            function (err, result) {
+                if (err) {
+                    res.send(err);
+                }
+            }
+        );
+        res.status(200).json(currentUser);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+})
+
+// Add user to followinglist
+router.delete('/unfollow/:user_id/:followingId', async (req, res) => {
+    console.log(req.params)
+    try {
+        let currentUser = await User.findById(req.params.user_id);
+        currentUser.followingIds.remove(req.params.followingId)
+        console.log(currentUser)
+        const updatedUser = await User.findByIdAndUpdate(
+            currentUser._id,
+            currentUser,
+            function (err, result) {
+                if (err) {
+                    res.send(err);
+                }
+            }
+        );
+        res.status(200).json(currentUser);
     } catch (error) {
         res.status(500).json({ message: error });
     }
