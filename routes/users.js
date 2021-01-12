@@ -135,7 +135,7 @@ router.put('/:userId', upload.single('image'), async (req, res) => {
         if (user.profileImage && user.profileImage !== "default_user_profile.png") {
             console.log(user.profileImage);
 
-            const filePath = path.join(__dirname, `./.images/${user.profileImage}`)
+            const filePath = path.join(__dirname, `../images/${user.profileImage}`)
             console.log(filePath);
             await fs.unlink(filePath);
         }
@@ -165,6 +165,7 @@ router.get('/:userId/posts', async (req, res) => {
             postList.push(post);
             console.log(post);
         }
+        postList.sort((a, b) => new Date(b.date) - new Date(a.date));
         res.json(postList);
 
     } catch (error) {
