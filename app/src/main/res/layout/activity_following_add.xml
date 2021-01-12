@@ -13,8 +13,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:fontFamily="casual"
+            android:layout_weight="1"
             android:padding="10dp"
             android:text="Madstagrarn"
             android:textColor="@color/facebook"
@@ -22,8 +22,8 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/page_curl"
             android:layout_gravity="right"/>
 

@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -30,6 +31,12 @@ class InsideActivity : AppCompatActivity() {
         currentUser = intent.extras!!.get("User") as User
         bundle.putSerializable("User", currentUser)
 
+        val logoutButton = findViewById<ImageView>(R.id.logout_button)
+        logoutButton.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+
         val tabs: TabLayout = findViewById(R.id.tabs)
         val tabViewPager: ViewPager = findViewById(R.id.tab_view_pager);
         val tabViewPagerAdapter = TabViewPagerAdapter(supportFragmentManager, bundle)
@@ -47,7 +54,5 @@ class InsideActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-//        loadCurrentUserInfo()
     }
 }

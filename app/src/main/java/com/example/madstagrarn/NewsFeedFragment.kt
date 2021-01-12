@@ -24,18 +24,4 @@ class NewsFeedFragment: Fragment() {
         val view: View = inflater.inflate(R.layout.newsfeed_fragment, container, false)
         return view
     }
-
-    private fun loadCurrentUserInfo() {
-        dataService.service.getUser(currentUser._id).enqueue(object : Callback<User> {
-            override fun onResponse(call: Call<User>, response: Response<User>) {
-                if(response.isSuccessful) {
-                    Log.i("loadCurrentUserInfo", response.body()!!.toString())
-                    currentUser = response.body()!!
-                }
-            }
-            override fun onFailure(call: Call<User>, t: Throwable) {
-                t.printStackTrace()
-            }
-        })
-    }
 }
