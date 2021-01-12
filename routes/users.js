@@ -173,11 +173,11 @@ router.get('/:userId/posts', async (req, res) => {
 });
 
 // Add user to followinglist
-router.put('/follow', async (req, res) => {
+router.put('/follow/:user_id/:followingId', async (req, res) => {
     try{
-        console.log(req.body)
-        let currentUser = await User.findById(req.body.id);
-        currentUser.followingIds.push(req.body.followingId)
+        console.log(req.params)
+        let currentUser = await User.findById(req.params.user_id);
+        currentUser.followingIds.push(req.params.followingId)
         console.log(currentUser)
         const updatedUser = await User.findByIdAndUpdate(
             currentUser._id,
