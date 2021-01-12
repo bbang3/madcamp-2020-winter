@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const path = require('path');
-const fs = require('fs');
+const fs = require('fs/promises');
 const multer = require('multer');
 
 const Post = require('../models/post.js');
@@ -91,9 +91,18 @@ router.delete('/:postId', async (req, res) => {
             return res.status(404).json({ message: "Author not found" });
         }
         console.log("!");
+
+        console.log(delPost.images);
+        for (image of delPost.images) {
+            const filePath = path.join(__dirname, `../images/${image}`);
+            console.log(filePath);
+            await fs.unlink(filePath);
+        }
+
         await Post.findByIdAndRemove(delPost._id);
         author.posts.remove(delPost._id);
         author.save();
+
 
         res.status(200).send('Delete success');
     } catch (error) {

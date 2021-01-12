@@ -3,6 +3,28 @@ const router = express.Router();
 const User = require('../models/user.js');
 const Post = require('../models/post.js');
 
+const path = require('path');
+const fs = require('fs/promises');
+const multer = require('multer');
+
+// handling file upload
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => { cb(null, path.join(__dirname, '../images')); },
+    filename: (req, file, cb) => { cb(null, `${file.fieldname}-${Date.now()}${path.extname(file.originalname)}`); } // format: {fieldname}-{date} (with ext)
+});
+
+const fileFilter = (req, file, cb) => {
+    if (file.mimetype === "image/jpg" ||
+        file.mimetype === "image/jpeg" ||
+        file.mimetype === "image/png") {
+        cb(null, true);
+    } else {
+        req.fileValidationError = 'Image uploaded is not of type jpg/jpeg or png';
+        cb(null, false);
+    }
+}
+let upload = multer({ storage: storage, fileFilter: fileFilter });
+
 // GET ALL (ONLY FOR DEBUGGING)
 router.get('/', async (req, res) => {
     try {
@@ -17,7 +39,7 @@ router.get('/', async (req, res) => {
 // GET Specific user
 router.get('/:user_id', async (req, res) => {
     try {
-        const output = await User.findById(req.params.user_id);
+        const output = await User.findById(req.params.user_id, '-password');
         res.status(200).json(output);
     } catch (error) {
         res.status(500).json({ message: error });
@@ -75,6 +97,33 @@ router.post('/contact', async (req, res) => {
         res.status(500).json({ message: error });
     }
 });
+
+// update user information
+router.put('/:userId', upload.single('image'), async (req, res) => {
+    console.log(req.params.userId);
+    console.log(req.body);
+    try {
+        let user = await User.findOne({ userId: req.params.userId });
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        console.log(user);
+        if (user.profileImage && user.profileImage !== "default_user_profile") {
+            console.log(user.profileImage);
+
+            const filePath = path.join(__dirname, `../images/${user.profileImage}`)
+            console.log(filePath);
+            await fs.unlink(filePath);
+        }
+        console.log(req.file);
+        user.profileImage = req.file.filename;
+        user.save();
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+})
 
 // RETRIEVE user's posts
 router.get('/:userId/posts', async (req, res) => {

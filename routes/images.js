@@ -52,39 +52,37 @@ router.get('/:filename', async (req, res) => {
   }
 });
 
-// CREATE single image
+// UPDATE single image
 router.post('/', upload.single('image'), async (req, res) => {
   // console.log(req.file);
   // console.log(req);
   if (req.fileValidationError) { return res.status(500).send(req.fileValidationError); }
 
-  // try {
-  //   const image = new Image({
-  //     filename: req.file.originalname,
-  //     mimeType: req.file.mimetype,
-  //     path: path.join(__dirname, `../images/${req.file.filename}`)
-  //   });
+  console.log(req.file);
+  console.log(req.body);
+  res.status(200).send('Image upload success');
+});
 
-  // const output = await image.save();
+// CREATE single image
+router.put('/', upload.single('image'), async (req, res) => {
+  // console.log(req.file);
+  // console.log(req);
+  if (req.fileValidationError) { return res.status(500).send(req.fileValidationError); }
+
   console.log(req.file);
   console.log(req.body);
   res.status(200).send('Image upload success');
 });
 
 // DELETE single image
-router.delete('/:image_id', async (req, res) => {
-  console.log(req.params.image_id)
-
+router.delete('/:filename', async (req, res) => {
   try {
-    const delResult = await Image.deleteOne({ _id: req.params.image_id });
-    if (delResult.deletedCount == 0) {
-      res.status(404).json({ message: "Image not found" })
-    }
-    else {
-      res.status(200).json({ message: "Delete success" })
-    }
+    const filePath = path.join(__dirname, '../images', req.params.filename);
+    console.log(filePath);
+
+    fs.unlink(filePath);
+    res.status(200).send('Image delete success');
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: error });
   }
 });
