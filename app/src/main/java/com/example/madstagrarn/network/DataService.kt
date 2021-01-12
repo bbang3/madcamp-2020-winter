@@ -23,6 +23,7 @@ class DataService {
 
 interface RetrofitService {
 
+    /* for USER */
     @GET("api/user/{id}/following")
     fun getFollowingUsers(@Path("id") id: String) : Call<ArrayList<User>>
 
@@ -40,26 +41,32 @@ interface RetrofitService {
     @POST("api/user/signup")
     fun signupRequest(@Field("isFacebookUser") isFacebookUser: Boolean, @Field("userId") userId: String, @Field("password") password: String, @Field("name") name: String, @Field("phoneNumber") phoneNumber: String): Call<User>
 
-    @PUT("api/user/follow/{id}/{followingId}")
-    fun followRequest(@Path("id") id: String, @Path("followingId") followingId: String): Call<User>
+    @FormUrlEncoded
+    @PUT("api/user/follow")
+    fun followRequest(@Field("id") id: String, @Field("followingId") followingId: String): Call<User>
 
     @DELETE("api/user/unfollow/{id}/{followingId}")
     fun unfollowRequest(@Path("id") id: String, @Path("followingId") followingId: String): Call<User>
+
+    @GET("api/user/{id}/posts")
+    fun getUserPosts(@Path("id") id: String) : Call<ArrayList<Post>>
+
+    @Multipart
+    @PUT("api/user/{userId}")
+    fun updateUser(@Path("userId") id: String, @Part profileImage: MultipartBody.Part) : Call<User>
+
+    /* for POST */
+    @GET("api/post/{postId}")
+    fun getPost(@Path("postId") postId: String) : Call<Post>
+
+    @GET("api/post/newsfeed/{id}")
+    fun getNewsFeedPosts(@Path("id") id: String) : Call<ArrayList<Post>>
 
     @Multipart
     @POST("api/post")
     fun uploadPost(@Part("userId") id: RequestBody, @Part image:MultipartBody.Part, @Part("description") description: RequestBody) : Call<Post>
 
-    @GET("api/post/{postId}")
-    fun getPost(@Path("postId") postId: String) : Call<Post>
-
-    @GET("api/user/{id}/posts")
-    fun getUserPosts(@Path("id") id: String) : Call<ArrayList<Post>>
-
     @DELETE("api/post/{id}")
     fun deletePost(@Path("id") id: String) : Call<ResponseBody>
 
-    @Multipart
-    @PUT("api/user/{userId}")
-    fun updateUser(@Path("userId") id: String, @Part profileImage: MultipartBody.Part) : Call<User>
 }
