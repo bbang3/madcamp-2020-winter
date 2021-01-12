@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.madstagrarn.ParseDate
 import com.example.madstagrarn.dataclass.Post
 import com.example.madstagrarn.R
 import com.example.madstagrarn.dataclass.User
@@ -37,7 +38,7 @@ class PostAdapter(private val postList: ArrayList<Post>, var currentUser: User, 
 
         fun bind(post: Post, currentUser: User, dataService: DataService) {
             description.text = post.description
-            postDate.text = post.date
+            postDate.text = ParseDate.dateConvert(post.date)
             author.text = post.author
 
             if(currentUser.profileImage.isNullOrEmpty() || currentUser.profileImage == "default_user_profile.png") {

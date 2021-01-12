@@ -47,7 +47,7 @@ class PostAddActivity : AppCompatActivity() {
         currentUser = intent.extras?.get("User") as User
         tedPermission()
 
-        val addButton = findViewById<ImageButton>(R.id.add_post_button)
+        val addButton = findViewById<Button>(R.id.add_post_button)
         val cancelButton = findViewById<ImageButton>(R.id.add_cancel_button)
 
         cancelButton.setOnClickListener {

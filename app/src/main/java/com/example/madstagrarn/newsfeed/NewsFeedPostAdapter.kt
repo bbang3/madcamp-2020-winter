@@ -1,12 +1,14 @@
 package com.example.madstagrarn.newsfeed
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.madstagrarn.ParseDate
 import com.example.madstagrarn.dataclass.Post
 import com.example.madstagrarn.R
 import com.example.madstagrarn.UserViewActivity
@@ -16,6 +18,9 @@ import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NewsFeedPostAdapter(private val postList: ArrayList<Post>, private val dataService: DataService) :
     RecyclerView.Adapter<NewsFeedPostAdapter.NewsFeedPostViewHolder>() {
@@ -29,7 +34,7 @@ class NewsFeedPostAdapter(private val postList: ArrayList<Post>, private val dat
 
         fun bind(post: Post, dataService: DataService) {
             description.text = post.description
-            postDate.text = post.date
+            postDate.text = ParseDate.dateConvert(post.date)
             author.text = post.author
             container.setOnClickListener { view ->
                 dataService.service.getUser(post.authorId).enqueue(object: Callback<User>{
@@ -57,7 +62,6 @@ class NewsFeedPostAdapter(private val postList: ArrayList<Post>, private val dat
                 .thumbnail()
                 .into(image)
         }
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsFeedPostViewHolder {

@@ -37,7 +37,7 @@ class ViewPostAdapter(private val postList: ArrayList<Post>, var currentUser: Us
 
         fun bind(post: Post, currentUser: User, dataService: DataService) {
             description.text = post.description
-            postDate.text = post.date
+            postDate.text = ParseDate.dateConvert(post.date)
             author.text = post.author
 
             if(currentUser.profileImage.isNullOrEmpty() || currentUser.profileImage == "default_user_profile.png") {
