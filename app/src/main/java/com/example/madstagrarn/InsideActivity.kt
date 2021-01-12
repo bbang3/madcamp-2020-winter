@@ -1,20 +1,14 @@
 package com.example.madstagrarn
 
-import android.app.Notification
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import com.example.madstagrarn.dataclass.User
 import com.example.madstagrarn.network.DataService
 import com.google.android.material.tabs.TabLayout
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import java.io.Serializable
 
 
 class InsideActivity : AppCompatActivity() {

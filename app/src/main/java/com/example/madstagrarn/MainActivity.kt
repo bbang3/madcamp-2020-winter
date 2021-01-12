@@ -2,20 +2,18 @@ package com.example.madstagrarn
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.madstagrarn.dataclass.User
 import com.example.madstagrarn.network.DataService
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
-import org.w3c.dom.Text
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
-import kotlin.concurrent.thread
 
 
 class MainActivity : AppCompatActivity() {

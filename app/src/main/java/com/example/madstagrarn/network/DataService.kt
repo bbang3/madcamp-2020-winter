@@ -1,7 +1,7 @@
 package com.example.madstagrarn.network
-import com.example.madstagrarn.Phone
-import com.example.madstagrarn.Post
-import com.example.madstagrarn.User
+import com.example.madstagrarn.dataclass.Phone
+import com.example.madstagrarn.dataclass.Post
+import com.example.madstagrarn.dataclass.User
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.ResponseBody

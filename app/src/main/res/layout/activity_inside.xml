@@ -41,7 +41,8 @@
             android:id="@+id/tab_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/tabs" />
+            android:layout_above="@+id/tabs"
+            android:overScrollMode="never"/>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"

@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import com.example.madstagrarn.dataclass.User
 import com.example.madstagrarn.network.DataService
 import com.facebook.*
-import com.facebook.login.Login
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import retrofit2.Call

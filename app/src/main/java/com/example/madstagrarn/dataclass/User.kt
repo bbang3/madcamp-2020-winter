@@ -1,4 +1,4 @@
-package com.example.madstagrarn
+package com.example.madstagrarn.dataclass
 
 import java.io.Serializable
 import java.text.SimpleDateFormat

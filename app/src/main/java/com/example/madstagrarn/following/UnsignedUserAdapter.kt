@@ -1,4 +1,4 @@
-package com.example.madstagrarn
+package com.example.madstagrarn.following
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,8 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.madstagrarn.dataclass.Phone
+import com.example.madstagrarn.R
 
 class UnsignedUserAdapter (private val phoneList: ArrayList<Phone>)
     : RecyclerView.Adapter<UnsignedUserAdapter.UnsignedUserViewHolder>() {
@@ -19,7 +21,9 @@ class UnsignedUserAdapter (private val phoneList: ArrayList<Phone>)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UnsignedUserViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.unsigned_user_item, parent, false)
-        return UnsignedUserViewHolder(view)
+        return UnsignedUserViewHolder(
+            view
+        )
     }
 
     override fun onBindViewHolder(holder: UnsignedUserViewHolder, position: Int) {

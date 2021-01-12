@@ -1,7 +1,6 @@
-package com.example.madstagrarn
+package com.example.madstagrarn.following
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
@@ -10,9 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.provider.Settings
-import android.util.AttributeSet
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -23,9 +20,10 @@ import com.example.madstagrarn.network.DataService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import kotlin.math.sign
 import androidx.appcompat.app.ActionBar
-import java.io.Serializable
+import com.example.madstagrarn.*
+import com.example.madstagrarn.dataclass.Phone
+import com.example.madstagrarn.dataclass.User
 
 class FollowingAddActivity : AppCompatActivity() {
     private val readContactRequestCode = 100
@@ -89,8 +87,16 @@ class FollowingAddActivity : AppCompatActivity() {
                     Log.i("getContactUsers", signedUserList.toString())
                     Log.i("getContactUsers", unsignedPhoneList.toString())
 
-                    rvSignedUser.adapter = SignedUserAdapter(signedUserList, currentUser.followingIds, currentUser)
-                    rvUnsignedUser.adapter = UnsignedUserAdapter(unsignedPhoneList)
+                    rvSignedUser.adapter =
+                        SignedUserAdapter(
+                            signedUserList,
+                            currentUser.followingIds,
+                            currentUser
+                        )
+                    rvUnsignedUser.adapter =
+                        UnsignedUserAdapter(
+                            unsignedPhoneList
+                        )
                 }
             }
 
@@ -121,7 +127,12 @@ class FollowingAddActivity : AppCompatActivity() {
                             val phoneNumber: String =
                                 pCur.getString(pCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
                             Log.e("phone", "$phoneNumber phone")
-                            phoneList.add(Phone(name, phoneNumber))
+                            phoneList.add(
+                                Phone(
+                                    name,
+                                    phoneNumber
+                                )
+                            )
                         }
                     }
                     pCur?.close()

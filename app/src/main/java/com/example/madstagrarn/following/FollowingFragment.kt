@@ -1,22 +1,18 @@
-package com.example.madstagrarn
+package com.example.madstagrarn.following
 
-import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.madstagrarn.R
+import com.example.madstagrarn.dataclass.User
 import com.example.madstagrarn.network.DataService
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -50,7 +46,10 @@ class FollowingFragment : Fragment() {
 
         rvFollowing = view.findViewById(R.id.rv_following)
         rvFollowing.setHasFixedSize(true)
-        adapter = FollowingAdapter(followingUserList, currentUser)
+        adapter = FollowingAdapter(
+            followingUserList,
+            currentUser
+        )
         rvFollowing.adapter = adapter
         rvFollowing.layoutManager = LinearLayoutManager(view.context)
 

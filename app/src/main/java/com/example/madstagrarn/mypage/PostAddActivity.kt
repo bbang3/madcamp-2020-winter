@@ -10,9 +10,9 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.example.madstagrarn.Post
+import com.example.madstagrarn.dataclass.Post
 import com.example.madstagrarn.R
-import com.example.madstagrarn.User
+import com.example.madstagrarn.dataclass.User
 import com.example.madstagrarn.network.DataService
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission

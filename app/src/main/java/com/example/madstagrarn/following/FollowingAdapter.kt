@@ -1,4 +1,4 @@
-package com.example.madstagrarn
+package com.example.madstagrarn.following
 
 import android.graphics.Color
 import android.view.LayoutInflater
@@ -9,33 +9,36 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.madstagrarn.R
+import com.example.madstagrarn.dataclass.User
 import com.example.madstagrarn.network.DataService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class SignedUserAdapter(
-    private val userList: ArrayList<User>,
-    private val followingIds: ArrayList<String>,
-    private var currentUser: User
-) : RecyclerView.Adapter<SignedUserAdapter.SignedUserViewHolder>() {
+class FollowingAdapter(
+    private val followingUserList: ArrayList<User>,
+    private val currentUser: User
+) : RecyclerView.Adapter<FollowingAdapter.FollowingViewHolder>() {
     private val dataService: DataService = DataService()
 
-    class SignedUserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class FollowingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.findViewById(R.id.name_text)
         var phoneNumber: TextView = itemView.findViewById(R.id.phonenumber_text)
         var profileImage: ImageView = itemView.findViewById(R.id.following_profile_image)
         var followButton: Button = itemView.findViewById(R.id.follow_button)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SignedUserViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowingViewHolder {
         val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.signed_user_item, parent, false)
-        return SignedUserViewHolder(view)
+            LayoutInflater.from(parent.context).inflate(R.layout.following_item, parent, false)
+        return FollowingViewHolder(
+            view
+        )
     }
 
-    override fun onBindViewHolder(holder: SignedUserViewHolder, position: Int) {
-        val currentItem = userList[position]
+    override fun onBindViewHolder(holder: FollowingViewHolder, position: Int) {
+        val currentItem = followingUserList[position]
 
         holder.name.text = currentItem.name
         holder.phoneNumber.text = currentItem.phoneNumber
@@ -53,7 +56,7 @@ class SignedUserAdapter(
                 .into(holder.profileImage)
         }
 
-        if (followingIds.contains(currentItem._id)) {
+        if (true) {
             holder.followButton.setBackgroundColor(Color.parseColor("#FFE4E6EB"))
             holder.followButton.setTextColor(Color.BLACK)
             holder.followButton.text = "Unfollow"
@@ -79,7 +82,7 @@ class SignedUserAdapter(
                         }
 
                     })
-            } else if(holder.followButton.text == "Unfollow") {
+            } else if (holder.followButton.text == "Unfollow") {
                 holder.followButton.setBackgroundColor(Color.parseColor("#FF1877F2"))
                 holder.followButton.setTextColor(Color.WHITE)
                 holder.followButton.text = "Follow"
@@ -100,6 +103,6 @@ class SignedUserAdapter(
     }
 
     override fun getItemCount(): Int {
-        return userList.size
+        return followingUserList.size
     }
 }
