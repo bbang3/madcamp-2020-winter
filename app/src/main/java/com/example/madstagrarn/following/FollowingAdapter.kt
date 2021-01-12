@@ -1,15 +1,19 @@
 package com.example.madstagrarn.following
 
+import android.content.Intent
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.madstagrarn.R
+import com.example.madstagrarn.UserViewActivity
 import com.example.madstagrarn.dataclass.User
 import com.example.madstagrarn.network.DataService
 import retrofit2.Call
@@ -27,6 +31,7 @@ class FollowingAdapter(
         var phoneNumber: TextView = itemView.findViewById(R.id.phonenumber_text)
         var profileImage: ImageView = itemView.findViewById(R.id.following_profile_image)
         var followButton: Button = itemView.findViewById(R.id.follow_button)
+        var container: LinearLayout = itemView.findViewById(R.id.following_profile_container)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowingViewHolder {
@@ -36,12 +41,16 @@ class FollowingAdapter(
             view
         )
     }
-
     override fun onBindViewHolder(holder: FollowingViewHolder, position: Int) {
         val currentItem = followingUserList[position]
 
         holder.name.text = currentItem.name
         holder.phoneNumber.text = currentItem.phoneNumber
+        holder.container.setOnClickListener { view ->
+            val intent = Intent(view.context, UserViewActivity::class.java)
+            intent.putExtra("User", currentItem)
+            view.context.startActivity(intent)
+        }
 
         if(currentItem.profileImage.isNullOrEmpty() || currentItem.profileImage == "default_user_profile.png") {
             Glide.with(holder.itemView)
