@@ -19,15 +19,9 @@
             android:id="@+id/following_profile_image"
             android:layout_width="55dp"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
             android:layout_marginLeft="10dp"
             android:adjustViewBounds="true"
             tools:srcCompat="@drawable/person" />
-=======
-            android:text="Name"
-            android:textSize="22dp"
-            android:textColor="@color/black"/>
->>>>>>> 7c0f215 (Implement sending message and modify designs)
 
         <LinearLayout
             android:id="@+id/info_container"
@@ -42,7 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Name"
-                android:textSize="24sp" />
+                android:textSize="22dp"
+                android:textColor="@color/black"/> />
 
             <TextView
                 android:id="@+id/phonenumber_text"
