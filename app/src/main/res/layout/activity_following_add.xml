@@ -10,16 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="casual"
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
             android:layout_weight="1"
-            android:padding="10dp"
-            android:text="Madstagrarn"
-            android:textColor="@color/facebook"
-            android:textSize="30dp"
-            android:textStyle="bold" />
+            android:layout_marginTop="7dp"
+            android:layout_marginLeft="5dp"
+            android:padding="7dp"
+            android:src="@drawable/healthtagram_font"
+            android:scaleType="fitStart"/>
 
         <ImageView
             android:layout_width="30dp"

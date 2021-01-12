@@ -28,6 +28,7 @@ class FollowingFragment : Fragment() {
         super.onCreate(savedInstanceState)
         currentUser = arguments?.getSerializable("User") as User
 
+        loadCurrentUserInfo()
         loadFollowingUserList()
     }
 

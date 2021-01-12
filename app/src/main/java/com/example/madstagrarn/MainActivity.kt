@@ -26,9 +26,14 @@ class MainActivity : AppCompatActivity() {
 
         var login_id = findViewById<EditText>(R.id.login_id)
         var login_password = findViewById<EditText>(R.id.login_password)
+        val forgot_password = findViewById<TextView>(R.id.forgot_password)
         val login_button = findViewById<Button>(R.id.login_button)
         val login_button_facebook = findViewById<LinearLayout>(R.id.login_button_facebook)
         val signup_button = findViewById<TextView>(R.id.signup_button)
+
+        forgot_password.setOnClickListener {
+            Toast.makeText(this@MainActivity, "Don't forget password.", Toast.LENGTH_LONG).show()
+        }
 
         login_button.setOnClickListener {
             dataService.service.loginRequest(false, login_id.text.toString(), login_password.text.toString()).enqueue(object : Callback<User> {

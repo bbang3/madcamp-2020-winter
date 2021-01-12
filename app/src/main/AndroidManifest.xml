@@ -24,8 +24,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignupActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
-        <activity android:name=".InsideActivity" />
-        <activity android:name=".following.FollowingAddActivity" />
+        <activity android:name=".InsideActivity"/>
+        <activity android:name=".following.FollowingAddActivity"/>
         <activity android:name=".mypage.PostAddActivity"/>
 
         <meta-data

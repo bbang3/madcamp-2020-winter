@@ -94,7 +94,6 @@ class SignupActivity : AppCompatActivity() {
         val request = GraphRequest.newMeRequest(accessToken) { `object`, response ->
             try {
                 var facebook_id = `object`.getString("id")
-                Toast.makeText(this@SignupActivity, facebook_id, Toast.LENGTH_LONG).show()
                 dataService.service.signupRequest(true, facebook_id, "", signup_name.text.toString(), signup_phonenumber.text.toString()).enqueue(object : Callback<User> {
                     override fun onResponse(call: Call<User>, response: Response<User>) {
                         if (response.isSuccessful) {

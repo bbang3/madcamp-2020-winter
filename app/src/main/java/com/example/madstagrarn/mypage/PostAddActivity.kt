@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.widget.*
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import com.example.madstagrarn.dataclass.Post
 import com.example.madstagrarn.R
@@ -39,6 +40,8 @@ class PostAddActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_post_add)
+        val actionBar: ActionBar? = getSupportActionBar()
+        actionBar?.hide()
         currentUser = intent.extras?.get("User") as User
         tedPermission()
 

@@ -8,11 +8,10 @@ import com.example.madstagrarn.following.FollowingFragment
 import com.example.madstagrarn.mypage.MyPageFragment
 import com.example.madstagrarn.newsfeed.NewsFeedFragment
 
-class TabViewPagerAdapter(fm: FragmentManager, val bundle: Bundle): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT){
+class TabViewPagerAdapter(fm: FragmentManager, val bundle: Bundle) :
+    FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
     private var fragmentList = listOf(
-        Pair("Following", FollowingFragment()), Pair("NewsFeed",
-            NewsFeedFragment()
-        ), Pair("MyPage", MyPageFragment())
+        Pair("Following", FollowingFragment()), Pair("NewsFeed",NewsFeedFragment()), Pair("MyPage", MyPageFragment())
     )
 
     override fun getItem(position: Int): Fragment {

@@ -43,6 +43,7 @@ class MyPageFragment: Fragment() {
     private var tempFile: File? = null
     private val PICK_FROM_ALBUM = 1
     private lateinit var profileImageView: ImageView
+    private lateinit var profileImageViewPost: ImageView
     private var isPermissionGranted = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,22 +57,33 @@ class MyPageFragment: Fragment() {
         val view: View = inflater.inflate(R.layout.mypage_fragment, container, false)
 
         view.findViewById<TextView>(R.id.mypage_name).text = currentUser.name
-        view.findViewById<TextView>(R.id.mypage_phone).text = currentUser.phoneNumber
+//        view.findViewById<TextView>(R.id.mypage_phone).text = currentUser.phoneNumber
 
         profileImageView = view.findViewById(R.id.mypage_profile_image)
+        profileImageViewPost = view.findViewById(R.id.mypage_post_profile_image)
         profileImageView.setOnClickListener { modifyProfileImage() }
+
 
         if(currentUser.profileImage.isNullOrEmpty() || currentUser.profileImage == "default_user_profile.png") {
             Glide.with(view)
                 .load(R.drawable.person_profile)
                 .circleCrop()
                 .into(profileImageView)
+            Glide.with(view)
+                .load(R.drawable.person_profile)
+                .circleCrop()
+                .into(profileImageViewPost)
         } else {
             Glide.with(view)
                 .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
                 .thumbnail()
                 .circleCrop()
                 .into(profileImageView)
+            Glide.with(view)
+                .load(dataService.BASE_URL + "image/${currentUser.profileImage}")
+                .thumbnail()
+                .circleCrop()
+                .into(profileImageViewPost)
         }
 
         val addPostTextView: TextView = view.findViewById(R.id.add_post_text)
