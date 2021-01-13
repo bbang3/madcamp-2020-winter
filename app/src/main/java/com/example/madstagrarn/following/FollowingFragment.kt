@@ -66,6 +66,7 @@ class FollowingFragment : Fragment() {
 
             acceptButton.setOnClickListener {
                 logoutPopup.dismiss()
+                com.facebook.login.LoginManager.getInstance().logOut();
                 startActivity(Intent(this.requireActivity(), MainActivity::class.java))
                 this.requireActivity().finish()
             }

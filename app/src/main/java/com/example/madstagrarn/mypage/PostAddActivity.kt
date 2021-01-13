@@ -56,7 +56,6 @@ class PostAddActivity : AppCompatActivity() {
         }
         addButton.setOnClickListener {
             addPost()
-            Toast.makeText(this@PostAddActivity, tempFile.toString(), Toast.LENGTH_SHORT).show()
         }
 
         image = findViewById(com.example.madstagrarn.R.id.addpost_image)
