@@ -130,7 +130,7 @@ class MyPageFragment: Fragment() {
 
         val rvPost = view.findViewById<RecyclerView>(R.id.rv_mypost)
         rvPost.setHasFixedSize(true)
-        rvPost.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, true)
+        rvPost.layoutManager = LinearLayoutManager(view.context, LinearLayoutManager.VERTICAL, false)
         rvPost.adapter = adapter
 
         return view
@@ -235,7 +235,7 @@ class MyPageFragment: Fragment() {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 Log.i("loadNewPost", response.body()!!.toString())
                 if(response.isSuccessful) {
-                    postList.add(response.body()!!)
+                    postList.add(0, response.body()!!)
                     adapter.notifyDataSetChanged()
                 }
             }
