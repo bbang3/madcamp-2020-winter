@@ -7,6 +7,7 @@
 ##### <로그인 및 회원가입>
 
 로그인은 Facebook 로그인과 앱 자체 로그인 2가지 방법이 있다. Sign up을 눌러 회원가입을 할 수 있다.
+
 <img width="150" src="https://user-images.githubusercontent.com/29402508/104631232-52190800-56df-11eb-8276-ef8a50f57ef4.png">
 <img width="150" src="https://user-images.githubusercontent.com/29402508/104631237-534a3500-56df-11eb-8284-92a0b422c904.png">
 ##### <메인 페이지>
