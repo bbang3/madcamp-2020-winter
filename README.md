@@ -22,7 +22,7 @@
 
 2. Following 탭
 
-   <img width="300" src="https://user-images.githubusercontent.com/29402508/104631245-53e2cb80-56df-11eb-94c3-bb30820e6078.png"> <img width="300" src="https://user-images.githubusercontent.com/29402508/104631247-547b6200-56df-11eb-8810-57ad463f357e.png">
+   <img width="300" src="https://user-images.githubusercontent.com/29402508/104631245-53e2cb80-56df-11eb-94c3-bb30820e6078.png">
    
    팔로잉할 친구를 선택한다. 기본 화면에서는 현재 팔로잉 중인 친구 목록이 보여지고, 팔로잉 중인 친구들을 언팔로우 할 수 있는 기능을 제공한다.
    또한, 우측 하단의 플로팅액션버튼을 클릭하면, 휴대폰의 연락처를 불러와 해당 번호로 앱에 가입한 유저와 그렇지 않은 유저를 같이 보여준다. 가입한 유저는 팔로우/언팔로우 할 수 있고, 가입하지 않은 유저에게는 앱 초대 문자를 보낼 수 있다.
