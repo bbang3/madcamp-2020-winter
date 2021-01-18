@@ -1,20 +1,13 @@
-import { Box, Button, Grid, TextField } from "@material-ui/core";
+import { Box, Button } from "@material-ui/core";
 import DateFnsUtils from "@date-io/date-fns";
 import {
   MuiPickersUtilsProvider,
   KeyboardTimePicker,
-  KeyboardDatePicker,
   DatePicker,
-  TimePicker,
 } from "@material-ui/pickers";
-import React, { useState } from "react";
+import React from "react";
 
-const FormDatePlace = ({
-  selectedDate,
-  setSelectedDate,
-  prevStep,
-  nextStep,
-}) => {
+const FormDate = ({ selectedDate, setSelectedDate, prevStep, nextStep }) => {
   const prev = (e) => {
     e.preventDefault();
     prevStep();
@@ -42,7 +35,7 @@ const FormDatePlace = ({
               "aria-label": "change date",
             }}
             maxDate={new Date(selectedDate).setMonth(
-              selectedDate.getMonth() + 6
+              selectedDate.getMonth() + 1
             )}
             disableToolbar
             disablePast
@@ -67,14 +60,14 @@ const FormDatePlace = ({
       <Box paddingBottom={2}>
         {`선택한 경기 시각: ${selectedDate.toLocaleString("ko-KR")}`}
       </Box>
-      <Button color="primary" variant="contained" onClick={next}>
+      {/* <Button color="primary" variant="contained" onClick={next}>
         Continue
       </Button>
       <Button color="secondary" variant="contained" onClick={prev}>
         Back
-      </Button>
+      </Button> */}
     </>
   );
 };
 
-export default FormDatePlace;
+export default FormDate;

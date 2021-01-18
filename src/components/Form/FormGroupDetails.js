@@ -6,12 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { Slider } from "@material-ui/core";
 
-const FormGroupDetails = ({ values, setState, nextStep }) => {
-  console.log(values);
-  const next = (e) => {
-    e.preventDefault();
-    nextStep();
-  };
+const FormGroupDetails = ({ values, setState }) => {
   return (
     <div>
       <AppBar title="Enter Personal Details" />
@@ -48,10 +43,6 @@ const FormGroupDetails = ({ values, setState, nextStep }) => {
         fullWidth
       />
       <br />
-
-      <Button color="primary" variant="contained" onClick={next}>
-        Continue
-      </Button>
     </div>
   );
 };
