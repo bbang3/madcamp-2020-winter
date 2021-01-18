@@ -3,13 +3,9 @@ import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./pages";
-import Match from "./pages/Match";
-import MatchForm from "./components/MatchForm";
 import MatchMake from "./pages/MatchMake";
-// import Services from "./pages/services";
-// import About from "./pages/about";
-// import Contact from "./pages/contact";
-// import SignUp from "./pages/signup";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -19,8 +15,8 @@ function App() {
         <Route path="/" exact component={Home} />
         {/* <Route path="/Home" component={index} /> */}
         <Route path="/match" exact component={MatchMake} />
-        {/* <Route path="/contact-us" component={Contact} /> */}
-        {/* <Route path="/sign-up" component={SignUp} /> */}
+        <Route path="/login" component={Login} />
+        <Route path="/signup" exact component={Register} />
       </Switch>
     </Router>
   );

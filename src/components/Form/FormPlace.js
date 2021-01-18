@@ -3,8 +3,6 @@ import { GoogleApiWrapper, Map, Marker } from "google-maps-react";
 import React, { useState } from "react";
 
 const FormPlace = ({ google, location, setLocation }) => {
-  const defaultLocation = { lat: 36.37374155241465, lng: 127.35836653738268 }; // KAIST dormitory
-
   const onClick = (t, map, coord) => {
     const { latLng } = coord;
     const currentLat = latLng.lat();
@@ -20,7 +18,7 @@ const FormPlace = ({ google, location, setLocation }) => {
         google={google}
         zoom={15}
         style={{ width: "70%", height: "70%" }}
-        initialCenter={location || defaultLocation}
+        initialCenter={location}
         disableDefaultUI={true}
         onRightclick={onClick}
       >

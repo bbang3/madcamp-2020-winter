@@ -1,12 +1,3 @@
-import {
-  AppBar,
-  Button,
-  IconButton,
-  Link,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
-import { Menu } from "@material-ui/icons";
 import React from "react";
 import {
   Nav,
@@ -39,7 +30,10 @@ const Navbar = () => {
           {/* <NavBtnLink to="/sign-in">Sign In</NavBtnLink> */}
         </NavMenu>
         <NavBtn>
-          <NavBtnLink to="/signin">Sign In</NavBtnLink>
+          <NavBtnLink to="/login">Sign In</NavBtnLink>
+        </NavBtn>
+        <NavBtn>
+          <NavBtnLink to="/signup">Sign Up</NavBtnLink>
         </NavBtn>
       </Nav>
     </>
