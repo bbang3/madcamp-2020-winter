@@ -4,12 +4,25 @@ import AppBar from "@material-ui/core/AppBar";
 import { ThemeProvider } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { Slider } from "@material-ui/core";
+import { InputLabel, MenuItem, Select, Slider } from "@material-ui/core";
 
 const FormGroupDetails = ({ values, setState }) => {
   return (
     <div>
-      <AppBar title="Enter Personal Details" />
+      <InputLabel id="group-size-label">Age</InputLabel>
+      <Select
+        labelId="group-size-label"
+        value={values.groupSize}
+        onChange={(e) => {
+          setState({ ...values, groupSize: e.target.value });
+        }}
+      >
+        <MenuItem value={1}>1명</MenuItem>
+        <MenuItem value={2}>2명</MenuItem>
+        <MenuItem value={3}>3명</MenuItem>
+        <MenuItem value={4}>4명</MenuItem>
+        <MenuItem value={5}>5명</MenuItem>
+      </Select>
       <Slider
         value={values.skills}
         onChange={(e, value) => {

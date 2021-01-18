@@ -1,5 +1,6 @@
 import { Button } from "@material-ui/core";
 import React, { Component, useState } from "react";
+import Confirm from "./Confirm";
 import FormDate from "./FormDate";
 import FormGroupDetails from "./FormGroupDetails";
 import FormPlace from "./FormPlace";
@@ -7,15 +8,18 @@ import FormPlace from "./FormPlace";
 const MultiStepForm = () => {
   const [step, setStep] = useState(0);
   const [state, setState] = useState({
-    step: 1,
+    // step: 1,
+    groupSize: 1,
     skills: 5,
     intensity: 5,
     age: 20,
   });
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState(
+    { lat: 36.37374155241465, lng: 127.35836653738268 } // KAIST dormitory
+  );
 
   const [selectedDate, setSelectedDate] = useState(
-    new Date(parseInt(Date.now() / 1800000) * 1800000)
+    new Date(Math.ceil(Date.now() / 1800000) * 1800000) // ceil to nearest 30 minutes
   );
   console.log(selectedDate);
 
@@ -30,13 +34,12 @@ const MultiStepForm = () => {
     setStep(step - 1);
   };
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-    console.log(date);
+  const onSubmit = (values) => {
+    console.log(JSON.stringify(values));
   };
 
-  const { skills, intensity, age } = state;
-  const values = { skills, intensity, age };
+  const { groupSize, skills, intensity, age } = state;
+  const values = { groupSize, skills, intensity, age, location, selectedDate };
 
   switch (step) {
     case 0:
@@ -45,7 +48,7 @@ const MultiStepForm = () => {
           <FormGroupDetails
             setState={setState}
             nextStep={nextStep}
-            values={values}
+            values={state}
           />
           <Button
             color="primary"
@@ -73,6 +76,26 @@ const MultiStepForm = () => {
             onClick={() => nextStep()}
           >
             Continue
+          </Button>
+          <Button
+            color="secondary"
+            variant="contained"
+            onClick={() => prevStep()}
+          >
+            Back
+          </Button>
+        </>
+      );
+    case 2:
+      return (
+        <>
+          <Confirm values={values} />
+          <Button
+            color="primary"
+            variant="contained"
+            onClick={() => onSubmit(values)}
+          >
+            Submit
           </Button>
           <Button
             color="secondary"
