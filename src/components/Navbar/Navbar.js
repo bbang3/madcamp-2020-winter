@@ -1,3 +1,12 @@
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Link,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
+import { Menu } from "@material-ui/icons";
 import React from "react";
 import {
   Nav,
@@ -12,18 +21,18 @@ const Navbar = () => {
   return (
     <>
       <Nav>
-        <NavLink to="/">
+        <NavLink exact to="/" activeStyle>
           <h1> "logo" </h1>
         </NavLink>
-        {/* <Bars /> */}
+
         <NavMenu>
-          <NavLink to="/about" activeStyle>
-            About
+          <NavLink exact to="/" activeStyle>
+            Home
           </NavLink>
-          <NavLink to="/match" activeStyle>
+          <NavLink exact to="/match" activeStyle>
             Match
           </NavLink>
-          <NavLink to="/contact-us" activeStyle>
+          <NavLink exact to="/contact-us" activeStyle>
             Contact Us
           </NavLink>
           {/* Second Nav */}

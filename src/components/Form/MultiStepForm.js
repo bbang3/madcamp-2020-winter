@@ -8,7 +8,6 @@ import FormPlace from "./FormPlace";
 const MultiStepForm = () => {
   const [step, setStep] = useState(0);
   const [state, setState] = useState({
-    // step: 1,
     groupSize: 1,
     skills: 5,
     intensity: 5,
@@ -107,7 +106,7 @@ const MultiStepForm = () => {
         </>
       );
     default:
-      return <>!!!</>;
+      return <>Error page</>;
   }
 };
 

@@ -4,12 +4,12 @@ import AppBar from "@material-ui/core/AppBar";
 import { ThemeProvider } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import { InputLabel, MenuItem, Select, Slider } from "@material-ui/core";
+import { Box, InputLabel, MenuItem, Select, Slider } from "@material-ui/core";
 
 const FormGroupDetails = ({ values, setState }) => {
   return (
     <div>
-      <InputLabel id="group-size-label">Age</InputLabel>
+      <InputLabel id="group-size-label"> 팀원 수 </InputLabel>
       <Select
         labelId="group-size-label"
         value={values.groupSize}
@@ -23,7 +23,9 @@ const FormGroupDetails = ({ values, setState }) => {
         <MenuItem value={4}>4명</MenuItem>
         <MenuItem value={5}>5명</MenuItem>
       </Select>
+      <Box>실력</Box>
       <Slider
+        style={{ width: "10rem" }}
         value={values.skills}
         onChange={(e, value) => {
           console.log(value);
@@ -34,8 +36,9 @@ const FormGroupDetails = ({ values, setState }) => {
         max={10}
         step={1}
       />
-      <br />
+      <Box>플레이스타일</Box>
       <Slider
+        style={{ width: "10rem" }}
         value={values.intensity}
         onChange={(e, value) => setState({ ...values, intensity: value })}
         valueLabelDisplay="auto"

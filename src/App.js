@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Navbar from "./components/Navbar/";
+import Navbar from "./components/Navbar/Navbar";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "./pages";
 import Match from "./pages/Match";
@@ -18,7 +18,7 @@ function App() {
       <Switch>
         <Route path="/" exact component={Home} />
         {/* <Route path="/Home" component={index} /> */}
-        <Route path="/match" component={MatchMake} />
+        <Route path="/match" exact component={MatchMake} />
         {/* <Route path="/contact-us" component={Contact} /> */}
         {/* <Route path="/sign-up" component={SignUp} /> */}
       </Switch>
