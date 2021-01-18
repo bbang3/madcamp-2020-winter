@@ -1,4 +1,5 @@
 import React from "react";
+import { useCookies } from "react-cookie";
 import {
   Nav,
   NavLink,
@@ -8,7 +9,7 @@ import {
   NavBtnLink,
 } from "./NavbarElements";
 
-const Navbar = () => {
+const Navbar = ({ login, logout, authenticated }) => {
   return (
     <>
       <Nav>
@@ -29,9 +30,16 @@ const Navbar = () => {
           {/* Second Nav */}
           {/* <NavBtnLink to="/sign-in">Sign In</NavBtnLink> */}
         </NavMenu>
-        <NavBtn>
-          <NavBtnLink to="/login">Sign In</NavBtnLink>
-        </NavBtn>
+        {authenticated ? (
+          <NavBtn onClick={() => logout()}>
+            <NavBtnLink to="/">Log out</NavBtnLink>
+          </NavBtn>
+        ) : (
+          <NavBtn>
+            <NavBtnLink to="/login">Log in</NavBtnLink>
+          </NavBtn>
+        )}
+
         <NavBtn>
           <NavBtnLink to="/signup">Sign Up</NavBtnLink>
         </NavBtn>

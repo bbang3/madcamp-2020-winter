@@ -1,0 +1,35 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@500&family=Noto+Sans+KR:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap");
+
+#page1 {
+  /* justify-content: center; */
+  /* align-items: center; */
+  height: calc(100vh - 80px);
+
+  border: "1px solid blue";
+  background-image: url("bg_home.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#page2 {
+  /* justify-content: center; */
+  /* align-items: center; */
+  font-family: "Nanum Gothic";
+  font-size: 1rem;
+  height: 100vh;
+}
+
+.typo-hakka {
+  font-family: "Montserrat Alternates";
+  font-size: 8rem;
+  color: black;
+}
+
+.typo-container {
+  padding-top: 20vh;
+  padding-left: 20vw;
+  font-family: "Noto Sans KR";
+}
