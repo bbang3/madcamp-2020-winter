@@ -1,6 +1,7 @@
 const Team = require("../models/Team");
 const Match = require("../models/Match");
 const MatchRequest = require("../models/MatchRequest");
+const Chat = require("../models/Chat");
 
 const TEAM_SIZE = 5;
 
@@ -92,18 +93,27 @@ const matchMaking = async (req, res) => {
   });
   const output = await newMatch.save();
   for (teamInfo of output.team1) {
-    console.log(teamInfo.requestId);
-    const matchRequest = MatchRequest.findByIdAndUpdate(teamInfo.requestId, {
+    console.log("team1", teamInfo.requestId);
+    const mr = MatchRequest;
+    await MatchRequest.findByIdAndUpdate(teamInfo.requestId, {
       matchId: output._id,
       status: 1,
     });
   }
   for (teamInfo of output.team2) {
-    const matchRequest = MatchRequest.findByIdAndUpdate(teamInfo.requestId, {
+    console.log("team2", teamInfo.requestId);
+    await MatchRequest.findByIdAndUpdate(teamInfo.requestId, {
       matchId: output._id,
       status: 1,
     });
   }
+  await Team.findByIdAndRemove(myTeam._id);
+  await Team.findByIdAndRemove(oppTeam._id);
+  const newChat = new Chat({
+    roomId: output._id,
+    content: [],
+  });
+  newChat.save();
 };
 
 module.exports = matchMaking;
