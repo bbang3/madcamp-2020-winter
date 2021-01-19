@@ -3,6 +3,14 @@ import io from 'socket.io-client'
 import TextField from '@material-ui/core/TextField'
 import '../App.css'
 import axios from "axios";
+import ScrollToBottom from 'react-scroll-to-bottom';
+import {
+  username
+}from "../pages/Login";
+import sendimg from "../image/send3.png"
+import Avatar from '@material-ui/core/Avatar';
+import CardHeader from '@material-ui/core/CardHeader';
+
 
 const socket = io.connect('http://192.249.18.247:4000/');
 //,{ transport : ['websocket'] }
@@ -38,14 +46,13 @@ function Chat() {
     
   useEffect(() => {
     console.log("before socket", chat.length);
-    //setCount(count + 1);
+
     socket.on('updatemessage', async ({ name: name, message: message }) => {//서버에 보내진 채팅을 가져온다.
       
         console.log("socket message arrived");
-        // console.log("name: " + name);
-        // console.log('message: ' + message);
+  
         console.log("setting chat", chat.length);
-        await setChat([...chat,{name: name, message: message}])//새로운 채팅이 들어와서 저장이 된다.
+        await setChat([...chat,{name: username, message: message}])//새로운 채팅이 들어와서 저장이 된다.
         //console.log("recieved chat issssssssssssssssssssssss");
         console.log("after setting chat", chat.length);
         await setCount(count + 1);
@@ -58,19 +65,12 @@ function Chat() {
     const loadedChat = [];
     for(var i = 0 ; i < e.content.length; i++){
       let name = e.content[i].sender;
-      // console.log("name: ", name);
-      // console.log("meg: ", meg);
+
       let meg = e.content[i].message;
-      //const subchat = {name, meg};
-      //chat[i].name = name;
-      //chat[i].message = meg;
-      //setChat(chat => [...chat,{name: name, message: meg}])
-      // prevChat.push({name: name, message: meg});
-      // prevChat.push({name: "!!", message: "@@@@"});
+
       loadedChat.push({name: name, message: meg});
     }
     setChat(loadedChat);
-    //console.log("chatcontent: ",e.content[0].message)
   }
 
   const onTextChange = e => {
@@ -90,57 +90,108 @@ function Chat() {
     console.log("renderchat", chat.length);
     return chat.map(({ name, message }, index) => (//저장된 채팅을 보여준다.
       <div key={index}>
-        <h3>
+        {/* <h3>
           {name}: <span>{message}</span>
-        </h3>
+        </h3> */}
+        <CardHeader
+        avatar={
+          <Avatar aria-label="recipe" >
+            <h6>{name[1]}{name[2]}</h6>
+          </Avatar>
+        }
+        title={message}
+        />
       </div>
     ))
   }
   // //prevChat.push({name: "!!", message: "@@@@"})
   // console.log('prevChat: ',{prevChat});
   return (
-    <div className="card">
-      <form onSubmit={onMessageSubmit}>
-        <h1>Messanger</h1>
-        <div className="name-field">
+    // <div className="card">
+    //   <form onSubmit={onMessageSubmit}>
+    //     {/* <div className="name-field">
+    //       <TextField
+    //         name="name"
+    //         onChange={e => onTextChange(e)}
+    //         value={state.name}
+    //         label="Name"
+    //       />
+    //     </div> */}
+
+    //     <div>
+    //       <TextField
+    //         name="message"
+    //         onChange={e => onTextChange(e)}
+    //         value={state.message}
+    //         id="outlined-multiline-static"
+    //         variant="outlined"
+    //         label="Message"
+    //       />
+    //       <button onClick={() => setCount(count + 1)}>Send</button>
+    //     </div>
+    //     {/* <button onClick={() => setCount(count + 1)}>Send Message</button> */}
+    //   </form>
+    //   <ScrollToBottom className="render-chat">
+    //     <h1>ROOM</h1>
+    //     <div>
+    //     {renderChat()}
+    //     </div> 
+    //   </ScrollToBottom>
+    // </div>
+
+    <div className = "card2">
+      <div className = "chatform">
+      <h1>ROOM</h1>
+      </div>
+      <ScrollToBottom className="render-chat">
+        {/* <h1>ROOM</h1> */}
+        <div>
+          {renderChat()}
+        </div> 
+      </ScrollToBottom>
+      <form onSubmit={onMessageSubmit} style={{ height : "80px" }}> 
+        {/* <div className="name-field">
           <TextField
             name="name"
             onChange={e => onTextChange(e)}
             value={state.name}
             label="Name"
           />
-        </div>
-        <div>
-          count: {count}
-        </div>
+        </div> */}
+
         <div>
           <TextField
+          item xs={10}
             name="message"
             onChange={e => onTextChange(e)}
             value={state.message}
-            id="outlined-multiline-static"
+            //id="outlined-multiline"
+            id= "full-width-text-field"
             variant="outlined"
             label="Message"
+            style = {{width: 310}}
+            //size = "small"
+            //fullWidth = true
           />
+          {/* <Button onClick={() => setCount(count + 1)}>
+            <Email color="primary"
+            width='65px'
+            style = {{width: 70}}/>
+          </Button> */}
+          <button >
+            <img
+            src={ sendimg }
+            width='43px'
+            //padding = "10px"
+            //height='50px'
+            //alt='testA' 
+            onClick={() => setCount(count + 1)}/>
+          </button>
         </div>
-        <button onClick={() => setCount(count + 1)}>Send Message</button>
+        {/* <button onClick={() => setCount(count + 1)}>Send Message</button> */}
       </form>
-      <div className="render-chat">
-        <h1>Chat Log</h1>
-        {/* {prevChat.map((e) => {
-          return(
-            <div>
-              <p>
-                name: {e.name}
-              </p>
-              <p>
-                message: {e.meg}
-              </p>
-            </div>
-          )})} */}
-        {renderChat()}
-      </div>
     </div>
+    
   )
 }
 

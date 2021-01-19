@@ -11,13 +11,31 @@
 .card {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  margin: 30px;
+  margin: 50px;
   min-height: 30rem;
 }
+
+.card2 {
+  
+  /* margin-left: 300px; */
+  margin-top : 40px;
+}
+
 form {
-  max-width: 350px;
+  margin : 0 auto;
+  max-width: 400px;
+  /* height : 80px; */
   border-radius: 5px;
-  padding: 20px;
+  padding: 15px;
+  box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
+}
+
+.chatform {
+  margin : 0 auto;
+  max-width: 400px;
+  height : 80px;
+  border-radius: 5px;
+  padding: 15px;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);
 }
 
@@ -25,15 +43,24 @@ form {
   margin-bottom: 40px;
 }
 
-button {
-  margin-top: 20px;
+/* button {
+  margin-top: 1px;
   padding: 10px;
+  max-width: 50px;
+  height: 40px;
   background: transparent;
   border-radius: 5px;
+} */
+
+button {
+  margin-left: 6px;
+  padding: 2px;
 }
 
 .render-chat {
-  max-width: 350px;
+  margin: 0 auto;
+  max-width: 400px;
+  height: 650px;
   border-radius: 5px;
   padding: 20px;
   box-shadow: 0px 3px 24px -8px rgba(0, 0, 0, 0.75);

@@ -3,7 +3,7 @@ import { Button, Paper, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux"; //dispatch를 이용해서 action을 취할 것임
 import { loginUser } from "../_actions/user_action";
-
+export let username = "";
 const Login = (props) => {
   const dispatch = useDispatch();
   const [input, setInput] = useState({
@@ -35,6 +35,7 @@ const Login = (props) => {
       .then((response) => {
         if (response.payload.loginSuccess) {
           // loginSuccess는 서버에서 받아온 값... 즉 서버에서 로그인이 성공하면 true를 반환하기 때문임
+          username = response.payload.name;
           props.history.push("/");
         } else {
           alert("Error");
