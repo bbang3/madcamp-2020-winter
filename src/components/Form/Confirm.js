@@ -12,8 +12,8 @@ const Confirm = ({ google, values }) => {
       <Box>실력: {values.skills}</Box>
       <Box>플레이스타일: {values.intensity}</Box>
       <Box>평균 나이: {values.age}</Box>
-      <Box>경기 시각: {values.selectedDate.toLocaleString("ko-KR")}</Box>
-      <Box>경기 장소</Box>
+      <Box>경기 시각: {values.date.toLocaleString("ko-KR")}</Box>
+      <Box>경기 장소: {values.location.address}</Box>
       <Box>
         <Map
           google={google}

@@ -1,31 +1,49 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Navbar from "./components/Navbar/Navbar";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Home from "./pages";
 import MatchMake from "./pages/MatchMake";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
-import { useCookies } from "react-cookie";
 import axios from "axios";
+import MyPage from "./pages/MyPage";
 
 function App() {
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [user, setUser] = useState(null);
   const authenticated = user != null;
+  console.log(user);
 
-  const login = (userId, token) => {
-    setCookie("token", token);
-    setUser({ userId, token });
+  useEffect(() => {
+    const userId = window.sessionStorage.getItem("userId");
+    const name = window.sessionStorage.getItem("name");
+    const token = window.sessionStorage.getItem("token");
+    if (token !== null) setUser({ userId, name, token });
+  }, []);
+
+  const login = (userId, name, token) => {
+    window.sessionStorage.setItem("userId", userId);
+    window.sessionStorage.setItem("name", name);
+    window.sessionStorage.setItem("token", token);
+    setUser({ userId, name, token });
   };
   const logout = async () => {
     try {
-      console.log(cookies.token);
-      const response = await axios.get(
-        `${process.env.REACT_APP_BASE_URL}/users/logout/${user.userId}`,
-        { withCredentials: true }
+      const token = window.sessionStorage.getItem("token");
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/users/logout`,
+        {},
+        { withCredentials: true, headers: { token: token } }
       );
-      removeCookie("token");
+      console.log(response.data);
+      window.sessionStorage.removeItem("userId");
+      window.sessionStorage.removeItem("name");
+      window.sessionStorage.removeItem("token");
       setUser(null);
     } catch (error) {
       console.log("Logout error");
@@ -38,7 +56,15 @@ function App() {
       <Switch>
         <Route path="/" exact component={Home} />
         {/* <Route path="/Home" component={index} /> */}
-        <Route path="/match" exact component={MatchMake} />
+        <Route
+          path="/match"
+          exact
+          render={(props) => <MatchMake {...props} user={user} />}
+        />
+        <Route
+          path="/mypage"
+          render={(props) => <MyPage {...props} user={user} />}
+        />
         <Route
           path="/login"
           render={(props) => <Login {...props} login={login} />}

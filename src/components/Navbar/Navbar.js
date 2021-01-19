@@ -24,8 +24,8 @@ const Navbar = ({ login, logout, authenticated }) => {
           <NavLink exact to="/match" activeStyle>
             Match
           </NavLink>
-          <NavLink exact to="/contact-us" activeStyle>
-            Contact Us
+          <NavLink exact to="/mypage" activeStyle>
+            My Page
           </NavLink>
           {/* Second Nav */}
           {/* <NavBtnLink to="/sign-in">Sign In</NavBtnLink> */}

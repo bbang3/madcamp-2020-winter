@@ -1,11 +1,13 @@
 import { Button } from "@material-ui/core";
+import axios from "axios";
 import React, { Component, useState } from "react";
+import { Link, NavLink, Redirect } from "react-router-dom";
 import Confirm from "./Confirm";
 import FormDate from "./FormDate";
 import FormGroupDetails from "./FormGroupDetails";
 import FormPlace from "./FormPlace";
 
-const MultiStepForm = () => {
+const MultiStepForm = ({ user }) => {
   const [step, setStep] = useState(0);
   const [state, setState] = useState({
     groupSize: 1,
@@ -14,13 +16,15 @@ const MultiStepForm = () => {
     age: 20,
   });
   const [location, setLocation] = useState(
-    { lat: 36.37374155241465, lng: 127.35836653738268 } // KAIST dormitory
+    {
+      lat: 36.37374155241465,
+      lng: 127.35836653738268,
+      address: "대한민국 대전광역시 유성구 어은동 44",
+    } // KAIST dormitory
   );
-
-  const [selectedDate, setSelectedDate] = useState(
+  const [date, setDate] = useState(
     new Date(Math.ceil(Date.now() / 1800000) * 1800000) // ceil to nearest 30 minutes
   );
-  console.log(selectedDate);
 
   // Proceed to next step
   const nextStep = () => {
@@ -33,12 +37,39 @@ const MultiStepForm = () => {
     setStep(step - 1);
   };
 
-  const onSubmit = (values) => {
-    console.log(JSON.stringify(values));
+  const onSubmit = async (values) => {
+    try {
+      console.log(values);
+      const response = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/match`,
+        {
+          ...values,
+          userId: user.userId,
+          category: "football",
+        },
+        { headers: { token: user.token } }
+      );
+      if (response.data.success) {
+        setStep(step + 1);
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      alert("매치 신청에 실패했습니다.");
+      <Redirect to="/" />;
+    }
   };
 
   const { groupSize, skills, intensity, age } = state;
-  const values = { groupSize, skills, intensity, age, location, selectedDate };
+  const values = {
+    groupSize,
+    skills,
+    intensity,
+    age,
+    location,
+    date,
+  };
 
   switch (step) {
     case 0:
@@ -62,8 +93,8 @@ const MultiStepForm = () => {
       return (
         <>
           <FormDate
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
+            date={date}
+            setDate={setDate}
             prevStep={prevStep}
             nextStep={nextStep}
           />
@@ -102,6 +133,23 @@ const MultiStepForm = () => {
             onClick={() => prevStep()}
           >
             Back
+          </Button>
+        </>
+      );
+    case 3:
+      return (
+        <>
+          매치 신청이 성공적으로 완료되었습니다. 신청한 매치 정보는 마이
+          페이지에서 확인해주세요.
+          <Button color="primary">
+            <Link to="/" style={{ textDecoration: "none" }}>
+              Home
+            </Link>
+          </Button>
+          <Button color="primary">
+            <NavLink to="/mypage" style={{ textDecoration: "none" }}>
+              My Page
+            </NavLink>
           </Button>
         </>
       );

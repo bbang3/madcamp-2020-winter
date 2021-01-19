@@ -35,10 +35,10 @@ const Login = (props) => {
     dispatch(loginUser(body)) //user_action 내에서 우리는 서버로 보낼 것임??//
       .then((response) => {
         if (response.payload.loginSuccess) {
-          const { userId, token } = response.payload;
+          const { userId, name, token } = response.payload;
           // loginSuccess는 서버에서 받아온 값... 즉 서버에서 로그인이 성공하면 true를 반환하기 때문임
           console.log("token", token);
-          props.login(userId, token);
+          props.login(userId, name, token);
           props.history.push("/");
         } else {
           alert("Error");

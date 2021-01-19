@@ -7,7 +7,7 @@ import {
 } from "@material-ui/pickers";
 import React from "react";
 
-const FormDate = ({ selectedDate, setSelectedDate, prevStep, nextStep }) => {
+const FormDate = ({ date, setDate, prevStep, nextStep }) => {
   const prev = (e) => {
     e.preventDefault();
     prevStep();
@@ -26,17 +26,15 @@ const FormDate = ({ selectedDate, setSelectedDate, prevStep, nextStep }) => {
             id="date-picker-dialog"
             label="경기 일시"
             format="yyyy/MM/dd"
-            value={selectedDate}
+            value={date}
             onChange={(date) => {
-              setSelectedDate(date);
+              setDate(date);
               console.log(date);
             }}
             KeyboardButtonProps={{
               "aria-label": "change date",
             }}
-            maxDate={new Date(selectedDate).setMonth(
-              selectedDate.getMonth() + 1
-            )}
+            maxDate={new Date(date).setMonth(date.getMonth() + 1)}
             disableToolbar
             disablePast
             variant="static"
@@ -47,8 +45,8 @@ const FormDate = ({ selectedDate, setSelectedDate, prevStep, nextStep }) => {
             margin="normal"
             id="time-picker"
             label="경기 시각"
-            value={selectedDate}
-            onChange={(date) => setSelectedDate(date)}
+            value={date}
+            onChange={(date) => setDate(date)}
             KeyboardButtonProps={{
               "aria-label": "change time",
             }}
@@ -58,7 +56,7 @@ const FormDate = ({ selectedDate, setSelectedDate, prevStep, nextStep }) => {
         </Box>
       </MuiPickersUtilsProvider>
       <Box paddingBottom={2}>
-        {`선택한 경기 시각: ${selectedDate.toLocaleString("ko-KR")}`}
+        {`선택한 경기 시각: ${date.toLocaleString("ko-KR")}`}
       </Box>
       {/* <Button color="primary" variant="contained" onClick={next}>
         Continue
