@@ -8,6 +8,7 @@ const Chat = require("../madcamp_week3_back/models/Chat")
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var chatRouter = require('./routes/chat')
+var requestRouter = require("./routes/match");
 
 const app = express();
 const PORT = 8080;
@@ -29,7 +30,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.static(path.join(__dirname, "public")));
 
 mongoose.connect(
@@ -48,6 +49,7 @@ mongoose.connect(
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/chat", chatRouter);
+app.use("/match", requestRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
