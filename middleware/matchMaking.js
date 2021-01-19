@@ -1,5 +1,6 @@
 const Team = require("../models/Team");
 const Match = require("../models/Match");
+const MatchRequest = require("../models/MatchRequest");
 
 const TEAM_SIZE = 5;
 
@@ -45,7 +46,7 @@ const teamMaking = async (req, res) => {
     matchedTeam.date = new Date(newTime);
 
     matchedTeam.teamSize += request.groupSize;
-    matchedTeam.userIds.push(request.userId);
+    matchedTeam.requestIds.push(request._id);
     return await matchedTeam.save();
   }
 };
@@ -89,7 +90,20 @@ const matchMaking = async (req, res) => {
       lng: (myTeam.location.lng + oppTeam.location.lng) / 2,
     },
   });
-  newMatch.save();
+  const output = await newMatch.save();
+  for (teamInfo of output.team1) {
+    console.log(teamInfo.requestId);
+    const matchRequest = MatchRequest.findByIdAndUpdate(teamInfo.requestId, {
+      matchId: output._id,
+      status: 1,
+    });
+  }
+  for (teamInfo of output.team2) {
+    const matchRequest = MatchRequest.findByIdAndUpdate(teamInfo.requestId, {
+      matchId: output._id,
+      status: 1,
+    });
+  }
 };
 
 module.exports = matchMaking;
