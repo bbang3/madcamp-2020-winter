@@ -6,6 +6,7 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var matchRouter = require("./routes/match");
 
 const app = express();
 const PORT = 8080;
@@ -39,6 +40,7 @@ mongoose.connect(
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/match", matchRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

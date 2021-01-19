@@ -46,8 +46,7 @@ router.post("/login", async (req, res) => {
       user.generateToken((err, user) => {
         if (err) return res.status(500).send(err);
         // 토큰을 저장한다. 어디에? 쿠키,로컬 스토리지
-
-        return res.json({
+        res.status(200).json({
           loginSuccess: true,
           userId: user._id,
           token: user.token,
@@ -76,16 +75,12 @@ router.get("/auth", auth, (req, res) => {
   });
 });
 
-router.get("/logout/:user_id", auth, async (req, res) => {
-  console.log("params: " + req.params);
-  User.findOneAndUpdate(
-    { _id: req.params.user_id },
-    { token: "" },
-    (err, user) => {
-      if (err) return res.status(500).json({ success: false, err });
-      return res.status(200).json({ success: true });
-    }
-  );
+router.post("/logout", auth, async (req, res) => {
+  console.log("params: " + req.user.user_id);
+  User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
+    if (err) return res.status(500).json({ success: false, err });
+    return res.status(200).json({ success: true });
+  });
 });
 
 module.exports = router;
