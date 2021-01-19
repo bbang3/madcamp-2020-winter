@@ -1,6 +1,7 @@
 import { Link, Typography } from "@material-ui/core";
 import { Card } from "antd";
 import React from "react";
+import { NavLink } from "react-router-dom";
 import "./Home.css";
 
 const divStyle = {
@@ -35,11 +36,10 @@ const Home = () => {
       </div>
       <div id="page2">
         <h3>
-          {introContent.split("\n").map((line) => {
+          {introContent.split("\n").map((line, index) => {
             return (
               <>
-                {line}
-                <br />
+                <div key={index}>{line}</div>
               </>
             );
           })}
