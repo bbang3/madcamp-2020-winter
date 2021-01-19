@@ -13,6 +13,8 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import axios from "axios";
 import MyPage from "./pages/MyPage";
+import Chat from "./pages/Chat";
+import Chat2 from "./pages/Chat2";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -70,6 +72,8 @@ function App() {
           render={(props) => <Login {...props} login={login} />}
         />
         <Route path="/signup" exact component={Register} />
+        <Route path="/chat" exact component={Chat} />
+        <Route path="/chat2" exact component={Chat2} />
       </Switch>
     </Router>
   );

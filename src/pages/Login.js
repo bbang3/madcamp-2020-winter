@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch } from "react-redux"; //dispatch를 이용해서 action을 취할 것임
 import { loginUser } from "../_actions/user_action";
-
+export let username = "";
 const Login = (props) => {
   const dispatch = useDispatch();
   const [input, setInput] = useState({
@@ -37,8 +37,12 @@ const Login = (props) => {
         if (response.payload.loginSuccess) {
           const { userId, name, token } = response.payload;
           // loginSuccess는 서버에서 받아온 값... 즉 서버에서 로그인이 성공하면 true를 반환하기 때문임
+<<<<<<< HEAD
           console.log("token", token);
           props.login(userId, name, token);
+=======
+          username = response.payload.name;
+>>>>>>> 430af0a813264594d86256b5194236f3c5a2138c
           props.history.push("/");
         } else {
           alert("Error");
