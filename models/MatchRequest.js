@@ -8,8 +8,9 @@ const requestSchema = mongoose.Schema({
   intensity: { type: Number, required: true },
   age: { type: Number, required: true },
   date: { type: Date, required: true },
-  location: { lat: Number, lng: Number },
+  location: { lat: Number, lng: Number, address: String },
   status: { type: Number, default: 0 },
+  matchId: { type: String, default: null },
 });
 
 const MatchRequest = mongoose.model("MatchRequest", requestSchema);

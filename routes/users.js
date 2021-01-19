@@ -24,7 +24,6 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  console.log(req.body);
   //요청된 이메일을 데이터베이스에서 있는지 찾는다.
   try {
     const user = await User.findOne({ email: req.body.email });
@@ -34,7 +33,6 @@ router.post("/login", async (req, res) => {
         message: "User not found",
       });
     }
-
     // 요청된 이메일이 데이터베이스에 있다면 비밀번호가 맞는 비밀번호인지 확인.
     user.comparePassword(req.body.password, (err, isMatch) => {
       if (!isMatch)
@@ -45,10 +43,11 @@ router.post("/login", async (req, res) => {
       //비밀번호까지 맞다면 토큰을 생성하기.
       user.generateToken((err, user) => {
         if (err) return res.status(500).send(err);
-        // 토큰을 저장한다. 어디에? 쿠키,로컬 스토리지
+
         res.status(200).json({
           loginSuccess: true,
           userId: user._id,
+          name: user.name,
           token: user.token,
         }); //리턴 값이 lofinSuccess true와 userid 임
       });
@@ -76,7 +75,6 @@ router.get("/auth", auth, (req, res) => {
 });
 
 router.post("/logout", auth, async (req, res) => {
-  console.log("params: " + req.user.user_id);
   User.findOneAndUpdate({ _id: req.user._id }, { token: "" }, (err, user) => {
     if (err) return res.status(500).json({ success: false, err });
     return res.status(200).json({ success: true });

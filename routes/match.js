@@ -1,25 +1,55 @@
 const express = require("express");
 const router = express.Router();
+const { auth } = require("../middleware/auth");
+const matchMaking = require("../middleware/matchMaking");
 
 const MatchRequest = require("../models/MatchRequest");
 const User = require("../models/User");
 
 // POST new match requests
-router.post("/", async (req, res) => {
-  console.log(req.body);
-  try {
-    const newRequest = new MatchRequest(req.body);
-    const output = await newRequest.save();
-    console.log(output);
+router.post(
+  "/",
+  auth,
+  async (req, res, next) => {
+    const user = req.user;
+    console.log(req.body, user);
+    try {
+      const newRequest = new MatchRequest(req.body);
+      const output = await newRequest.save();
+      console.log(output);
+      res.status(200).json({ success: true });
 
-    const user = await User.findById(output.userId);
-    user.match.push(output._id);
-    user.save();
+      res.locals.request = output;
+      user.matchRequests.push(output._id);
+      user.save();
+    } catch (error) {
+      res.status(500).json({ message: error, success: false });
+    }
+    next();
+  },
+  matchMaking
+);
 
-    res.status(200).json({ success: true });
-  } catch (error) {
-    res.status(500).json({ message: error, success: false });
+// GET user's match requests
+router.get(
+  "/",
+  auth,
+  async (req, res, next) => {
+    const user = req.user;
+    const requests = [];
+
+    try {
+      for (requestId of user.matchRequests) {
+        requests.push(await MatchRequest.findById(requestId));
+      }
+
+      res.status(200).json(requests);
+    } catch (error) {
+      res.status(500).json({ message: error });
+    }
+    // next();
   }
-});
+  //   matchMaking
+);
 
 module.exports = router;

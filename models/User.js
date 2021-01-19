@@ -20,7 +20,7 @@ const userSchema = mongoose.Schema({
     required: true,
     minlength: 5,
   },
-  match: [String],
+  matchRequests: [String],
 
   token: {
     type: String,
@@ -78,7 +78,8 @@ userSchema.statics.findByToken = function (token, cb) {
   //토큰을 decode한다.
   jwt.verify(token, "secretToken", function (err, decoded) {
     if (err) {
-      return res.status(401).json({ message: err, success: false });
+      console.log(err);
+      return cb({ message: err, success: false });
     }
 
     //유저 아이디를 이용해서 유저를 찾은 다음에
