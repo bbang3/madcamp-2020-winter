@@ -12,7 +12,7 @@ router.post(
   auth,
   async (req, res, next) => {
     const user = req.user;
-    console.log(req.body, user);
+
     try {
       const newRequest = new MatchRequest(req.body);
       const output = await newRequest.save();

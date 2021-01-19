@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const TeamSchema = mongoose.Schema({
-  userIds: [{ type: String, required: true }],
+  requestIds: [{ type: String, required: true }],
   category: { type: String, required: true },
   teamSize: { type: Number, required: true },
   skills: { type: Number, required: true },
