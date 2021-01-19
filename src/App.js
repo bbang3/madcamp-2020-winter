@@ -72,8 +72,6 @@ function App() {
           render={(props) => <Login {...props} login={login} />}
         />
         <Route path="/signup" exact component={Register} />
-        <Route path="/chat" exact component={Chat} />
-        <Route path="/chat2" exact component={Chat2} />
       </Switch>
     </Router>
   );

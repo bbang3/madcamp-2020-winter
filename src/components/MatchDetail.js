@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import Chat from "../pages/Chat";
 
 const MatchDetail = ({ user, match }) => {
   const [matchInfo, setMatchInfo] = useState(null);
@@ -15,7 +16,11 @@ const MatchDetail = ({ user, match }) => {
     fetchData();
   }, [user.token, match.params.match_id]);
 
-  return <div>{matchInfo._id}</div>;
+  return (
+    <div>
+      <Chat></Chat>
+    </div>
+  );
 };
 
 export default MatchDetail;
