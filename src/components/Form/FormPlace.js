@@ -25,13 +25,13 @@ const FormPlace = ({ google, location, setLocation }) => {
   };
 
   return (
-    <div>
+    <>
       오른쪽 클릭하여 지도에서 선택 <br />
       주소: {location.address}
       <Map
         google={google}
         zoom={15}
-        style={{ width: "70%", height: "70%" }}
+        style={{ width: "50%", height: "70%" }}
         initialCenter={location}
         disableDefaultUI={true}
         onRightclick={onClick}
@@ -40,7 +40,7 @@ const FormPlace = ({ google, location, setLocation }) => {
           <Marker position={{ lat: location.lat, lng: location.lng }} />
         )}
       </Map>
-    </div>
+    </>
   );
 };
 

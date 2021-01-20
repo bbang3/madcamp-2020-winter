@@ -104,6 +104,7 @@ const MultiStepForm = ({ user }) => {
             color="primary"
             variant="contained"
             onClick={() => nextStep()}
+            style={{ marginTop: 650 }}
           >
             Continue
           </Button>
@@ -111,6 +112,7 @@ const MultiStepForm = ({ user }) => {
             color="secondary"
             variant="contained"
             onClick={() => prevStep()}
+            style={{ marginTop: 650 }}
           >
             Back
           </Button>
@@ -124,6 +126,7 @@ const MultiStepForm = ({ user }) => {
             color="primary"
             variant="contained"
             onClick={() => onSubmit(values)}
+            style={{ marginTop: 650 }}
           >
             Submit
           </Button>
@@ -131,6 +134,7 @@ const MultiStepForm = ({ user }) => {
             color="secondary"
             variant="contained"
             onClick={() => prevStep()}
+            style={{ marginTop: 650 }}
           >
             Back
           </Button>

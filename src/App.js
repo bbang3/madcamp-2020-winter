@@ -40,7 +40,7 @@ function App() {
       const response = await axios.post(
         `${process.env.REACT_APP_BASE_URL}/users/logout`,
         {},
-        { withCredentials: true, headers: { token: token } }
+        { headers: { token: token } }
       );
       console.log(response.data);
       window.sessionStorage.removeItem("userId");

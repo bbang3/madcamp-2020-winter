@@ -18,7 +18,7 @@ const MatchDetail = ({ user, match }) => {
 
   return (
     <div>
-      <Chat></Chat>
+      <Chat matchId={match.params.match_id}></Chat>
     </div>
   );
 };

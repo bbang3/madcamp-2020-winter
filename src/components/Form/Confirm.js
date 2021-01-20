@@ -18,7 +18,7 @@ const Confirm = ({ google, values }) => {
         <Map
           google={google}
           zoom={15}
-          style={{ width: "70%", height: "70%" }}
+          style={{ width: "50%", height: "70%" }}
           initialCenter={values.location}
           disableDefaultUI={true}
         >

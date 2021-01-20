@@ -23,6 +23,62 @@ const useStyles = makeStyles({
   },
 });
 
+export const MatchData = ({ request, index, match }) => {
+  const { address } = request.location;
+  const [matchedAddress, setMatchedAddress] = useState("");
+
+  if (request.status === 1) {
+    const { lat, lng } = request.matchedLocation;
+
+    Geocode.fromLatLng(lat, lng).then(
+      (res) => {
+        const address = res.results[0].formatted_address;
+        setMatchedAddress(address);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+  return (
+    <NavLink
+      key={index}
+      to={`${match.url}/${request.matchId}`}
+      style={{ textDecoration: "none", color: "black" }}
+    >
+      <Card>
+        <CardActionArea key={index}>
+          <CardContent>
+            {request.status === 0 ? (
+              <Box>
+                <Lens style={{ fill: "Black" }} />
+                <Typography> 매칭 진행 중 </Typography>
+              </Box>
+            ) : (
+              <Box>
+                <Lens style={{ fill: "Green" }} />
+                <Typography> 매칭 완료 </Typography>
+              </Box>
+            )}
+          </CardContent>
+          <CardContent>
+            선호하는 시간: {new Date(request.date).toLocaleString()}
+          </CardContent>
+          <CardContent> 선호하는 장소: {address}</CardContent>
+          {request.status === 1 && (
+            <>
+              <CardContent>
+                매칭된 시간: {new Date(request.matchedDate).toLocaleString()}
+              </CardContent>
+              <CardContent>매칭된 장소: {matchedAddress}</CardContent>
+            </>
+          )}
+        </CardActionArea>
+      </Card>
+    </NavLink>
+  );
+};
+
 const MatchList = ({ match }) => {
   const user = {
     token: sessionStorage.getItem("token"),
@@ -30,13 +86,11 @@ const MatchList = ({ match }) => {
     name: sessionStorage.getItem("name"),
   };
   const [requests, setRequests] = useState([]);
-  const [matchedAddress, setMatchedAddress] = useState("");
   const classes = useStyles();
 
   useEffect(() => {
     async function fetchData() {
       const response = await axios.get("/match", {
-        withCredentials: true,
         headers: { token: user.token },
       });
       setRequests(response.data);
@@ -47,57 +101,8 @@ const MatchList = ({ match }) => {
   const renderRequests = requests.map((request, index) => {
     console.log(request);
     console.log(typeof request.date);
-    const { address } = request.location;
-
-    if (request.status === 1) {
-      const { lat, lng } = request.matchedLocation;
-
-      Geocode.fromLatLng(lat, lng).then(
-        (res) => {
-          const address = res.results[0].formatted_address;
-          setMatchedAddress(address);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-    }
     return (
-      <NavLink
-        key={index}
-        to={`${match.url}/${request.matchId}`}
-        style={{ textDecoration: "none", color: "black" }}
-      >
-        <Card>
-          <CardActionArea key={index}>
-            <CardContent>
-              {request.status === 0 ? (
-                <Box>
-                  <Lens style={{ fill: "Black" }} />
-                  <Typography> 매칭 진행 중 </Typography>
-                </Box>
-              ) : (
-                <Box>
-                  <Lens style={{ fill: "Green" }} />
-                  <Typography> 매칭 완료 </Typography>
-                </Box>
-              )}
-            </CardContent>
-            <CardContent>
-              선호하는 시간: {new Date(request.date).toLocaleString()}
-            </CardContent>
-            <CardContent> 선호하는 장소: {address}</CardContent>
-            {request.status === 1 && (
-              <>
-                <CardContent>
-                  매칭된 시간: {new Date(request.matchedDate).toLocaleString()}
-                </CardContent>
-                <CardContent>매칭된 장소: {matchedAddress}</CardContent>
-              </>
-            )}
-          </CardActionArea>
-        </Card>
-      </NavLink>
+      <MatchData match={match} index={index} request={request}></MatchData>
     );
   });
 

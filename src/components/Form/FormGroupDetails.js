@@ -53,6 +53,7 @@ const FormGroupDetails = ({ values, setState }) => {
         onChange={(e) => {
           setState({ ...values, age: parseInt(e.target.value) });
         }}
+        style={{ width: "10rem" }}
         placeholder="그룹원의 평균 나이를 입력해주세요"
         label="Age"
         margin="normal"

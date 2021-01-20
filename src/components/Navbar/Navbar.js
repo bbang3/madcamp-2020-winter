@@ -14,7 +14,7 @@ const Navbar = ({ login, logout, authenticated }) => {
     <>
       <Nav>
         <NavLink exact to="/" activeStyle>
-          <h1> "logo" </h1>
+          <h1> HAKKA </h1>
         </NavLink>
 
         <NavMenu>
