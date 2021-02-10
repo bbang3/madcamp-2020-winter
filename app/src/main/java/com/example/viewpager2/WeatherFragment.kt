@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -117,6 +118,11 @@ class WeatherFragment : Fragment() {
                 activity?.findViewById<ImageView>(R.id.today_statusIcon)?.setImageResource(todayIcon)
                 activity?.findViewById<TextView>(R.id.today_temp)?.text = "${todayTemp}°C"
 
+                // -15 ~ 15도 범위 내의 온도를 색깔로 변환 (-15: 파랑, 15: 빨강)
+                val red =  ((todayTemp + 15) * 255 / 30.0).roundToInt()
+                val blue =  ((15 - todayTemp) * 255 / 30.0).roundToInt()
+                activity?.findViewById<LinearLayout>(R.id.layout1)?.setBackgroundColor(Color.rgb(red, 0, blue))
+
                 for (i in 1..7) {
                     var weatherInfo = WeatherInfo(jsonObj, i)
                     val weather = Weather(
@@ -211,10 +217,10 @@ class WeatherInfo(val jsonObj: JSONObject, var position: Int) {
         "Rain" -> R.drawable.rain
         else -> R.drawable.clear_sky
     }
-    var tempNum: Float = day.getJSONObject("temp").getString("day").toFloat()
-    var red: Float = ((tempNum + 15) * 8.5).toFloat()
-    var blue: Float = ((15 - tempNum) * 8.5).toFloat()
-    var green: Float = 0.toFloat()
+    
+    // -15 ~ 15도 범위 내의 온도를 색깔로 변환 (-15: 파랑, 15: 빨강)
+    var red: Int = ((temp + 15) * 255 / 30.0).roundToInt()
+    var blue: Int = ((15 - temp) * 255 / 30.0).roundToInt()
     @RequiresApi(Build.VERSION_CODES.O)
-    var tempColor = Color.rgb(red, green, blue)
+    var tempColor = Color.rgb(red, 0, blue)
 }
